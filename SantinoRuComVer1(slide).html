@@ -10,6 +10,9 @@
 	<title>SANTINO | Премиум пластик</title>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
 		rel="stylesheet">
+	<!-- Speed up font loading, esp. on mobile -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<!-- Magneto-like fallbacks (cannot bundle Magneto due to licensing). If Magneto installed locally, it will be used. -->
 	<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
 	<style>
@@ -1179,8 +1182,8 @@
 		/* unify visible size by height, keep aspect ratio */
 		.logo-badge .logo-img { display: block; height: 1.6em; width: auto; object-fit: contain; }
 		.logo-badge .logo-svg { display: block; height: 1.6em; width: auto; }
-		/* ensure inline SVG text uses the site font for consistent look */
-		.logo-badge svg text { font-family: var(--font-main), Arial, sans-serif; font-weight: 700; }
+		/* ensure inline SVG text uses reliable system fonts (Cyrillic-ready) */
+		.logo-badge svg text { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-weight: 700; }
 		/* fallback: reveal text label when image fails */
 		.logo-badge.logo-missing .logo-img { display: none; }
 		.logo-badge.logo-missing .badge-label { display: inline; font-size: 0.95em; }
@@ -2161,6 +2164,8 @@
 						const doc = parser.parseFromString(text, 'image/svg+xml');
 						const svg = doc.documentElement;
 						if (svg && svg.tagName.toLowerCase() === 'svg') {
+							// Strip inline font-family from text nodes to let our CSS control fonts
+							try { Array.from(svg.querySelectorAll('text')).forEach(t => t.removeAttribute('font-family')); } catch(_) {}
 							svg.classList.add('logo-svg');
 							img.replaceWith(svg);
 						}
