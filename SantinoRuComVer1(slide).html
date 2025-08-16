@@ -242,24 +242,6 @@
 			height: auto;
 		}
 
-		/* Logo: font-based Magneto variant only */
-		.logo .logo-text {
-			display: inline-block;
-			font-family: 'Magneto', 'Lobster', 'Pacifico', cursive;
-			font-weight: 400;
-			font-size: 1em;
-			/* inherit from .logo */
-			letter-spacing: 0em;
-			/* script fonts look better without extra tracking */
-			line-height: 1;
-			/* ensure proper box height inside parent with line-height:0 */
-			text-transform: none;
-			/* keep script-case */
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
-			font-variant-ligatures: common-ligatures;
-		}
-
 		.logo {
 			font-family: var(--font-tech);
 			font-size: clamp(1.6rem, 6vw, 2.8rem);
@@ -277,13 +259,33 @@
 			line-height: 0;
 			/* make header height equal to logo graphic */
 			opacity: 0;
-			transform: translateY(40vh) scale(1.5);
+			/* avoid scaling raster logo to prevent pixelation */
+			transform: translateY(40vh);
 		}
 
 		.logo.logo-animate-in {
 			opacity: 1;
-			transform: translateY(0) scale(1);
+			/* no scale during animation to keep GIF crisp */
+			transform: translateY(0);
 			transition: transform 1.2s cubic-bezier(.77, 0, .18, 1), opacity 1.2s cubic-bezier(.77, 0, .18, 1);
+		}
+
+		/* Logo image sizing + smoothing */
+		.logo img {
+			height: 44px;
+			width: auto;
+			display: block;
+			image-rendering: auto; /* prefer smooth scaling */
+			/* legacy IE smoothing */
+			-ms-interpolation-mode: bicubic;
+		}
+
+		@media (max-width: 1024px) {
+			.logo img { height: 36px; }
+		}
+
+		@media (max-width: 640px) {
+			.logo img { height: 28px; }
 		}
 
 		.logo:hover {
@@ -1308,7 +1310,8 @@
 	<div id="afterflash" class="afterflash"></div>
 	<header>
 		<span class="logo" id="main-logo" style="display: flex; align-items: center; justify-content: center;">
-			<span class="logo-text">Santino</span>
+			<!-- Основной логотип: GIF -->
+			<img src="SantinoLogo.gif" alt="Santino logo" style="height:40px; width:auto; display:block;" />
 		</span>
 	</header>
 	<main>
@@ -1790,7 +1793,7 @@
 			svg.appendChild(body);
 			// inner guides
 			const g1 = document.createElementNS(ns, 'line'); g1.setAttribute('x1', '84'); g1.setAttribute('y1', '200'); g1.setAttribute('x2', '96'); g1.setAttribute('y2', '56'); svg.appendChild(g1);
-			const g2 = document.createElementNS(ns, 'line'); g2.setAttribute('x1', '156'); g2.setAttribute('y1', '200'); g2.setAttribute('x2', '144'); g2.setAttribute('y2', '56'); svg.appendChild(g2);
+			const g2 = document.createElementNS(ns, 'line'); g2.setAttribute('x1', '156'); g2.setAttribute('y1', '200'); g2.setAttribute('x2', 'y2', '56'); svg.appendChild(g2);
 			const ellipse = document.createElementNS(ns, 'ellipse'); ellipse.setAttribute('cx', '120'); ellipse.setAttribute('cy', '56'); ellipse.setAttribute('rx', '60'); ellipse.setAttribute('ry', '10'); svg.appendChild(ellipse);
 			return svg;
 		}
