@@ -1175,6 +1175,9 @@
 		.logo-badge .badge-label { display: none; }
 		/* unify visible size by height, keep aspect ratio */
 		.logo-badge .logo-img { display: block; height: 1.6em; width: auto; object-fit: contain; }
+		.logo-badge .logo-svg { display: block; height: 1.6em; width: auto; }
+		/* ensure inline SVG text uses the site font for consistent look */
+		.logo-badge svg text { font-family: var(--font-main), Arial, sans-serif; font-weight: 700; }
 		/* fallback: reveal text label when image fails */
 		.logo-badge.logo-missing .logo-img { display: none; }
 		.logo-badge.logo-missing .badge-label { display: inline; font-size: 0.95em; }
@@ -2137,6 +2140,29 @@
 				track.style.setProperty('--ticker-duration', duration + 's');
 			}
 
+			async function inlineSvgs() {
+				const badges = Array.from(track.querySelectorAll('.logo-badge'));
+				const fetches = badges.map(async (badge) => {
+					const img = badge.querySelector('.logo-img');
+					if (!img) return;
+					const src = img.getAttribute('src') || '';
+					if (!src.endsWith('.svg')) return;
+					try {
+						const res = await fetch(src);
+						if (!res.ok) return;
+						const text = await res.text();
+						const parser = new DOMParser();
+						const doc = parser.parseFromString(text, 'image/svg+xml');
+						const svg = doc.documentElement;
+						if (svg && svg.tagName.toLowerCase() === 'svg') {
+							svg.classList.add('logo-svg');
+							img.replaceWith(svg);
+						}
+					} catch (_) { /* ignore */ }
+				});
+				await Promise.all(fetches);
+			}
+
 			function imageFallbacks() {
 				const allBadges = track.querySelectorAll('.logo-badge');
 				allBadges.forEach(badge => {
@@ -2154,13 +2180,16 @@
 				});
 			}
 
-			// initial setup
-			requestAnimationFrame(() => {
-				fillBaseSegmentToViewport();
-				ensureTwoSegments();
-				recalcDuration();
-				imageFallbacks();
-			});
+			// initial setup: inline SVGs first for consistent fonts, then measure
+			(async () => {
+				try { await inlineSvgs(); } catch (_) {}
+				requestAnimationFrame(() => {
+					fillBaseSegmentToViewport();
+					ensureTwoSegments();
+					recalcDuration();
+					imageFallbacks();
+				});
+			})();
 
 			// keep seamless on resize
 			window.addEventListener('resize', () => {
