@@ -1173,6 +1173,16 @@
 		}
 
 		.logo-badge .badge-label { display: none; }
+		/* Text-labels fallback mode for ticker */
+		.ticker.labels .logo-badge .logo-img,
+		.ticker.labels .logo-badge .logo-svg { display: none; }
+		.ticker.labels .logo-badge .badge-label {
+			display: inline;
+			font-size: 1.05em;
+			font-family: var(--font-main), Arial, sans-serif;
+			font-weight: 700;
+			letter-spacing: 0.02em;
+		}
 		/* unify visible size by height, keep aspect ratio */
 		.logo-badge .logo-img { display: block; height: 1.6em; width: auto; object-fit: contain; }
 		.logo-badge .logo-svg { display: block; height: 1.6em; width: auto; }
@@ -2183,6 +2193,17 @@
 			// initial setup: inline SVGs first for consistent fonts, then measure
 			(async () => {
 				try { await inlineSvgs(); } catch (_) {}
+				// Decide if we should use label-only mode to avoid font issues
+				const tickerEl = document.getElementById('ticker');
+				let forceLabels = false;
+				try { if (location.hostname.endsWith('github.io')) forceLabels = true; } catch(_) {}
+				try {
+					const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+					const timeout = new Promise(res => setTimeout(res, 2000, 'timeout'));
+					const r = await Promise.race([fontsReady, timeout]);
+					if (r === 'timeout') forceLabels = true;
+				} catch(_) { forceLabels = true; }
+				if (tickerEl && forceLabels) tickerEl.classList.add('labels');
 				requestAnimationFrame(() => {
 					fillBaseSegmentToViewport();
 					ensureTwoSegments();
