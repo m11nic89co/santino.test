@@ -2,88 +2,6 @@
 <html lang="ru">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Expires" content="0" />
-	<title>SANTINO | Премиум пластик</title>
-	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
-		rel="stylesheet">
-	<!-- Speed up font loading, esp. on mobile -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<!-- Magneto-like fallbacks (cannot bundle Magneto due to licensing). If Magneto installed locally, it will be used. -->
-	<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
-	<style>
-		:root {
-			--bg: #0b0b0b;
-			--text: #fff;
-			--accent: #00ffe7;
-			--gray: #222;
-			--radius: 18px;
-			--font-main: 'Inter', sans-serif;
-			--font-tech: 'Bebas Neue', 'Inter', sans-serif;
-		}
-
-		html,
-		body {
-			height: 100%;
-			margin: 0;
-			padding: 0;
-		}
-
-		body {
-			min-height: 100vh;
-			background: linear-gradient(120deg, #101014 0%, #232526 100%);
-			color: var(--text);
-			font-family: var(--font-main);
-			letter-spacing: 0.01em;
-			overflow-x: hidden;
-			position: relative;
-			font-size: 18px;
-			opacity: 1;
-			transition: opacity 0.7s cubic-bezier(.77, 0, .18, 1);
-		}
-
-		/* Blueprint-like millimeter grid overlay (cyan tint), now dimmer */
-		body::before {
-			content: "";
-			position: fixed;
-			inset: 0;
-			pointer-events: none;
-			z-index: 1;
-			/* below main content (z=2), above background */
-			/* fine mm-like grid (~12px) + major grid (60px) */
-			background:
-				repeating-linear-gradient(0deg, rgba(0, 255, 231, 0.03) 0 1px, transparent 1px 12px),
-				repeating-linear-gradient(90deg, rgba(0, 255, 231, 0.025) 0 1px, transparent 1px 12px),
-				repeating-linear-gradient(0deg, rgba(0, 255, 231, 0.08) 0 2px, transparent 2px 60px),
-				repeating-linear-gradient(90deg, rgba(0, 255, 231, 0.07) 0 2px, transparent 2px 60px);
-			opacity: 1;
-			/* control visibility via RGBA above */
-		}
-
-		/* noise overlay removed to avoid potential banding/stripes near the logo */
-
-		.paparazzi-flash {
-			position: fixed;
-			inset: 0;
-			pointer-events: none;
-			z-index: 10000;
-			opacity: 0;
-			background:
-				radial-gradient(circle at 60% 40%, #fff 0%, #fff 60%, #fff8 80%, #fff0 100%),
-				linear-gradient(120deg, #00ffe7cc 0 10%, transparent 60%),
-				linear-gradient(70deg, #fff 0 8%, transparent 60%);
-			filter: blur(8px) brightness(2.2);
-			transition: opacity 0.2s;
-			animation: none;
-		}
-
-		.paparazzi-flash.lightning-series {
-			opacity: 1;
-			animation: lightningSeries 1s cubic-bezier(.77, 0, .18, 1) forwards;
 		}
 
 		@keyframes lightningSeries {
@@ -1182,8 +1100,8 @@
 		/* unify visible size by height, keep aspect ratio */
 		.logo-badge .logo-img { display: block; height: 1.6em; width: auto; object-fit: contain; }
 		.logo-badge .logo-svg { display: block; height: 1.6em; width: auto; }
-		/* ensure inline SVG text uses reliable system fonts (Cyrillic-ready) */
-		.logo-badge svg text { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-weight: 700; }
+		/* ensure inline SVG text uses site font (Inter) with Cyrillic subset */
+		.logo-badge svg text { font-family: var(--font-main), Arial, sans-serif; font-weight: 700; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 		/* fallback: reveal text label when image fails */
 		.logo-badge.logo-missing .logo-img { display: none; }
 		.logo-badge.logo-missing .badge-label { display: inline; font-size: 0.95em; }
@@ -2164,7 +2082,25 @@
 						const doc = parser.parseFromString(text, 'image/svg+xml');
 						const svg = doc.documentElement;
 						if (svg && svg.tagName.toLowerCase() === 'svg') {
-							// Strip inline font-family from text nodes to let our CSS control fonts
+							// If the source contains <text>, render a raster label into an SVG wrapper for consistency
+							const textNode = svg.querySelector('text');
+							let label = '';
+							if (textNode && textNode.textContent) {
+								label = textNode.textContent.trim();
+							} else {
+								const fallback = badge.querySelector('.badge-label');
+								if (fallback) label = (fallback.textContent || '').trim();
+							}
+
+							if (label) {
+								const gen = createRasterTextSvg(label);
+								if (gen) {
+									gen.classList.add('logo-svg');
+									img.replaceWith(gen);
+									return;
+								}
+							}
+							// Fallback: strip font-family to allow CSS control
 							try { Array.from(svg.querySelectorAll('text')).forEach(t => t.removeAttribute('font-family')); } catch(_) {}
 							svg.classList.add('logo-svg');
 							img.replaceWith(svg);
@@ -2172,6 +2108,43 @@
 					} catch (_) { /* ignore */ }
 				});
 				await Promise.all(fetches);
+			}
+
+			// Render label text into a crisp PNG and wrap it in an SVG <image> for "always SVG" consistency
+			function createRasterTextSvg(label) {
+				try {
+					const targetPx = 42; // target pixel height for logo row before CSS scaling
+					const paddingX = 8;
+					const dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+					const canvas = document.createElement('canvas');
+					const ctx = canvas.getContext('2d');
+					const fontPx = Math.round(targetPx * 0.8);
+					ctx.font = `700 ${fontPx * dpr}px Inter, Arial, sans-serif`;
+					ctx.textBaseline = 'alphabetic';
+					const metrics = ctx.measureText(label);
+					const textW = Math.ceil(metrics.width);
+					const textH = Math.ceil(fontPx * dpr);
+					canvas.width = textW + paddingX * 2 * dpr;
+					canvas.height = targetPx * dpr;
+					// Transparent bg, white text
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					ctx.fillStyle = '#ffffff';
+					ctx.font = `700 ${fontPx * dpr}px Inter, Arial, sans-serif`;
+					ctx.fillText(label, paddingX * dpr, canvas.height - Math.round((targetPx - fontPx) * 0.6 * dpr));
+					const dataUrl = canvas.toDataURL('image/png');
+					const ns = 'http://www.w3.org/2000/svg';
+					const svg = document.createElementNS(ns, 'svg');
+					const w = Math.round(canvas.width / dpr);
+					const h = Math.round(canvas.height / dpr);
+					svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+					svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+					const img = document.createElementNS(ns, 'image');
+					img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataUrl);
+					img.setAttribute('width', String(w));
+					img.setAttribute('height', String(h));
+					svg.appendChild(img);
+					return svg;
+				} catch (_) { return null; }
 			}
 
 			function imageFallbacks() {
@@ -2191,9 +2164,8 @@
 				});
 			}
 
-			// initial setup: inline SVGs first for consistent fonts, then measure (always SVG mode)
+			// initial setup: measure and animate (SVGs are already pure paths after CI build)
 			(async () => {
-				try { await inlineSvgs(); } catch (_) {}
 				requestAnimationFrame(() => {
 					fillBaseSegmentToViewport();
 					ensureTwoSegments();
