@@ -2198,14 +2198,21 @@
 			const maxAtOnce = 6;
 			const overlay = getBlueprintsOverlay();
 			function tick() {
-				// keep up to maxAtOnce blueprints concurrently
-				const current = overlay.querySelectorAll('.blueprint').length;
-				if (current < maxAtOnce) {
-					spawnBlueprint();
-					if (Math.random() < 0.55 && current + 1 < maxAtOnce) spawnBlueprint();
-				}
-				const nextIn = 800 + Math.floor(Math.random() * 800); // 0.8-1.6s
-				setTimeout(tick, nextIn);
+				   // keep up to maxAtOnce blueprints concurrently, but never allow duplicates
+				   const currentBlueprints = overlay.querySelectorAll('.blueprint[data-bp-index]');
+				   const currentIndexes = Array.from(currentBlueprints).map(bp => parseInt(bp.getAttribute('data-bp-index'), 10));
+				   // Если на экране уже все типы макетов — не создаём новые, ждём пока освободится место
+				   if (currentIndexes.length < blueprintFactories.length) {
+					   spawnBlueprint();
+					   // Можно попытаться добавить второй, если всё ещё не все типы заняты
+					   const updatedBlueprints = overlay.querySelectorAll('.blueprint[data-bp-index]');
+					   const updatedIndexes = Array.from(updatedBlueprints).map(bp => parseInt(bp.getAttribute('data-bp-index'), 10));
+					   if (Math.random() < 0.55 && updatedIndexes.length < blueprintFactories.length) {
+						   spawnBlueprint();
+					   }
+				   }
+				   const nextIn = 800 + Math.floor(Math.random() * 800); // 0.8-1.6s
+				   setTimeout(tick, nextIn);
 			}
 			tick();
 		}
