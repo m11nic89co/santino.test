@@ -5,7 +5,8 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>SANTINO | Премиум пластик</title>
-	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
+	<link
+		href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
 		rel="stylesheet">
 	<!-- Magneto-like fallbacks (cannot bundle Magneto due to licensing). If Magneto installed locally, it will be used. -->
 	<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
@@ -373,7 +374,8 @@
 			.hero-title {
 				font-size: 1rem;
 				padding: 1rem 1.2rem;
-				white-space: normal; /* allow wrap on small screens */
+				white-space: normal;
+				/* allow wrap on small screens */
 				text-overflow: clip;
 			}
 
@@ -420,15 +422,22 @@
 		.btn {
 			background: transparent;
 			color: #00ffe7;
-			padding: 0.7rem 1.4rem; /* more compact */
+			padding: 0.7rem 1.4rem;
+			/* more compact */
 			min-width: 220px;
 			text-align: center;
-			border-radius: 0.9rem; /* subtler */
-			border: 1px solid #00ffe7; /* thinner border */
-			font-family: var(--font-main); /* Cyrillic-friendly font */
-			font-size: 1.02rem; /* smaller, laconic */
-			font-weight: 300; /* even thinner text */
-			letter-spacing: 0.05em; /* less tracking for minimal look */
+			border-radius: 0.9rem;
+			/* subtler */
+			border: 1px solid #00ffe7;
+			/* thinner border */
+			font-family: var(--font-main);
+			/* Cyrillic-friendly font */
+			font-size: 1.02rem;
+			/* smaller, laconic */
+			font-weight: 300;
+			/* even thinner text */
+			letter-spacing: 0.05em;
+			/* less tracking for minimal look */
 			text-transform: uppercase;
 			outline: none;
 			cursor: pointer;
@@ -448,17 +457,22 @@
 			display: inline-block;
 			/* prevent border splitting across lines */
 			max-width: 100%;
-			white-space: nowrap; /* keep one line on desktop */
-			overflow: hidden; /* avoid multi-line height growth */
-			text-overflow: ellipsis; /* ellipsis if too long */
-			line-height: 1.06; /* compact line height */
+			white-space: nowrap;
+			/* keep one line on desktop */
+			overflow: hidden;
+			/* avoid multi-line height growth */
+			text-overflow: ellipsis;
+			/* ellipsis if too long */
+			line-height: 1.06;
+			/* compact line height */
 		}
 
 		.btn:hover,
 		.btn:focus {
 			background: #00ffe7;
 			color: #101014;
-			border: 1px solid #101014; /* match thinner border */
+			border: 1px solid #101014;
+			/* match thinner border */
 			box-shadow: none;
 		}
 
@@ -471,9 +485,11 @@
 			filter: brightness(0.18) blur(22px) contrast(3.5) saturate(2.2) grayscale(0);
 			color: #00ffe7 !important;
 			background: transparent;
-			box-shadow: 0 0 18px 6px #00ffe7, 0 0 36px 12px #00ffe7cc; /* subtler */
+			box-shadow: 0 0 18px 6px #00ffe7, 0 0 36px 12px #00ffe7cc;
+			/* subtler */
 			text-shadow: 0 0 32px #00ffe7, 0 0 64px #00ffe7cc;
-			border-color: #00ffe7 !important; /* width controlled in base style */
+			border-color: #00ffe7 !important;
+			/* width controlled in base style */
 			opacity: 0.18 !important;
 			transition: opacity 0.6s, filter 0.6s, color 0.6s, border-color 0.6s, box-shadow 0.6s, text-shadow 0.6s;
 			pointer-events: none;
@@ -635,8 +651,10 @@
 		.btn.neon {
 			background: transparent;
 			color: #00ffe7;
-			border: 1px solid #00ffe7; /* match thinner border */
-			box-shadow: 0 0 1px 0 #00ffe7cc, 0 0 2px 0 #00ffe799; /* subtler */
+			border: 1px solid #00ffe7;
+			/* match thinner border */
+			box-shadow: 0 0 1px 0 #00ffe7cc, 0 0 2px 0 #00ffe799;
+			/* subtler */
 			text-shadow: 0 0 2px #00ffe7cc;
 			filter: brightness(1.01) drop-shadow(0 0 1px #00ffe7cc);
 			transition:
@@ -651,8 +669,10 @@
 
 		@media (max-width: 600px) {
 			.btn {
-				font-size: 1rem; /* smaller on mobile */
-				padding: 0.8rem 1rem; /* compact on mobile */
+				font-size: 1rem;
+				/* smaller on mobile */
+				padding: 0.8rem 1rem;
+				/* compact on mobile */
 				border-radius: 1.3rem;
 				width: auto;
 				/* no forced full width */
@@ -703,7 +723,8 @@
 			}
 
 			.btn {
-				font-size: 1rem; /* keep small final override */
+				font-size: 1rem;
+				/* keep small final override */
 				padding: 0.9rem 1.1rem;
 			}
 
@@ -899,15 +920,61 @@
 		}
 
 		/* Professional-style dimension annotations (animated) */
-		.blueprint .dims { pointer-events: none; }
-		.blueprint .dim-ext { stroke: #00c8ff; stroke-width: 0.8; stroke-dasharray: 3 3; opacity: 0.7; vector-effect: non-scaling-stroke; }
-		.blueprint .dim-line { stroke: #00e0ff; stroke-width: 1; stroke-linecap: square; vector-effect: non-scaling-stroke; stroke-dasharray: var(--len, 100); stroke-dashoffset: var(--len, 100); transition: stroke-dashoffset 1s cubic-bezier(.77,0,.18,1) var(--d, 0.1s); }
-		.blueprint .dim-arrow { fill: #00e0ff; opacity: 0; transition: opacity 0.6s cubic-bezier(.77,0,.18,1) var(--d, 0.25s); }
-		.blueprint .dim-text { fill: rgba(166, 243, 255, 0.6); font: 500 11px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial; letter-spacing: 0.04em; opacity: 0; transform: translateY(2px); transition: opacity 0.6s cubic-bezier(.77,0,.18,1) var(--d, 0.25s), transform 0.6s cubic-bezier(.77,0,.18,1) var(--d, 0.25s); }
-		.blueprint .dim-text.v { transform: rotate(-90deg); transform-box: fill-box; transform-origin: center; }
-		.blueprint.dim-animate .dim-line { stroke-dashoffset: 0; }
-		.blueprint.dim-animate .dim-arrow { opacity: 0.85; }
-		.blueprint.dim-animate .dim-text { opacity: 0.6; transform: translateY(0); }
+		.blueprint .dims {
+			pointer-events: none;
+		}
+
+		.blueprint .dim-ext {
+			stroke: #00c8ff;
+			stroke-width: 0.8;
+			stroke-dasharray: 3 3;
+			opacity: 0.7;
+			vector-effect: non-scaling-stroke;
+		}
+
+		.blueprint .dim-line {
+			stroke: #00e0ff;
+			stroke-width: 1;
+			stroke-linecap: square;
+			vector-effect: non-scaling-stroke;
+			stroke-dasharray: var(--len, 100);
+			stroke-dashoffset: var(--len, 100);
+			transition: stroke-dashoffset 1s cubic-bezier(.77, 0, .18, 1) var(--d, 0.1s);
+		}
+
+		.blueprint .dim-arrow {
+			fill: #00e0ff;
+			opacity: 0;
+			transition: opacity 0.6s cubic-bezier(.77, 0, .18, 1) var(--d, 0.25s);
+		}
+
+		.blueprint .dim-text {
+			fill: rgba(166, 243, 255, 0.6);
+			font: 500 11px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+			letter-spacing: 0.04em;
+			opacity: 0;
+			transform: translateY(2px);
+			transition: opacity 0.6s cubic-bezier(.77, 0, .18, 1) var(--d, 0.25s), transform 0.6s cubic-bezier(.77, 0, .18, 1) var(--d, 0.25s);
+		}
+
+		.blueprint .dim-text.v {
+			transform: rotate(-90deg);
+			transform-box: fill-box;
+			transform-origin: center;
+		}
+
+		.blueprint.dim-animate .dim-line {
+			stroke-dashoffset: 0;
+		}
+
+		.blueprint.dim-animate .dim-arrow {
+			opacity: 0.85;
+		}
+
+		.blueprint.dim-animate .dim-text {
+			opacity: 0.6;
+			transform: translateY(0);
+		}
 
 		@media (prefers-reduced-motion: reduce) {
 			.blueprints-overlay {
@@ -1064,7 +1131,8 @@
 			right: 0;
 			bottom: 0;
 			width: 100%;
-			padding: 6px 0 10px; /* edge-to-edge on mobile */
+			padding: 6px 0 10px;
+			/* edge-to-edge on mobile */
 			background: transparent;
 			/* match section background, no overlay */
 			z-index: 5;
@@ -1158,7 +1226,10 @@
 			padding-right: var(--logo-gap, 2.2em);
 		}
 
-		.ticker-item { display: inline-flex; align-items: center; }
+		.ticker-item {
+			display: inline-flex;
+			align-items: center;
+		}
 
 		.logo-badge {
 			display: inline-flex;
@@ -1172,16 +1243,36 @@
 			white-space: nowrap;
 		}
 
-		.logo-badge .badge-label { display: none; }
+		.logo-badge .badge-label {
+			display: none;
+		}
+
 		/* unify visible size by height, keep aspect ratio */
-		.logo-badge .logo-img { display: block; height: 1.6em; width: auto; object-fit: contain; }
+		.logo-badge .logo-img {
+			display: block;
+			height: 1.6em;
+			width: auto;
+			object-fit: contain;
+		}
+
 		/* fallback: reveal text label when image fails */
-		.logo-badge.logo-missing .logo-img { display: none; }
-		.logo-badge.logo-missing .badge-label { display: inline; font-size: 0.95em; }
+		.logo-badge.logo-missing .logo-img {
+			display: none;
+		}
+
+		.logo-badge.logo-missing .badge-label {
+			display: inline;
+			font-size: 0.95em;
+		}
 
 		@keyframes tickerScroll {
-			from { transform: translateX(0); }
-			to { transform: translateX(-50%); }
+			from {
+				transform: translateX(0);
+			}
+
+			to {
+				transform: translateX(-50%);
+			}
 		}
 
 		/* Desktop-only: make hero text more laconic */
@@ -1238,18 +1329,40 @@
 				<div class="ticker-wrap">
 					<div class="ticker" id="ticker">
 						<div class="ticker-track" id="ticker-track">
-								<div class="ticker-segment" id="ticker-segment">
-								<span class="ticker-item"><span class="logo-badge" data-brand="magnit"><img class="logo-img" src="assets/logos/magnit.svg" alt="Магнит" loading="lazy" /><span class="badge-label">Магнит</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="pyaterochka"><img class="logo-img" src="assets/logos/pyaterochka.svg" alt="Пятёрочка" loading="lazy" /><span class="badge-label">Пятёрочка</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="perekrestok"><img class="logo-img" src="assets/logos/perekrestok.svg" alt="Перекрёсток" loading="lazy" /><span class="badge-label">Перекрёсток</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="lenta"><img class="logo-img" src="assets/logos/lenta.svg" alt="Лента" loading="lazy" /><span class="badge-label">Лента</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="okey"><img class="logo-img" src="assets/logos/okei.svg" alt="О’КЕЙ" loading="lazy" /><span class="badge-label">О’КЕЙ</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="auchan"><img class="logo-img" src="assets/logos/auchan.svg" alt="Ашан" loading="lazy" /><span class="badge-label">Ашан</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="metro"><img class="logo-img" src="assets/logos/metro.svg" alt="METRO" loading="lazy" /><span class="badge-label">METRO</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="fix-price"><img class="logo-img" src="assets/logos/fix-price.svg" alt="Fix Price" loading="lazy" /><span class="badge-label">Fix Price</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="vkusvill"><img class="logo-img" src="assets/logos/vkusvill.svg" alt="ВкусВилл" loading="lazy" /><span class="badge-label">ВкусВилл</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="spar"><img class="logo-img" src="assets/logos/spar.svg" alt="SPAR" loading="lazy" /><span class="badge-label">SPAR</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="lemana-pro"><img class="logo-img" src="assets/logos/lemana-pro.svg" alt="Лемана ПРО" loading="lazy" /><span class="badge-label">Лемана ПРО</span></span></span>
+							<div class="ticker-segment" id="ticker-segment">
+								<span class="ticker-item"><span class="logo-badge" data-brand="magnit"><img class="logo-img"
+											src="assets/logos/magnit.svg" alt="Магнит" loading="lazy" /><span
+											class="badge-label">Магнит</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="pyaterochka"><img
+											class="logo-img" src="assets/logos/pyaterochka.svg" alt="Пятёрочка"
+											loading="lazy" /><span class="badge-label">Пятёрочка</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="perekrestok"><img
+											class="logo-img" src="assets/logos/perekrestok.svg" alt="Перекрёсток"
+											loading="lazy" /><span class="badge-label">Перекрёсток</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="lenta"><img class="logo-img"
+											src="assets/logos/lenta.svg" alt="Лента" loading="lazy" /><span
+											class="badge-label">Лента</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="okey"><img class="logo-img"
+											src="assets/logos/okei.svg" alt="О’КЕЙ" loading="lazy" /><span
+											class="badge-label">О’КЕЙ</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="auchan"><img class="logo-img"
+											src="assets/logos/auchan.svg" alt="Ашан" loading="lazy" /><span
+											class="badge-label">Ашан</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="metro"><img class="logo-img"
+											src="assets/logos/metro.svg" alt="METRO" loading="lazy" /><span
+											class="badge-label">METRO</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="fix-price"><img class="logo-img"
+											src="assets/logos/fix-price.svg" alt="Fix Price" loading="lazy" /><span
+											class="badge-label">Fix Price</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="vkusvill"><img class="logo-img"
+											src="assets/logos/vkusvill.svg" alt="ВкусВилл" loading="lazy" /><span
+											class="badge-label">ВкусВилл</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="spar"><img class="logo-img"
+											src="assets/logos/spar.svg" alt="SPAR" loading="lazy" /><span
+											class="badge-label">SPAR</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="lemana-pro"><img class="logo-img"
+											src="assets/logos/lemana-pro.svg" alt="Лемана ПРО" loading="lazy" /><span
+											class="badge-label">Лемана ПРО</span></span></span>
 							</div>
 							<!-- duplicated via JS for seamless loop -->
 						</div>
