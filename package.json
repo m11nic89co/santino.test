@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "description": "Utility scripts for santino.ru.com workspace",
   "scripts": {
-    "make:og": "node tools/make_og.js"
+  "make:og": "node tools/make_og.mjs",
+    "make:icons": "node tools/make_icons.js",
+    "build:assets": "npm run make:og && npm run make:icons"
   },
   "dependencies": {
-    "@resvg/resvg-js": "^2.6.2"
+    "@resvg/resvg-js": "^2.6.2",
+    "favicons": "^7.2.0"
   }
 }
