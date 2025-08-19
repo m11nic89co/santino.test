@@ -26,13 +26,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install deps (if needed)
-        run: |
-          if [ -f package.json ]; then npm ci; else echo "no package.json"; fi
+      - name: Install deps
+        run: npm ci
 
-      - name: Build (copy src -> public)
-        run: |
-          if [ -d src ]; then mkdir -p public && rsync -a src/ public/; else echo "no src"; fi
+      - name: Build (ENV=test)
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -46,6 +44,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: public
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

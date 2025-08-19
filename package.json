@@ -4,12 +4,25 @@
   "version": "1.0.0",
   "description": "Utility scripts for santino.ru.com workspace",
   "scripts": {
-  "make:og": "node tools/make_og.mjs",
+    "make:og": "node tools/make_og.mjs",
     "make:icons": "node tools/make_icons.js",
-    "build:assets": "npm run make:og && npm run make:icons"
+    "build:assets": "npm run make:og && npm run make:icons",
+    "build": "node scripts/build.mjs",
+    "build:prod": "cross-env BUILD_ENV=prod node scripts/build.mjs",
+    "archive": "node scripts/archive.mjs",
+    "release": "npm run build:prod && npm run archive"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "favicons": "^7.2.0"
+    "archiver": "^6.0.2",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^6.1.2",
+    "esbuild": "^0.23.0",
+    "fast-glob": "^3.3.2",
+    "favicons": "^7.2.0",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
