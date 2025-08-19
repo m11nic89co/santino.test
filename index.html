@@ -5,6 +5,14 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>SANTINO | Премиум пластик</title>
+	<link rel="icon" href="santino_magneto_outlined.svg" type="image/svg+xml">
+	<link rel="alternate icon" href="SantinoLogo.gif" type="image/gif">
+	<meta property="og:title" content="SANTINO | Премиум пластик">
+	<meta property="og:description" content="Завод премиальных пластиковых изделий">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://m11nic89co.github.io/santino.test/">
+	<meta property="og:image" content="santino_og.png">
+	<meta name="twitter:card" content="summary_large_image">
 	<link
 		href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
 		rel="stylesheet">
@@ -30,7 +38,7 @@
 
 		body {
 			min-height: 100vh;
-			background: linear-gradient(120deg, #101014 0%, #232526 100%);
+			background: linear-gradient(120deg, #181d2a 0%, #232b3a 100%);
 			color: var(--text);
 			font-family: var(--font-main);
 			letter-spacing: 0.01em;
@@ -51,11 +59,11 @@
 			/* below main content (z=2), above background */
 			/* fine mm-like grid (~12px) + major grid (60px) */
 			background:
-				repeating-linear-gradient(0deg, rgba(0, 255, 231, 0.03) 0 1px, transparent 1px 12px),
-				repeating-linear-gradient(90deg, rgba(0, 255, 231, 0.025) 0 1px, transparent 1px 12px),
-				repeating-linear-gradient(0deg, rgba(0, 255, 231, 0.08) 0 2px, transparent 2px 60px),
+				repeating-linear-gradient(0deg, rgba(0, 255, 231, 0.035) 0 1px, transparent 1px 12px),
+				repeating-linear-gradient(90deg, rgba(0, 255, 231, 0.028) 0 1px, transparent 1px 12px),
+				repeating-linear-gradient(0deg, rgba(0, 255, 231, 0.09) 0 2px, transparent 2px 60px),
 				repeating-linear-gradient(90deg, rgba(0, 255, 231, 0.07) 0 2px, transparent 2px 60px);
-			opacity: 1;
+			opacity: 0.7;
 			/* control visibility via RGBA above */
 		}
 
@@ -186,21 +194,17 @@
 		}
 
 		.loader-logo {
-			font-family: 'Magneto', 'Lobster', 'Pacifico', cursive;
-			font-size: 4.5rem;
-			font-weight: 400;
-			letter-spacing: 0em;
-			color: var(--text);
-			text-shadow: 0 2px 32px #00ffe755, 0 1px 1px #000a;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 			filter: drop-shadow(0 0 24px #00ffe7aa);
-			text-transform: none;
 			opacity: 0;
 			transform: scale(0.92);
 			transition: opacity 0.6s cubic-bezier(.77, 0, .18, 1), filter 0.6s cubic-bezier(.77, 0, .18, 1), transform 1s cubic-bezier(.77, 0, .18, 1);
 			will-change: opacity, filter;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
 		}
+
+		.loader-logo img { height: 48px; width: auto; display: block; }
 
 		.loader-bar-wrap {
 			width: 180px;
@@ -242,24 +246,6 @@
 			height: auto;
 		}
 
-		/* Logo: font-based Magneto variant only */
-		.logo .logo-text {
-			display: inline-block;
-			font-family: 'Magneto', 'Lobster', 'Pacifico', cursive;
-			font-weight: 400;
-			font-size: 1em;
-			/* inherit from .logo */
-			letter-spacing: 0em;
-			/* script fonts look better without extra tracking */
-			line-height: 1;
-			/* ensure proper box height inside parent with line-height:0 */
-			text-transform: none;
-			/* keep script-case */
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
-			font-variant-ligatures: common-ligatures;
-		}
-
 		.logo {
 			font-family: var(--font-tech);
 			font-size: clamp(1.6rem, 6vw, 2.8rem);
@@ -277,13 +263,41 @@
 			line-height: 0;
 			/* make header height equal to logo graphic */
 			opacity: 0;
-			transform: translateY(40vh) scale(1.5);
+			/* avoid scaling raster logo to prevent pixelation */
+			transform: translateY(40vh);
 		}
 
 		.logo.logo-animate-in {
 			opacity: 1;
-			transform: translateY(0) scale(1);
+			/* no scale during animation to keep GIF crisp */
+			transform: translateY(0);
 			transition: transform 1.2s cubic-bezier(.77, 0, .18, 1), opacity 1.2s cubic-bezier(.77, 0, .18, 1);
+		}
+
+		/* Logo image sizing + smoothing */
+		.logo img {
+			height: 42px;
+			width: auto;
+			display: block;
+			image-rendering: auto; /* prefer smooth scaling */
+			/* legacy IE smoothing */
+			-ms-interpolation-mode: bicubic;
+		}
+
+		@media (max-width: 1200px) {
+			.logo img { height: 40px; }
+		}
+
+		@media (max-width: 1024px) {
+			.logo img { height: 34px; }
+		}
+
+		@media (max-width: 768px) {
+			.logo img { height: 30px; }
+		}
+
+		@media (max-width: 640px) {
+			.logo img { height: 26px; }
 		}
 
 		.logo:hover {
@@ -1298,7 +1312,7 @@
 <body class="site-hidden">
 	<div class="loader-bg" id="loader-bg">
 		<div class="loader-content">
-			<span class="loader-logo">Santino</span>
+			<span class="loader-logo" aria-label="Santino"><img src="santino_magneto_outlined.svg" alt="Santino logo" /></span>
 			<div class="loader-bar-wrap">
 				<div class="loader-bar" id="loader-bar"></div>
 			</div>
@@ -1308,7 +1322,8 @@
 	<div id="afterflash" class="afterflash"></div>
 	<header>
 		<span class="logo" id="main-logo" style="display: flex; align-items: center; justify-content: center;">
-			<span class="logo-text">Santino</span>
+			<!-- Основной логотип: Magneto в кривых (без зависимости от шрифта) -->
+			<img src="santino_magneto_outlined.svg" alt="Santino logo" />
 		</span>
 	</header>
 	<main>
