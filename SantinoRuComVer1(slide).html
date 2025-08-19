@@ -5,6 +5,14 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>SANTINO | Премиум пластик</title>
+	<link rel="icon" href="santino_magneto_outlined.svg" type="image/svg+xml">
+	<link rel="alternate icon" href="SantinoLogo.gif" type="image/gif">
+	<meta property="og:title" content="SANTINO | Премиум пластик">
+	<meta property="og:description" content="Завод премиальных пластиковых изделий">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://m11nic89co.github.io/santino.test/">
+	<meta property="og:image" content="santino_og.png">
+	<meta name="twitter:card" content="summary_large_image">
 	<link
 		href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
 		rel="stylesheet">
@@ -268,7 +276,7 @@
 
 		/* Logo image sizing + smoothing */
 		.logo img {
-			height: 44px;
+			height: 42px;
 			width: auto;
 			display: block;
 			image-rendering: auto; /* prefer smooth scaling */
@@ -276,12 +284,20 @@
 			-ms-interpolation-mode: bicubic;
 		}
 
+		@media (max-width: 1200px) {
+			.logo img { height: 40px; }
+		}
+
 		@media (max-width: 1024px) {
-			.logo img { height: 36px; }
+			.logo img { height: 34px; }
+		}
+
+		@media (max-width: 768px) {
+			.logo img { height: 30px; }
 		}
 
 		@media (max-width: 640px) {
-			.logo img { height: 28px; }
+			.logo img { height: 26px; }
 		}
 
 		.logo:hover {
