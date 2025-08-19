@@ -1,0 +1,18 @@
+{
+  "folders": [
+    { "path": "." }
+  ],
+  "settings": {
+    "git.autofetch": true,
+    "window.restoreWindows": "all",
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "python.venvPath": ".venv",
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "**/.mypy_cache": true,
+      "**/.ruff_cache": true,
+      ".venv": true
+    }
+  }
+}
