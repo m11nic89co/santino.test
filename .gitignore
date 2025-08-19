@@ -2,6 +2,8 @@
 .venv/
 .vscode/
 node_modules/
+.env
+.env.*
 
 # Build output (if generated elsewhere)
 dist/

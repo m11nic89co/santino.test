@@ -97,6 +97,49 @@ async function processJs() {
   }));
 }
 
+async function generateSitemap() {
+  const sitemapPath = path.join(OUT, 'sitemap.xml');
+  // Only generate meaningful sitemap when BASE_URL is set (required for absolute URLs)
+  if (!BASE_URL) {
+    await fs.outputFile(
+      sitemapPath,
+      `<?xml version="1.0" encoding="UTF-8"?>\n` +
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+      `  <!-- Provide BASE_URL to generate absolute URLs. Current build uses placeholders. -->\n` +
+      `  <url><loc>/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n` +
+      `</urlset>\n`
+    );
+    log('Sitemap generated without BASE_URL (placeholders).');
+    return;
+  }
+
+  const htmlFiles = await fg(['**/*.html'], { cwd: OUT, dot: false });
+  const now = new Date();
+  const items = [];
+  for (const rel of htmlFiles) {
+    const p = path.join(OUT, rel);
+    const stat = await fs.stat(p);
+    // map index.html to '/'; others to '/path'
+    let urlPath = '/' + rel.replace(/\\/g, '/');
+    if (urlPath.endsWith('/index.html')) urlPath = urlPath.slice(0, -'/index.html'.length) || '/';
+    else if (urlPath.endsWith('.html')) urlPath = urlPath.slice(0, -'.html'.length);
+    const loc = `${BASE_URL}${urlPath}`.replace(/\/*$/, urlPath === '/' ? '/' : '');
+    items.push({ loc, lastmod: stat.mtime.toISOString() });
+  }
+
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...items
+      .sort((a, b) => a.loc.localeCompare(b.loc))
+      .map(it => `  <url><loc>${it.loc}</loc><lastmod>${it.lastmod}</lastmod><changefreq>monthly</changefreq><priority>${it.loc.endsWith('/') ? '0.8' : '0.6'}</priority></url>`),
+    '</urlset>',
+    ''
+  ].join('\n');
+  await fs.outputFile(sitemapPath, xml);
+  log(`Sitemap generated with ${items.length} entries.`);
+}
+
 async function main() {
   log(`ENV=${ENV}${BASE_URL ? ` BASE_URL=${BASE_URL}` : ''}`);
   await cleanOut();
@@ -104,6 +147,7 @@ async function main() {
   await processHtmlEnv();
   await processCss();
   await processJs();
+  await generateSitemap();
   log('Done.');
 }
 

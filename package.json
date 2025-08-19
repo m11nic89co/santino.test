@@ -7,10 +7,12 @@
     "make:og": "node tools/make_og.mjs",
     "make:icons": "node tools/make_icons.js",
     "build:assets": "npm run make:og && npm run make:icons",
-    "build": "node scripts/build.mjs",
-    "build:prod": "cross-env BUILD_ENV=prod node scripts/build.mjs",
+  "build": "node -r dotenv/config scripts/build.mjs",
+  "build:prod": "cross-env BUILD_ENV=prod node -r dotenv/config scripts/build.mjs",
     "archive": "node scripts/archive.mjs",
-    "release": "npm run build:prod && npm run archive"
+  "release": "npm run build:prod && npm run archive",
+  "deploy:sftp": "node -r dotenv/config scripts/deploy-sftp.mjs",
+  "deploy": "npm run build:prod && npm run deploy:sftp"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
@@ -20,9 +22,11 @@
     "esbuild": "^0.23.0",
     "fast-glob": "^3.3.2",
     "favicons": "^7.2.0",
-    "fs-extra": "^11.2.0"
+  "fs-extra": "^11.2.0",
+  "ssh2": "^1.15.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+  "cross-env": "^7.0.3",
+  "dotenv": "^16.4.5"
   }
 }
