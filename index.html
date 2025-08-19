@@ -2246,8 +2246,30 @@
 			// random size/position/rotation (smaller gentle motion)
 			const vw = window.innerWidth, vh = window.innerHeight;
 			const size = Math.round(Math.min(vw, vh) * (0.30 + Math.random() * 0.20)); // 30%..50%
-			const x = Math.round(Math.random() * (vw - size));
-			const y = Math.round(Math.random() * (vh - size));
+			// 70% of spawns biased to central area (but avoid exact middle) on all viewports
+			function pickBiasedCoord(avail) {
+				const biasProb = 0.7; // 70%
+				if (!(avail > 0) || Math.random() > biasProb) {
+					return Math.random() * Math.max(0, avail);
+				}
+				const center = avail / 2;
+				const halfCentral = avail * 0.30; // central 60% band total (±30%)
+				const deadHalf = Math.max(8, avail * 0.05); // exclude a small central band (±5%)
+				const leftStart = Math.max(0, center - halfCentral);
+				const leftEnd = Math.max(0, center - deadHalf);
+				const rightStart = Math.min(avail, center + deadHalf);
+				const rightEnd = Math.min(avail, center + halfCentral);
+				const chooseLeft = Math.random() < 0.5;
+				const rangeStart = chooseLeft ? leftStart : rightStart;
+				const rangeEnd = chooseLeft ? leftEnd : rightEnd;
+				const span = Math.max(0, rangeEnd - rangeStart);
+				if (span <= 0) return Math.random() * Math.max(0, avail);
+				return rangeStart + Math.random() * span;
+			}
+			const availX = Math.max(0, vw - size);
+			const availY = Math.max(0, vh - size);
+			const x = Math.round(pickBiasedCoord(availX));
+			const y = Math.round(pickBiasedCoord(availY));
 			const rot = (Math.random() * 10 - 5); // -5..5 deg
 			bp.style.width = size + 'px';
 			bp.style.height = size + 'px';
