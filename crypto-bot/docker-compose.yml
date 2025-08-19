@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  cryptobot:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - EXCHANGE=${EXCHANGE}
+      - API_KEY=${API_KEY}
+      - API_SECRET=${API_SECRET}
+      - API_PASSWORD=${API_PASSWORD}
+      - PAIR=${PAIR}
+      - TIMEFRAME=${TIMEFRAME}
+      - STRATEGY=${STRATEGY}
+      - BASE_ORDER_USD=${BASE_ORDER_USD}
+      - MAX_OPEN_POSITIONS=${MAX_OPEN_POSITIONS}
+      - RISK_PCT=${RISK_PCT}
+    restart: unless-stopped
