@@ -2021,6 +2021,46 @@
 			return svg;
 		}
 
+		// New: Square flower pot (квадратный горшок)
+		function svgSquarePot() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 240 240');
+			// top rim (square)
+			const rim = document.createElementNS(ns, 'rect');
+			rim.setAttribute('x', '50'); rim.setAttribute('y', '40'); rim.setAttribute('width', '140'); rim.setAttribute('height', '16'); rim.setAttribute('class', 'major');
+			svg.appendChild(rim);
+			// body (tapering to a smaller square base)
+			const body = document.createElementNS(ns, 'path');
+			body.setAttribute('d', 'M60 56 L180 56 L160 184 L80 184 Z');
+			svg.appendChild(body);
+			// base square
+			const base = document.createElementNS(ns, 'rect');
+			base.setAttribute('x', '92'); base.setAttribute('y', '184'); base.setAttribute('width', '56'); base.setAttribute('height', '12'); base.setAttribute('class', 'major');
+			svg.appendChild(base);
+			// inner guides
+			const g1 = document.createElementNS(ns, 'line'); g1.setAttribute('x1', '80'); g1.setAttribute('y1', '184'); g1.setAttribute('x2', '96'); g1.setAttribute('y2', '56'); svg.appendChild(g1);
+			const g2 = document.createElementNS(ns, 'line'); g2.setAttribute('x1', '160'); g2.setAttribute('y1', '184'); g2.setAttribute('x2', '144'); g2.setAttribute('y2', '56'); svg.appendChild(g2);
+			return svg;
+		}
+
+		// New: Cylindrical vase (сосуд/ваза для цветов)
+		function svgCylinderVase() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 200 260');
+			// rim
+			const rim = document.createElementNS(ns, 'ellipse'); rim.setAttribute('cx', '100'); rim.setAttribute('cy', '36'); rim.setAttribute('rx', '56'); rim.setAttribute('ry', '10'); rim.setAttribute('class', 'major'); svg.appendChild(rim);
+			// sides
+			const sideL = document.createElementNS(ns, 'path'); sideL.setAttribute('d', 'M44 36 C 48 60, 48 200, 100 220'); svg.appendChild(sideL);
+			const sideR = document.createElementNS(ns, 'path'); sideR.setAttribute('d', 'M156 36 C 152 60, 152 200, 100 220'); svg.appendChild(sideR);
+			// bottom
+			const base = document.createElementNS(ns, 'ellipse'); base.setAttribute('cx', '100'); base.setAttribute('cy', '220'); base.setAttribute('rx', '34'); base.setAttribute('ry', '8'); base.setAttribute('class', 'major'); svg.appendChild(base);
+			// water level guide
+			const level = document.createElementNS(ns, 'ellipse'); level.setAttribute('cx', '100'); level.setAttribute('cy', '120'); level.setAttribute('rx', '48'); level.setAttribute('ry', '8'); svg.appendChild(level);
+			return svg;
+		}
+
 		// New: Pedestal outdoor vase (ваза на ножке для уличных цветов)
 		function svgPedestalVase() {
 			const ns = 'http://www.w3.org/2000/svg';
@@ -2120,7 +2160,8 @@
 		const blueprintFactories = [
 			svgPot, svgCrate, svgBox, svgBasket, svgTray, svgBottle,
 			svgPlanterBox, svgFlowerVase, svgPlantSupport, svgHoneycombMesh, svgPedestalVase,
-			svgConicalPot, svgHangingPot, svgTallPlanter, svgRoundBowl, svgWallPlanter, svgUrn, svgWindowBox
+			svgConicalPot, svgHangingPot, svgTallPlanter, svgRoundBowl, svgWallPlanter, svgUrn, svgWindowBox,
+			svgSquarePot, svgCylinderVase
 		];
 
 		// Add animated professional-like dimensions (horizontal top and vertical right) to an SVG
@@ -2236,15 +2277,22 @@
 		}
 
 		function startBlueprintCycle() {
-			const maxAtOnce = 1; // не дублировать разных макетов одновременно
+			// Desktop (>=1024px) up to 8 models, otherwise up to 5
+			function getMaxAtOnce() {
+				try {
+					return (window.matchMedia && window.matchMedia('(min-width: 1024px)').matches) ? 8 : 5;
+				} catch (_) { return 5; }
+			}
 			const overlay = getBlueprintsOverlay();
 			function tick() {
 				// keep up to maxAtOnce blueprints concurrently
 				const current = overlay.querySelectorAll('.blueprint').length;
+				const maxAtOnce = getMaxAtOnce();
 				if (current < maxAtOnce) {
 					spawnBlueprint();
 				}
-				const nextIn = 1200 + Math.floor(Math.random() * 1200); // 1.2-2.4s
+				// random interval for appearance (1–3s)
+				const nextIn = 1000 + Math.floor(Math.random() * 2000);
 				setTimeout(tick, nextIn);
 			}
 			tick();
