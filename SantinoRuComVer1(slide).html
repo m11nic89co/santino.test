@@ -186,21 +186,17 @@
 		}
 
 		.loader-logo {
-			font-family: 'Magneto', 'Lobster', 'Pacifico', cursive;
-			font-size: 4.5rem;
-			font-weight: 400;
-			letter-spacing: 0em;
-			color: var(--text);
-			text-shadow: 0 2px 32px #00ffe755, 0 1px 1px #000a;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 			filter: drop-shadow(0 0 24px #00ffe7aa);
-			text-transform: none;
 			opacity: 0;
 			transform: scale(0.92);
 			transition: opacity 0.6s cubic-bezier(.77, 0, .18, 1), filter 0.6s cubic-bezier(.77, 0, .18, 1), transform 1s cubic-bezier(.77, 0, .18, 1);
 			will-change: opacity, filter;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
 		}
+
+		.loader-logo img { height: 48px; width: auto; display: block; }
 
 		.loader-bar-wrap {
 			width: 180px;
@@ -1300,7 +1296,7 @@
 <body class="site-hidden">
 	<div class="loader-bg" id="loader-bg">
 		<div class="loader-content">
-			<span class="loader-logo">Santino</span>
+			<span class="loader-logo" aria-label="Santino"><img src="santino_magneto_outlined.svg" alt="Santino logo" /></span>
 			<div class="loader-bar-wrap">
 				<div class="loader-bar" id="loader-bar"></div>
 			</div>
@@ -1310,8 +1306,8 @@
 	<div id="afterflash" class="afterflash"></div>
 	<header>
 		<span class="logo" id="main-logo" style="display: flex; align-items: center; justify-content: center;">
-			<!-- Основной логотип: GIF -->
-			<img src="SantinoLogo.gif" alt="Santino logo" style="height:40px; width:auto; display:block;" />
+			<!-- Основной логотип: Magneto в кривых (без зависимости от шрифта) -->
+			<img src="santino_magneto_outlined.svg" alt="Santino logo" />
 		</span>
 	</header>
 	<main>
