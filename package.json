@@ -1,0 +1,12 @@
+{
+  "name": "santino-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Utility scripts for santino.ru.com workspace",
+  "scripts": {
+    "make:og": "node tools/make_og.js"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}
