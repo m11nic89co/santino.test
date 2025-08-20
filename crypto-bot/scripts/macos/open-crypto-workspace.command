@@ -1,10 +1,10 @@
 #!/bin/bash
-# Opens the Santino workspace in VS Code.
-# Make executable: chmod +x open-santino-workspace.command
+# Opens the Crypto Bot workspace in VS Code.
+# Make executable: chmod +x open-crypto-workspace.command
 
 set -euo pipefail
 WORKSPACE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-WORKSPACE_FILE="$WORKSPACE_DIR/santino/santino.code-workspace"
+WORKSPACE_FILE="$WORKSPACE_DIR/crypto-bot/crypto-bot.code-workspace"
 
 # Prefer stable Code, fallback to Insiders, else use open -a
 if [ -x "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" ]; then
