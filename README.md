@@ -9,7 +9,7 @@
 
 Локально
 
-- Откройте файл рабочей области `santino.code-workspace`.
+- Откройте файл рабочей области `DEV.code-workspace`.
 - Включите Settings Sync и войдите в GitHub.
 - Git auto fetch включён; при старте будет актуальный код.
 

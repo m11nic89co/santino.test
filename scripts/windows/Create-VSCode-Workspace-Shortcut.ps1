@@ -1,6 +1,6 @@
-param(
-	[string]$WorkspacePath = "$PSScriptRoot\..\..\santino.code-workspace",
-	[string]$ShortcutName = "Santino.code-workspace",
+﻿param(
+	[string]$WorkspacePath = "$PSScriptRoot\..\..\DEV.code-workspace",
+	[string]$ShortcutName = "DEV.code-workspace",
 	[string]$VSCodePath = "$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe"
 )
 
@@ -25,3 +25,4 @@ $Shortcut.WorkingDirectory = (Split-Path $WorkspaceFullPath)
 $Shortcut.Save()
 
 Write-Host "Created shortcut: $ShortcutPath"
+

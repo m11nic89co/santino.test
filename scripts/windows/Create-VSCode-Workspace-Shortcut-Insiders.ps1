@@ -1,6 +1,6 @@
 param(
-  [string]$WorkspacePath = "$PSScriptRoot\..\..\santino.code-workspace",
-  [string]$ShortcutName = "Santino (Insiders)",
+  [string]$WorkspacePath = "$PSScriptRoot\..\..\DEV.code-workspace",
+  [string]$ShortcutName = "DEV (Insiders)",
   [string]$VSCodePath = "$env:LOCALAPPDATA\Programs\Microsoft VS Code Insiders\Code - Insiders.exe"
 )
 

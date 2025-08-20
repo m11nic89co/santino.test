@@ -3,7 +3,7 @@
 # Make executable: chmod +x open-santino-workspace.command
 
 WORKSPACE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-WORKSPACE_FILE="$WORKSPACE_DIR/santino.code-workspace"
+WORKSPACE_FILE="$WORKSPACE_DIR/DEV.code-workspace"
 
 # Prefer stable Code, fallback to Insiders
 if [ -x "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" ]; then

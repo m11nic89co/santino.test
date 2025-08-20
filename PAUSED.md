@@ -5,7 +5,7 @@
 
 Как возобновить
 
-- Откройте рабочую область `santino.code-workspace`.
+- Откройте рабочую область `DEV.code-workspace`.
 - Переключитесь на тег/коммит при необходимости:
   - git fetch --all --tags
   - git checkout pause-2025-08-19

@@ -1,15 +1,7 @@
 {
-  "folders": [
-    { "path": "." }
-  ],
-  "settings": {
-    "git.autofetch": true,
-    "window.restoreWindows": "all",
-    "files.exclude": {
-      "crypto-bot": true
-    },
-    "search.exclude": {
-      "crypto-bot/**": true
-    }
-  }
+	"folders": [
+		{
+			"path": "."
+		}
+	]
 }
