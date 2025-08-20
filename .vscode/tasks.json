@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json.schemastore.org/tasks",
+  "$schema": "vscode://schemas/tasks",
   "version": "2.0.0",
   "tasks": [
     {
@@ -8,9 +8,9 @@
       "command": "powershell.exe",
       "args": [
         "-ExecutionPolicy", "Bypass",
-        "-File", "${workspaceFolder}\\scripts\\windows\\render-og.ps1",
-        "-HtmlPath", "${workspaceFolder}\\tools\\og.html",
-        "-OutPath", "G:/My Drive/dev/santino.ru.com/santino_og.png",
+  "-File", "${workspaceFolder}\\santino\\scripts\\windows\\render-og.ps1",
+  "-HtmlPath", "${workspaceFolder}\\santino\\tools\\og.html",
+  "-OutPath", "G:/My Drive/dev/santino/santino.ru.com/santino_og.png",
         "-Width", "1200",
         "-Height", "630"
       ],

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Build dev and snapshot with device info (if provided via ARCH_DEVICE)
+npm run snapshot --silent -- --device="${ARCH_DEVICE:-git}" || exit 1

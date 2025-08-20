@@ -1,0 +1,83 @@
+{
+  "folders": [
+    {
+      "name": "Santino",
+      "path": "santino"
+    },
+    {
+      "name": "Crypto Bot",
+      "path": "crypto-bot"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "archive": true,
+      "node_modules": true
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Santino: OG (npm)",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "make:og"],
+        "options": { "cwd": "${workspaceFolder:Santino}" },
+        "group": "build"
+      },
+      {
+        "label": "Santino: build",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "build"],
+        "options": { "cwd": "${workspaceFolder:Santino}" },
+        "group": "build"
+      },
+      {
+        "label": "Santino: build:prod",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "build:prod"],
+        "options": { "cwd": "${workspaceFolder:Santino}" },
+        "group": "build"
+      },
+      {
+        "label": "Santino: snapshot",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "snapshot"],
+        "options": { "cwd": "${workspaceFolder:Santino}" },
+        "group": "build"
+      },
+      {
+        "label": "Santino: release",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "release"],
+        "options": { "cwd": "${workspaceFolder:Santino}" }
+      },
+      {
+        "label": "Santino: deploy",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "deploy"],
+        "options": { "cwd": "${workspaceFolder:Santino}" }
+      },
+      {
+        "label": "OG: render via Edge",
+        "type": "shell",
+        "command": "powershell.exe",
+        "args": [
+          "-ExecutionPolicy", "Bypass",
+          "-File", "${workspaceFolder:Santino}\\scripts\\windows\\render-og.ps1",
+          "-HtmlPath", "${workspaceFolder:Santino}\\tools\\og.html",
+          "-OutPath", "G:/My Drive/dev/santino/santino.ru.com/santino_og.png",
+          "-Width", "1200",
+          "-Height", "630"
+        ],
+        "group": "build"
+      }
+    ]
+  }
+}

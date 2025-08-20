@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run snapshot in Santino before commit. Device can be passed via ARCH_DEVICE or defaults to git.
+cd santino || exit 1
+npm run snapshot --silent -- --device="${ARCH_DEVICE:-git}" || exit 1

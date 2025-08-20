@@ -1,0 +1,3 @@
+[console_scripts]
+cryptobot-backtest = cryptobot.engine.run_backtest:main
+cryptobot-paper = cryptobot.engine.run_paper:main

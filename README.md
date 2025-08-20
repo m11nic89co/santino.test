@@ -1,50 +1,35 @@
-# santino.test
+# Workspace: Santino + Crypto Bot
 
-Быстрый старт
+This workspace now has two clean projects:
 
-- Открыть в браузере VS Code (всегда актуальная версия):
-  - https://vscode.dev/github/m11nic89co/santino.test
-- Открыть в Codespaces (облачный VS Code, одинаковая среда):
-  - Используйте кнопку "Code" в GitHub → "Open with Codespaces".
+- santino/ — static website + tools for santino.ru.com
+- crypto-bot/ — Python trading bot (Docker + tests)
 
-Локально
+Open the multi-root workspace file `Santino-Crypto.code-workspace` (recommended). It provides a task for generating the OG image under the Santino folder.
 
-- Откройте файл рабочей области `DEV.code-workspace`.
-- Включите Settings Sync и войдите в GitHub.
-- Git auto fetch включён; при старте будет актуальный код.
+Extras:
+- archive/ — old `crypto-bot-wt` backup
 
-Сборка
+Notes:
+- Santino Node deps and env live under `santino/` now (`node_modules`, `package-lock.json`, `.env.example`, `.devcontainer`, `.github`).
+- Crypto Bot Python venv is at `crypto-bot/.venv`.
 
-- Test: `npm run build`
-- Prod: `npm run build:prod` (можно добавить BASE_URL)
-- Архив: `npm run archive` (создаст ZIP в `oldVersions`)
+## macOS
+- Ярлык для VS Code:
+	- Santino: `bash santino/scripts/macos/create-vscode-workspace-shortcut.sh "$(pwd)/santino/DEV.code-workspace" "Santino"`
+	- Crypto Bot: `bash santino/scripts/macos/create-vscode-workspace-shortcut.sh "$(pwd)/crypto-bot/crypto-bot.code-workspace" "Crypto Bot"`
+- Крипто-бот окружение:
+	- `cd crypto-bot && bash scripts/macos/bootstrap.sh`
+	- Активировать: `source .venv/bin/activate`
 
-CI/CD
+## Windows
+- Общий bootstrap для обоих проектов: `powershell -ExecutionPolicy Bypass -File scripts/windows/bootstrap-all.ps1`
+- Ярлыки уже созданы скриптами для Windows (см. `santino/scripts/windows/*`).
 
-- GitHub Pages: автосборка из `src` в `public` и публикация.
-- Daily ZIP: плановый workflow создаёт архив сборки и прикрепляет как artifact.
-
-Devcontainer
-
-- Для Codespaces/Dev Containers настроен Node 20 и автозагрузка зависимостей.
-
-Скрипты
-
-- build: сборка из src/ в public/ с минификацией CSS/JS и генерацией sitemap.xml.
-- build:prod: прод-сборка (BUILD_ENV=prod), корректный robots.txt и og:url при заданном BASE_URL.
-- archive: архивирует public/ в oldVersions/YYYY-MM-DD.zip.
-- release: build:prod + archive.
-- deploy: build:prod + SFTP деплой на ваш хостинг (настройте .env).
-
-Деплой на российский хостинг (SFTP)
-
-1. Скопируйте `.env.example` в `.env` и заполните:
-
-- BASE_URL (например, https://example.ru)
-- DEPLOY_HOST, DEPLOY_PORT, DEPLOY_USER
-- DEPLOY_PASS или DEPLOY_KEY_PATH
-- DEPLOY_REMOTE_DIR (например, /var/www/santino)
-
-2. Запустите `npm run deploy`.
-
-Примечание: Workflow GitHub Pages собирает сайт в режиме prod с BASE_URL, чтобы og:url и sitemap были валидными.
+## Единые версии и синхронизация (Mac/Windows)
+- Версии инструментов зафиксированы в `.tool-versions`: Node 20.15.0, Python 3.11.9.
+- Рекомендуется:
+	- Node: Volta (跨 ОС) или nvm-windows/macOS для закрепления Node 20.
+	- Python: pyenv (macOS) или py -3 / системный Python (Windows) + venv в `crypto-bot/.venv`.
+- Код и артефакты синхронизируйте через Git. Не коммитим: `node_modules`, `.venv`, `dist`, `.env*` (см. `.gitignore`).
+- VS Code: используйте `Santino-Crypto.code-workspace` на всех машинах — одинаковые задачи и структура.
