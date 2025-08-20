@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "public": true,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "github": { "enabled": true },
+  "buildCommand": "",
+  "outputDirectory": "santino.ru.com",
+  "framework": null,
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
+    }
+  ]
+}

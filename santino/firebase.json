@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "santino.ru.com",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
