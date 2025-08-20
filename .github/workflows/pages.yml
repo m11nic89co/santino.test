@@ -3,7 +3,7 @@ name: Deploy Santino to GitHub Pages
 on:
   push:
     branches:
-      - crypto-bot
+      - santino
   workflow_dispatch:
 
 permissions:
