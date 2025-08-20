@@ -3,7 +3,7 @@ name: Release build and archive
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 20 * * *' # daily at 20:00 UTC
+    - cron: "0 20 * * *" # daily at 20:00 UTC
 
 jobs:
   build-and-archive:
