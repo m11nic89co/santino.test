@@ -1,0 +1,36 @@
+name: paper-run
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Run paper (sync, short)
+        env:
+          EXCHANGE: binance
+          PAIR: BTC/USDT
+          TIMEFRAME: 1m
+          STRATEGY: crossover
+          TIMEOUT_MS: '12000'
+          AIOHTTP_TRUST_ENV: '1'
+          BINANCE_API_BASE: https://api-gcp.binance.com/api
+        run: |
+          python -m cryptobot.engine.run_paper --pair $PAIR --tf $TIMEFRAME --strategy $STRATEGY --limit 50 --sleep 0 --iterations 2 --timeout 12 --sync

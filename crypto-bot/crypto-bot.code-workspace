@@ -5,7 +5,7 @@
   "settings": {
     "git.autofetch": true,
     "window.restoreWindows": "all",
-    "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.defaultInterpreterPath": ".venv.win\\Scripts\\python.exe",
     "python.venvPath": ".venv",
     "files.exclude": {
       "**/__pycache__": true,

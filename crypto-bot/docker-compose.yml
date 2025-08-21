@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   cryptobot:
     build: .
@@ -15,4 +14,6 @@ services:
       - BASE_ORDER_USD=${BASE_ORDER_USD}
       - MAX_OPEN_POSITIONS=${MAX_OPEN_POSITIONS}
       - RISK_PCT=${RISK_PCT}
+    volumes:
+      - ./logs:/logs
     restart: unless-stopped

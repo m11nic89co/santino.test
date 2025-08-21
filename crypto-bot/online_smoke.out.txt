@@ -1,0 +1,2 @@
+{"ts": 1755766326, "mode": "sync", "status": "ERR", "error": "NetworkError", "msg": "binance GET https://api-gcp.binance.com/api/exchangeInfo"}
+{"ts": 1755766348, "mode": "async", "status": "ERR", "error": "TimeoutError", "msg": ""}

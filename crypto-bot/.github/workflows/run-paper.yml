@@ -1,0 +1,80 @@
+name: Run cryptobot paper (cloud)
+
+on:
+  workflow_dispatch:
+    inputs:
+      exchange:
+        description: Exchange id (ccxt)
+        required: false
+        default: binance
+      pair:
+        description: Trading pair
+        required: false
+        default: BTC/USDT
+      timeframe:
+        description: Timeframe
+        required: false
+        default: 1m
+      limit:
+        description: Number of candles
+        required: false
+        default: "50"
+      iterations:
+        description: Loop iterations (0=infinite)
+        required: false
+        default: "3"
+      timeout:
+        description: Network timeout (seconds)
+        required: false
+        default: "12"
+      sync:
+        description: Use synchronous CCXT client
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e .
+
+      - name: Run paper mode
+        env:
+          # Optional secrets for private endpoints; safe to leave empty
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+          API_PASSWORD: ${{ secrets.API_PASSWORD }}
+          # Use default Binance API; override here if needed
+          BINANCE_API_BASE: https://api.binance.com/api
+          AIOHTTP_TRUST_ENV: "1"
+        run: |
+          set -e
+          SYNC_FLAG=""
+          if [ "${{ inputs.sync }}" = "true" ]; then SYNC_FLAG="--sync"; fi
+          python -m cryptobot.engine.run_paper \
+            --exchange "${{ inputs.exchange }}" \
+            --pair "${{ inputs.pair }}" \
+            --tf "${{ inputs.timeframe }}" \
+            --limit ${{ inputs.limit }} \
+            --iterations ${{ inputs.iterations }} \
+            --sleep 0 \
+            --timeout ${{ inputs.timeout }} \
+            $SYNC_FLAG | tee run.log
+
+      - name: Upload run log
+        uses: actions/upload-artifact@v4
+        with:
+          name: cryptobot-paper-log
+          path: run.log
