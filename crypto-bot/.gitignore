@@ -1,3 +1,27 @@
+# Local environment
+.venv/
+.venv.win/
+venv/
+__pycache__/
+*.pyc
+
+# Archives and backups
+/backups/
+*.zip
+*.tar.gz
+
+# Editor/IDE
+.vscode/
+*.code-workspace
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs
+/logs/
+*.log
+
 # Python
 .venv/
 __pycache__/
