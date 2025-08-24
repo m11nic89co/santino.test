@@ -1,0 +1,23 @@
+name: SSH - list deploy directory
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh-list-dir:
+    name: List remote deploy directory
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: List remote directory via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          port: ${{ secrets.SFTP_PORT }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          script: |
+            echo "Listing: ${{ secrets.DEPLOY_REMOTE_DIR }}"
+            ls -la "${{ secrets.DEPLOY_REMOTE_DIR }}" || echo "ls failed"

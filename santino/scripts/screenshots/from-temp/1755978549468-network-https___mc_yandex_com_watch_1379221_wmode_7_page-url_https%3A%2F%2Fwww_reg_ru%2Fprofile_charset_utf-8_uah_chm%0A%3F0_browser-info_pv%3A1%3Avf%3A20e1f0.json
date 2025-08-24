@@ -1,0 +1,48 @@
+{
+  "url": "https://mc.yandex.com/watch/1379221?wmode=7&page-url=https%3A%2F%2Fwww.reg.ru%2Fprofile&charset=utf-8&uah=chm%0A%3F0&browser-info=pv%3A1%3Avf%3A20e1f0fh7e9qvbn3mx3nxr36qa6hn%3Afu%3A0%3Aen%3Autf-8%3Ala%3Aen-US%3Av%3A2164%3Acn%3A1%3Adp%3A0%3Als%3A540611800234%3Ahid%3A876501397%3Az%3A180%3Ai%3A20250823224909%3Aet%3A1755978549%3Ac%3A1%3Arn%3A978610163%3Arqn%3A10%3Au%3A1755978507309099890%3Aw%3A1366x768%3As%3A800x600x24%3Ask%3A1%3Afp%3A644%3Awv%3A2%3Ads%3A0%2C0%2C459%2C6%2C1%2C0%2C%2C229%2C30%2C%2C%2C%2C701%3Aco%3A0%3Ans%3A1755978548512%3Aadb%3A2%3Arqnl%3A1%3Ast%3A1755978549%3At%3A%D0%A1%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0%20%D0%BD%D0%B5%C2%A0%D0%BD%D0%B0%D0%B9%D0%B4%D0%B5%D0%BD%D0%B0%20%7C%20%D0%A0%D0%B5%D0%B3.%D1%80%D1%83&t=gdpr(14)clc(0-0-0)rqnt(1)aw(1)rcm(0)cdl(na)eco(84477700)ti(1)",
+  "headers": {
+    "accept-ch": "Sec-CH-UA-Bitness, Sec-CH-UA-Arch, Sec-CH-UA-Full-Version, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform, Sec-CH-UA, UA-Bitness, UA-Arch, UA-Full-Version, UA-Mobile, UA-Model, UA-Platform-Version, UA-Platform, UA",
+    "access-control-allow-credentials": "true",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "cache-control": "private, no-cache, no-store, must-revalidate, max-age=0",
+    "content-length": "698",
+    "content-type": "application/json; charset=utf-8",
+    "expires": "Sat, 23-Aug-2025 19:49:09 GMT",
+    "last-modified": "Sat, 23-Aug-2025 19:49:09 GMT",
+    "pragma": "no-cache",
+    "set-cookie": "receive-cookie-deprecation=1; Expires=Sun, 23-Aug-2026 19:49:09 GMT; Domain=.yandex.com; Path=/; SameSite=None; Secure; HttpOnly; Partitioned\n_yasc=RAQinCmzDnXVQ9wWQqbLFq5Wv8sv+z08YDzYfOdA5NV0A1MCIkc+4PC5iE6Emop1Pas=; domain=.yandex.com; path=/; expires=Tue, 21 Aug 2035 19:49:09 GMT; secure",
+    "strict-transport-security": "max-age=31536000",
+    "x-content-type-options": "nosniff",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "settings": {
+      "auto_goals": 1,
+      "button_goals": 1,
+      "c_recp": "1.00000",
+      "form_goals": 1,
+      "pcs": "1",
+      "publisher": {
+        "schema": "microdata"
+      },
+      "webvisor": {
+        "arch_type": "html",
+        "date": "2024-03-01 12:41:19",
+        "forms": 1,
+        "recp": "1.00000",
+        "urls": "regexp:.*"
+      },
+      "sbp": {
+        "a": "zAG2QYdLsoStJZbthOf/1n7nfrcl/g1ACOp7i2LfYHVCpLVEQTSD/pDFTLTnucUh",
+        "b": "dGCjji/zAr1+5dY/lKFU7b77pZnBYmC2owKYdXDZobYQ9nVYec/3qaX0JnQ3ngGD"
+      },
+      "eu": 1,
+      "hittoken": "1755978549_ea2ca10d0f7cbf8129f889ce532b0f7ea70aec9769cd24627ce488dfe563a8e2",
+      "cf": 1,
+      "oauth": 1,
+      "wstoken": "10767.yg5YorSsOnCW31XhLkwjRKKyeLNEAIHjkyBEeFpJ7tTFkDOzeGeVL3rIhSKGCGNFriHb6UENytcgaFJ-NxciLMZB3Zsb08SeNsfGH2NQ7Ww,.1QecTTpJ_vYOjHlqdSH-0Wxem3k,",
+      "ymclid": "4888290750143660305"
+    },
+    "userData": {}
+  }
+}

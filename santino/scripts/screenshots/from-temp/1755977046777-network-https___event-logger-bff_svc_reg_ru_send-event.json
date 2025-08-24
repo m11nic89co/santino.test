@@ -1,0 +1,18 @@
+{
+  "url": "https://event-logger-bff.svc.reg.ru/send-event",
+  "headers": {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "content-length": "14",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:24:06 GMT",
+    "etag": "W/\"e-hDOZGZ11/MTPwZq/A8sGFlQzkPc\"",
+    "server": "nginx",
+    "vary": "Origin",
+    "x-powered-by": "Express",
+    "x-request-id": "9f58d9a7c167ee2a2fbfa02f2a48c59d"
+  },
+  "body": {
+    "error": null
+  }
+}

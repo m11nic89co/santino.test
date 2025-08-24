@@ -1,0 +1,48 @@
+{
+  "url": "https://mc.yandex.com/watch/1379221?wmode=7&page-url=https%3A%2F%2Fwww.reg.ru%2F&page-ref=https%3A%2F%2Fwww.reg.ru%2Fmanager&charset=utf-8&uah=chm%0A%3F0&browser-info=pv%3A1%3Avf%3A20e1f0fh7e9qvbn3mx3nxr36qa6hn%3Afu%3A0%3Aen%3Autf-8%3Ala%3Aen-US%3Av%3A2164%3Acn%3A1%3Adp%3A0%3Als%3A137367604228%3Ahid%3A286644106%3Az%3A180%3Ai%3A20250823222921%3Aet%3A1755977361%3Ac%3A1%3Arn%3A658961403%3Arqn%3A8%3Au%3A175597732033291891%3Aw%3A1366x768%3As%3A800x600x24%3Ask%3A1%3Afp%3A856%3Awv%3A2%3Ads%3A0%2C0%2C169%2C4%2C2%2C0%2C%2C717%2C25%2C%2C%2C%2C1069%3Aco%3A0%3Ans%3A1755977360120%3Aadb%3A2%3Arqnl%3A1%3Ast%3A1755977361%3At%3A%D0%A0%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%20%D0%A0%D0%A4%2FRU%20%D1%83%20%D0%B0%D0%BA%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%20%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%20%7C%20%D0%9D%D0%B5%D0%B4%D0%BE%D1%80%D0%BE%D0%B3%D0%BE%D0%B9%20%D1%85%D0%BE%D1%81%D1%82%D0%B8%D0%BD%D0%B3%20%D0%B8%20%D0%B4%D0%B5%D1%88%D0%B5%D0%B2%D1%8B%D0%B5%20%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D1%8B%20%7C%20%D0%A0%D0%B5%D0%B3.%D1%80%D1%83&t=gdpr(14)clc(0-0-0)rqnt(1)aw(1)rcm(0)cdl(na)eco(84477700)ti(1)",
+  "headers": {
+    "accept-ch": "Sec-CH-UA-Bitness, Sec-CH-UA-Arch, Sec-CH-UA-Full-Version, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform, Sec-CH-UA, UA-Bitness, UA-Arch, UA-Full-Version, UA-Mobile, UA-Model, UA-Platform-Version, UA-Platform, UA",
+    "access-control-allow-credentials": "true",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "cache-control": "private, no-cache, no-store, must-revalidate, max-age=0",
+    "content-length": "698",
+    "content-type": "application/json; charset=utf-8",
+    "expires": "Sat, 23-Aug-2025 19:29:21 GMT",
+    "last-modified": "Sat, 23-Aug-2025 19:29:21 GMT",
+    "pragma": "no-cache",
+    "set-cookie": "receive-cookie-deprecation=1; Expires=Sun, 23-Aug-2026 19:29:21 GMT; Domain=.yandex.com; Path=/; SameSite=None; Secure; HttpOnly; Partitioned",
+    "strict-transport-security": "max-age=31536000",
+    "x-content-type-options": "nosniff",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "settings": {
+      "auto_goals": 1,
+      "button_goals": 1,
+      "c_recp": "1.00000",
+      "form_goals": 1,
+      "pcs": "1",
+      "publisher": {
+        "schema": "microdata"
+      },
+      "webvisor": {
+        "arch_type": "html",
+        "date": "2024-03-01 12:41:19",
+        "forms": 1,
+        "recp": "1.00000",
+        "urls": "regexp:.*"
+      },
+      "sbp": {
+        "a": "lOgGFWvZWrMnf/8+wdxGIofuj16JI74zH9AlfJBWBJFAE9m6fNBvKmIlZ5HYRPgD",
+        "b": "tbOLB+CET5YNBPmbtXbEfkccg4UqUfDZ2iyk/PbyQB7VIzFzrHLwu6cDdTsuOhDK"
+      },
+      "eu": 1,
+      "hittoken": "1755977361_dd867418af28518e174aee676a0e542e8f13ccc5c28679874104e07a8d3f67e0",
+      "cf": 1,
+      "oauth": 1,
+      "wstoken": "10767.UdDf2ydlQToSRuzShKXrmo5y3a2YIagSmJo3ZXNU38g0Oid2IhSr1pQB-kr9GAXFdbSlAIicvNM3ZKjUzbyK9r9_C5h8k6mTjMC9PRyV0GE,.R-nZjhsnTKymzwpV7mT2LMkBaLM,",
+      "ymclid": "4887979328111116467"
+    },
+    "userData": {}
+  }
+}

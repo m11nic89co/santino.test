@@ -1,0 +1,15 @@
+{
+  "url": "https://hitcrypt.tonzz3.ru/",
+  "headers": {
+    "access-control-allow-headers": "X-Requested-With, Content-Type",
+    "access-control-allow-methods": "GET, POST, OPTIONS",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "content-length": "718",
+    "content-type": "application/json",
+    "date": "Sat, 23 Aug 2025 19:48:51 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+  },
+  "body": {
+    "result": "=202501133NgmV1pWrSLU4AXSwrsClL69PdJd7IZMD3rAJxogsFEjdkWvJe9bsIrvUOojQNkLVCE8g5jIbK6lGqp1v5zXLgJ02it6VLQrCC5T24805uCSigvJ3G62uPaTkf6+wT1zueT7qIQxoN3MTdONcvfA+rmk3DGxLKFKPYCEsSx+ovub/bWeRrK7FG7kTaTQRnpEMGbsm95Ir8OnhdKocNWSmKL2A3JXBXWOhaEy5UZ5R6igfVvJDwxWGBTQxKLTB7XZnVRCgV/Px9otwotqoJ7HTqOTqHZ0IM8wb2DEgk7T8KbGnUx2A2g2+l26BaR2Py2QMq3gx6bVde7YyC27mB91+iUl8qKPheP91P3y33bCS/SonAJUhFOzPCZyN78WcxWZxsCkW3/FWIuTfUrq27f29JhKcGIjHUSDb5fVpU3gO52h4eBqdL5Gzx9Ky1tohGn5+qPWVOdSCYg5IxABVkKy78T/Eyl4PixaiDKwz91MLlCMgwj/wwhb4pgH0OACwL7xlr6wiSI/iUOW3BqvZ+OxPBAC3Vi4OYztFrQbQwdc3BXbcEZbuS2f9EQcJ/jwbIuZ1soBk4A2PEyr40KUGiYgfSKlkcXKjjb4UoI3DZcHFKs2fFDHrcc2gMDMJGcRE6U2E9t/wsH+mmxFFK9D3zvSb0ua6TIaNx35jUMWm2ww7Brje+ea7+2ZQfc="
+  }
+}

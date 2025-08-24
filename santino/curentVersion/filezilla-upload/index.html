@@ -1,0 +1,217 @@
+﻿gh secret set CF_API_TOKEN   -R m11nic89co/santino.test
+# вставьте токен, Enter
+
+gh secret set CF_ACCOUNT_ID  -R m11nic89co/santino.test
+# вставьте Account ID, Enter
+
+gh secret list -R m11nic89co/santino.test<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+	<title>SANTINO | Премиум пластик</title>
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="googlebot" content="noindex, nofollow">
+	<link rel="icon" href="assets/logos/santino_magneto_outlined.svg" type="image/svg+xml">
+	<link rel="icon" sizes="32x32" href="assets/images/favicon-32x32.png" type="image/png">
+	<link rel="icon" sizes="16x16" href="assets/images/favicon-16x16.png" type="image/png">
+	<link rel="apple-touch-icon" sizes="120x120" href="assets/images/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="assets/images/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="167x167" href="assets/images/apple-touch-icon-167x167.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+	<link rel="mask-icon" href="assets/images/safari-pinned-tab.svg" color="#0b0b0b">
+	<link rel="manifest" href="site.webmanifest">
+	<meta name="theme-color" content="#0b0b0b">
+	<link rel="alternate icon" href="assets/images/SantinoLogo.gif" type="image/gif">
+	<meta property="og:title" content="SANTINO | Премиум пластик">
+	<meta property="og:description" content="Завод премиальных пластиковых изделий">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://m11nic89co.github.io/santino.test/">
+	<meta property="og:image" content="assets/images/santino_og.png">
+	<meta name="twitter:card" content="summary_large_image">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap&subset=cyrillic"
+		rel="stylesheet">
+	<!-- Magneto-like fallbacks (cannot bundle Magneto due to licensing). If Magneto installed locally, it will be used. -->
+	<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
+	<style>
+		   :root {
+			   --bg: #222831;
+			   --text: #EEEEEE;
+			   --accent: #00ADB5;
+			   --gray: #393E46;
+			   --radius: 18px;
+			   --font-main: 'Inter', sans-serif;
+			   --font-tech: 'Bebas Neue', 'Inter', sans-serif;
+		   }
+
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		   body {
+			   min-height: 100vh;
+			   min-height: 100svh; /* mobile dynamic viewport */
+			   background: linear-gradient(120deg, #222831 0%, #393E46 100%);
+			   color: var(--text);
+			   font-family: var(--font-main);
+			   letter-spacing: 0.01em;
+			   overflow-x: hidden;
+			   overscroll-behavior: none; /* prevent rubber-banding on mobile */
+			   position: relative;
+			   font-size: 18px;
+			   opacity: 1;
+			   transition: opacity 0.7s cubic-bezier(.77, 0, .18, 1);
+		   }
+
+		/* Scrollbar styling (desktop/Android). iOS hides scrollbars by default. */
+		:root { scrollbar-color: var(--gray) transparent; scrollbar-width: thin; }
+		::-webkit-scrollbar { width: 10px; height: 10px; }
+		::-webkit-scrollbar-track {</style>
+<link rel="stylesheet" href="assets/css/style-6ddc9bd3.css">
+</head>
+
+<body class="site-hidden">
+	<div class="loader-bg" id="loader-bg">
+		<div class="loader-content">
+			<span class="loader-logo" aria-label="Santino"><img src="assets/logos/santino_magneto_outlined.svg" alt="Santino logo" /></span>
+			<div class="loader-bar-wrap">
+				<div class="loader-bar" id="loader-bar"></div>
+			</div>
+		</div>
+	</div>
+	<div id="paparazzi-flash" class="paparazzi-flash" style="display:none"></div>
+	<div id="afterflash" class="afterflash"></div>
+		<header>
+			<div class="nav-bar">
+				<ul class="nav-list nav-left">
+					<li><a href="#" data-slide="0">Главная</a></li>
+					<li><a href="#" data-slide="1">О компании</a></li>
+					<li><a href="#" data-slide="2">Продукция</a></li>
+				</ul>
+				<span class="logo" id="main-logo" style="display: flex; align-items: center; justify-content: center;">
+					<img src="assets/logos/santino_magneto_outlined.svg" alt="Santino logo" />
+				</span>
+				<div style="display:flex; align-items:center; gap:10px; justify-self:end;">
+					<ul class="nav-list nav-right">
+						<li><a href="#" data-slide="3">Качество</a></li>
+						<li><a href="#" data-slide="4">Логистика</a></li>
+						<li><a href="#" data-slide="5">Контакты</a></li>
+					</ul>
+					<button class="hamburger" id="hamburger" aria-controls="mobile-menu" aria-expanded="false">Меню</button>
+				</div>
+				<div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Мобильное меню">
+					<ul>
+						<li><a href="#" data-slide="0">Главная</a></li>
+						<li><a href="#" data-slide="1">О компании</a></li>
+						<li><a href="#" data-slide="2">Продукция</a></li>
+						<li><a href="#" data-slide="3">Качество</a></li>
+						<li><a href="#" data-slide="4">Логистика</a></li>
+						<li><a href="#" data-slide="5">Контакты</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<main>
+				<div class="main-3d-container">
+					<div class="slides" id="slides">
+						<section id="home" class="slide hero-section fullscreen section-3d section-3d-in" data-design-size="1440x900">
+				<div class="fit-inner">
+					<div class="hero-core">
+						<h1 class="hero-title">
+							<span class="hero-title-main">Завод</span>
+							<span class="hero-title-rest">премиальных пластиковых изделий</span>
+						</h1>
+						<div class="hero-desc">Современный дизайн. Высокое качество. Производство и доставка по РФ и СНГ.
+						</div>
+												<a href="#" class="btn" data-slide="5">Получить прайс-лист</a>
+					</div>
+				</div>
+				<div class="hero-subtle">нам доверяют с&nbsp;2014&nbsp;года</div>
+				<div class="ticker-wrap">
+					<div class="ticker" id="ticker">
+						<div class="ticker-track" id="ticker-track">
+							<div class="ticker-segment" id="ticker-segment">
+								<span class="ticker-item"><span class="logo-badge" data-brand="magnit"><img class="logo-img"
+											src="assets/logos/magnit.svg" alt="Магнит" loading="lazy" /><span
+											class="badge-label">Магнит</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="pyaterochka"><img
+											class="logo-img" src="assets/logos/pyaterochka.svg" alt="Пятёрочка"
+											loading="lazy" /><span class="badge-label">Пятёрочка</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="perekrestok"><img
+											class="logo-img" src="assets/logos/perekrestok.svg" alt="Перекрёсток"
+											loading="lazy" /><span class="badge-label">Перекрёсток</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="lenta"><img class="logo-img"
+											src="assets/logos/lenta.svg" alt="Лента" loading="lazy" /><span
+											class="badge-label">Лента</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="okey"><img class="logo-img"
+											src="assets/logos/okei.svg" alt="О’КЕЙ" loading="lazy" /><span
+											class="badge-label">О’КЕЙ</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="auchan"><img class="logo-img"
+											src="assets/logos/auchan.svg" alt="Ашан" loading="lazy" /><span
+											class="badge-label">Ашан</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="metro"><img class="logo-img"
+											src="assets/logos/metro.svg" alt="METRO" loading="lazy" /><span
+											class="badge-label">METRO</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="fix-price"><img class="logo-img"
+											src="assets/logos/fix-price.svg" alt="Fix Price" loading="lazy" /><span
+											class="badge-label">Fix Price</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="vkusvill"><img class="logo-img"
+											src="assets/logos/vkusvill.svg" alt="ВкусВилл" loading="lazy" /><span
+											class="badge-label">ВкусВилл</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="spar"><img class="logo-img"
+											src="assets/logos/spar.svg" alt="SPAR" loading="lazy" /><span
+											class="badge-label">SPAR</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="lemana-pro"><img class="logo-img"
+											src="assets/logos/lemana-pro.svg" alt="Лемана ПРО" loading="lazy" /><span
+											class="badge-label">Лемана ПРО</span></span></span>
+							</div>
+							<!-- duplicated via JS for seamless loop -->
+						</div>
+					</div>
+				</div>
+	    </section>
+	    <section id="slide1" class="slide slide-section">
+				<div class="slide-inner">
+					<h2 class="slide-title">Производим премиальные пластиковые изделия</h2>
+					<p class="slide-text">С 2014 года проектируем, отливаем и поставляем решения для ритейла и HoReCa. Современный парк оборудования, собственное КД и контроль качества на каждом этапе.</p>
+				</div>
+			</section>
+	    <section id="slide2" class="slide slide-section">
+				<div class="slide-inner">
+					<h2 class="slide-title">Лотки, контейнеры, подложки, крышки</h2>
+					<p class="slide-text">Ассортимент закрывает ключевые сценарии выкладки и доставки. Работаем под ваш бренд, подбираем материалы и геометрию под задачу, обеспечиваем стабильные партии.</p>
+				</div>
+			</section>
+	    <section id="slide3" class="slide slide-section">
+				<div class="slide-inner">
+					<h2 class="slide-title">Качество и безопасность</h2>
+					<p class="slide-text">Используем пищевые материалы, выдерживаем допуски, тестируем сырьё и готовую продукцию. Документы и образцы предоставляем оперативно.</p>
+				</div>
+			</section>
+	    <section id="slide4" class="slide slide-section">
+				<div class="slide-inner">
+					<h2 class="slide-title">Сроки и логистика</h2>
+					<p class="slide-text">Производим и отгружаем по РФ и СНГ. Помогаем с маршрутом, упаковкой и паллетизацией. Привезём в нужные окна и по вашим правилам приёмки.</p>
+				</div>
+			</section>
+	    <section id="slide5" class="slide slide-section">
+				<div class="slide-inner">
+					<h2 class="slide-title">Свяжитесь с нами</h2>
+					<p class="slide-text">Получите актуальный прайс‑лист и рекомендации по оптимальному решению под вашу задачу. Напишите нам, и менеджер свяжется в ближайшее время.</p>
+		    <p class="slide-text"><a href="#" class="btn" data-slide="5" style="pointer-events:auto">Получить прайс‑лист</a></p>
+				</div>
+			</section>
+	  </div>
+		</div>
+	</main>
+	
+  <script defer src="assets/js/main-795cb604.js"></script>
+</body>
+
+</html>
+

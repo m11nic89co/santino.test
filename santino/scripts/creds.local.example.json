@@ -1,0 +1,10 @@
+{
+  "regru": {
+    "panel_url": "https://server101.hosting.reg.ru/manager",
+    "login": "u2852181",
+    "password": "your-temporary-password",
+    "api_token": "optional-api-token-if-available"
+  },
+  "domain": "santino.com.ru",
+  "document_root": "/var/www/u2852181/data/www/santino"
+}

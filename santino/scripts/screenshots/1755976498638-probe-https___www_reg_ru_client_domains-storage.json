@@ -1,0 +1,96 @@
+{
+  "url": "https://www.reg.ru/client/domains",
+  "cookies": [
+    {
+      "name": "__lhash_",
+      "value": "5b0baeae38981ff1a363d33b6e63b4d1",
+      "domain": "www.reg.ru",
+      "path": "/",
+      "expires": 1756581298.524247,
+      "size": 40,
+      "httpOnly": false,
+      "secure": true,
+      "session": false,
+      "sameSite": "None",
+      "sameParty": false,
+      "sourceScheme": "Secure",
+      "sourcePort": 443,
+      "partitionKey": {
+        "topLevelSite": "https://reg.ru",
+        "hasCrossSiteAncestor": false
+      }
+    },
+    {
+      "name": "__hash_",
+      "value": "25e88906b8013127b79ee0260c62da33",
+      "domain": ".reg.ru",
+      "path": "/",
+      "expires": 1755977398.191713,
+      "size": 39,
+      "httpOnly": false,
+      "secure": false,
+      "session": false,
+      "sameParty": false,
+      "sourceScheme": "Secure",
+      "sourcePort": 443
+    },
+    {
+      "name": "__jua_",
+      "value": "Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F141.0.0.0%20Safari%2F537.36",
+      "domain": "www.reg.ru",
+      "path": "/",
+      "expires": 1755977398.020848,
+      "size": 161,
+      "httpOnly": false,
+      "secure": false,
+      "session": false,
+      "sameParty": false,
+      "sourceScheme": "Secure",
+      "sourcePort": 443
+    },
+    {
+      "name": "SESSION_ID",
+      "value": "a2ab9cca327affabab6614e5d0fc61bbbb8ff5f7",
+      "domain": ".reg.ru",
+      "path": "/",
+      "expires": 1756149298.52471,
+      "size": 50,
+      "httpOnly": true,
+      "secure": true,
+      "session": false,
+      "sameParty": false,
+      "sourceScheme": "Secure",
+      "sourcePort": 443
+    },
+    {
+      "name": "__js_p_",
+      "value": "498,900,0,0,0",
+      "domain": "www.reg.ru",
+      "path": "/",
+      "expires": -1,
+      "size": 20,
+      "httpOnly": false,
+      "secure": false,
+      "session": true,
+      "sameParty": false,
+      "sourceScheme": "Secure",
+      "sourcePort": 443
+    },
+    {
+      "name": "__jhash_",
+      "value": "842",
+      "domain": "www.reg.ru",
+      "path": "/",
+      "expires": 1755977398.020482,
+      "size": 11,
+      "httpOnly": false,
+      "secure": false,
+      "session": false,
+      "sameParty": false,
+      "sourceScheme": "Secure",
+      "sourcePort": 443
+    }
+  ],
+  "localStorage": "{}",
+  "sessionStorage": "{}"
+}

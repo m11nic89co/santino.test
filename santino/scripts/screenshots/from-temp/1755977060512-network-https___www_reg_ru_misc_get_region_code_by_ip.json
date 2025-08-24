@@ -1,0 +1,18 @@
+{
+  "url": "https://www.reg.ru/misc/get_region_code_by_ip",
+  "headers": {
+    "cache-control": "no-cache, no-store",
+    "content-encoding": "gzip",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:24:20 GMT",
+    "server": "Angie",
+    "set-cookie": "SESSION_ID=963f50f487d70aa01561b4c07097b2508700f1ff; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:24:20 GMT; secure; HttpOnly",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-request-id": "2e7a24d76a578d5257b3a2550d05a7ba",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "iso_code": null
+  }
+}

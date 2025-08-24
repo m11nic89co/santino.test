@@ -1,0 +1,10 @@
+name: (DISABLED) Netlify
+
+on:
+  workflow_dispatch:
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Netlify workflow disabled. Use SFTP deploy."

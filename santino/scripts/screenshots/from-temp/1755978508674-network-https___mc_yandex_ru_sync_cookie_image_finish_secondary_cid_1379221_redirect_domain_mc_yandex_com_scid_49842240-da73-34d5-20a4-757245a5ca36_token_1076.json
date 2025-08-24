@@ -1,0 +1,11 @@
+{
+  "url": "https://mc.yandex.ru/sync_cookie_image_finish_secondary?cid=1379221&redirect_domain=mc.yandex.com&scid=49842240-da73-34d5-20a4-757245a5ca36&token=10767.lbpv5DKg8NtBt4Vb6fEIySg2dWSSuM-6_5ex3YjSaq-cPKxtEPxHX_9copecWVFlm5vSOqWhHeCnvc9AApc8NB5eFjq_g9XWxlYbnEEAbe4YDaFZONgepwFABJXe-Y0kLdM3D4tOJIdGkqDkop5Sj1COcKVLSCvTxYjFhGeC4FTKSipq6D_l6Nc_Bi9FiHYIjw-K0fu6bFvjiyvE5IJdGQ%2C%2C.Pj4qMXhmfHjvTrOL4WNWZ1RmTKU%2C",
+  "headers": {
+    "content-length": "43",
+    "content-type": "image/gif",
+    "set-cookie": "yandexuid=4990832241755978507; Expires=Tue, 21-Aug-2035 19:48:28 GMT; Domain=.yandex.ru; Path=/; SameSite=None; Secure\nyuidss=4990832241755978507; Expires=Tue, 21-Aug-2035 19:48:28 GMT; Domain=.yandex.ru; Path=/; SameSite=None; Secure\ni=Z0Xu/xVOc3vor9XtDF38SuLfHdhS3MlRuCBSXreArJtsIbdvHY8MM+IEV9xxlxDbKJ2xTDMKAyyR/k7Blir1uuaFJiQ=; Expires=Tue, 21-Aug-2035 19:48:28 GMT; Domain=.yandex.ru; Path=/; SameSite=None; Secure",
+    "strict-transport-security": "max-age=31536000",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": "GIF89a\u0001\u0000\u0001\u0000�\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000!�\u0004\u0001\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0002\u0002D\u0001\u0000;"
+}

@@ -1,0 +1,2 @@
+// loader-failsafe.js — forces loader to hide after a timeout if main script doesn't complete
+(function(){try{const FAILSAFE_MS=6000;window.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{try{const loaderBg=document.getElementById('loader-bg');const main=document.querySelector('main');const body=document.body;if(loaderBg)loaderBg.classList.add('hide');if(body)body.classList.remove('site-hidden');if(main){main.style.opacity='';main.style.transform='';main.classList.add('site-visible');} }catch(_){ }},FAILSAFE_MS);});}catch(_){}})();

@@ -2,7 +2,7 @@
   "name": "santino.dev",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "features": {},
-  "postCreateCommand": "npm ci",
+  "postCreateCommand": "npm install --no-fund --no-audit",
   "customizations": {
     "vscode": {
       "extensions": [

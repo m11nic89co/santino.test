@@ -1,0 +1,18 @@
+{
+  "url": "https://www.reg.ru/misc/feature_status?name=new_domain_selection",
+  "headers": {
+    "cache-control": "no-cache, no-store",
+    "content-encoding": "gzip",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:49:22 GMT",
+    "server": "Angie",
+    "set-cookie": "SESSION_ID=ec32dc6ccf85a2c4c128905e11595672e5644681; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:49:22 GMT; secure; HttpOnly",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-request-id": "8c06c0b70e4483b162a2c7d52c6fa958",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "status": 1
+  }
+}

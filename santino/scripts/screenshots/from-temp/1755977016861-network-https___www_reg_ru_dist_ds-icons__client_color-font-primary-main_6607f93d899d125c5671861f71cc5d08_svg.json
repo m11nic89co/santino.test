@@ -1,0 +1,19 @@
+{
+  "url": "https://www.reg.ru/dist/ds-icons__client_color-font-primary-main.6607f93d899d125c5671861f71cc5d08.svg",
+  "headers": {
+    "cache-control": "max-age=30758400",
+    "content-encoding": "gzip",
+    "content-security-policy": "block-all-mixed-content",
+    "content-type": "image/svg+xml",
+    "date": "Sat, 23 Aug 2025 19:23:36 GMT",
+    "etag": "W/\"6607f93d899d125c5671861f71cc5d08\"",
+    "expires": "Fri, 14 Aug 2026 18:58:12 GMT",
+    "last-modified": "Mon, 04 Sep 2023 09:28:06 GMT",
+    "server": "Angie",
+    "vary": "Accept-Encoding\nOrigin",
+    "x-amz-meta-mtime": "1755861430",
+    "x-request-id": "d8aea07aae24f0bca6b77ba2528dd951",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\"><path fill=\"#2b2f33\" d=\"M7 15h10a2 2 0 0 1 2 2v4h2v-4a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v4h2v-4a2 2 0 0 1 2-2Z\"/><path fill=\"#2b2f33\" fill-rule=\"evenodd\" d=\"M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 2a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z\" clip-rule=\"evenodd\"/></svg>"
+}

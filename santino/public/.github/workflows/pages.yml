@@ -49,3 +49,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Disabled nested workflow"

@@ -1,0 +1,48 @@
+{
+  "files": {
+    "1755977066886-network-https___www_reg_ru_client_domains.json": {
+      "url": "https://www.reg.ru/client/domains",
+      "headers": {
+        "content-encoding": "gzip",
+        "content-language": "ru",
+        "content-type": "text/html; charset=UTF-8",
+        "date": "Sat, 23 Aug 2025 19:24:26 GMT",
+        "server": "Angie",
+        "set-cookie": "SESSION_ID=963f50f487d70aa01561b4c07097b2508700f1ff; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:24:26 GMT; secure; HttpOnly",
+        "x-request-id": "6ef59a872931f2680239de2b65f64f40",
+        "x-ua-compatible": "IE=edge,chrome=IE8"
+      },
+      "jsonBodies": [],
+      "csrf": "779daa15b7e578c12a94b1876f916de2",
+      "setCookies": [
+        "SESSION_ID=963f50f487d70aa01561b4c07097b2508700f1ff; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:24:26 GMT; secure; HttpOnly"
+      ]
+    },
+    "1755977379874-network-https___www_reg_ru_client_domains.json": {
+      "url": "https://www.reg.ru/client/domains",
+      "headers": {
+        "content-encoding": "gzip",
+        "content-language": "ru",
+        "content-type": "text/html; charset=UTF-8",
+        "date": "Sat, 23 Aug 2025 19:29:39 GMT",
+        "server": "Angie",
+        "set-cookie": "SESSION_ID=be94a9e0c2c596df0e50305dd2430d818ac9d9f6; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:29:39 GMT; secure; HttpOnly",
+        "x-request-id": "e06cebaa12fa3b59ae6dd85a035fae45",
+        "x-ua-compatible": "IE=edge,chrome=IE8"
+      },
+      "jsonBodies": [],
+      "csrf": "053f3fa77c077d454d127b069dd7deb6",
+      "setCookies": [
+        "SESSION_ID=be94a9e0c2c596df0e50305dd2430d818ac9d9f6; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:29:39 GMT; secure; HttpOnly"
+      ]
+    }
+  },
+  "summary": {
+    "totalFiles": 2,
+    "totalJsonBodies": 0,
+    "csrfTokens": [
+      "779daa15b7e578c12a94b1876f916de2",
+      "053f3fa77c077d454d127b069dd7deb6"
+    ]
+  }
+}

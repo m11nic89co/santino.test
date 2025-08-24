@@ -1,0 +1,53 @@
+{
+  "url": "https://showcase-static.reg.ru/_nuxt/static/builds/meta/13273f3d-9877-4aa8-973b-2ee74d081f59.json",
+  "headers": {
+    "access-control-allow-origin": "https://www.reg.ru",
+    "cache-control": "public, max-age=31536000, immutable",
+    "content-encoding": "gzip",
+    "content-type": "application/json",
+    "date": "Sat, 23 Aug 2025 19:29:45 GMT",
+    "etag": "W/\"2ab-4w1tuZQIYwx/NkaDMEbjcgXo3kA\"",
+    "last-modified": "Fri, 22 Aug 2025 13:30:55 GMT",
+    "server": "Angie",
+    "vary": "Accept-Encoding",
+    "x-request-id": "9eab7f3cb7f80a5c7ef00d3efdc01947"
+  },
+  "body": {
+    "id": "13273f3d-9877-4aa8-973b-2ee74d081f59",
+    "timestamp": 1755869284577,
+    "matcher": {
+      "static": {
+        "/solutions": {
+          "redirect": "/solutions/catalog"
+        },
+        "/__nuxt_content/posters/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/chatConfigs/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/menu/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/menuChapters/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/menuHelpConfig/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/tariffArticles/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/phpTable/sql_dump.txt": {
+          "prerender": true
+        },
+        "/__nuxt_content/productActionDetails/sql_dump.txt": {
+          "prerender": true
+        }
+      },
+      "wildcard": {},
+      "dynamic": {}
+    },
+    "prerendered": []
+  }
+}

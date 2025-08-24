@@ -1,0 +1,340 @@
+{
+  "url": "https://server101.hosting.reg.ru/manager/ispmgr",
+  "headers": {
+    "cache-control": "no-cache",
+    "content-type": "application/json; charset=UTF-8",
+    "date": "Sat, 23 Aug 2025 19:47:43 GMT",
+    "pragma": "no-cache",
+    "server": "nginx",
+    "set-cookie": "ispmgrlang5=dragon:en; path=/; expires=Sun, 23 Aug 2026 22:47:43 MSK; Secure; HttpOnly",
+    "strict-transport-security": "max-age=31536000;",
+    "x-frame-options": "SAMEORIGIN"
+  },
+  "body": {
+    "doc": {
+      "$lang": "en",
+      "$func": "logon",
+      "$binary": "/manager/ispmgr",
+      "$host": "https://server101.hosting.reg.ru",
+      "$themename": "dragon",
+      "$stylesheet": "login",
+      "$features": "0701a6a12d7d44117cf15909863e50d2",
+      "$notify": "",
+      "$theme": "/manimg/dragon/",
+      "$css": "main.css",
+      "$logo": "login-logo-ispmgr.svg",
+      "$darklogo": "login-theme-dark-logo-ispmgr.svg",
+      "$background": "background-ispmgr.svg",
+      "$logolink": "",
+      "$favicon": "favicon-ispmgr.ico",
+      "$localdir": "local_08cb201e735f/",
+      "error": {
+        "$type": "auth",
+        "$object": "badpassword",
+        "$lang": "en",
+        "detail": {
+          "$": "Invalid username or password "
+        },
+        "msg": {
+          "$": "Invalid username or password "
+        },
+        "param": [
+          {
+            "$name": "object",
+            "$type": "msg",
+            "$": "badpassword"
+          },
+          {
+            "$name": "value",
+            "$": "remote_addr: [185.104.183.24]"
+          }
+        ],
+        "stack": {
+          "action": {
+            "$level": "0",
+            "$user": "",
+            "$": "auth"
+          }
+        }
+      },
+      "links": {
+        "copyright": {
+          "$href": "https://www.ispmanager.com/?utm_source=ispmanager_panel",
+          "$": "Ispmanager &copy; 2025"
+        }
+      },
+      "loginform": {
+        "$user": "dkdgroup@outlook.com",
+        "$pwd": "",
+        "$lang": "en",
+        "$theme": "dragon",
+        "lang": [
+          {
+            "$": "en"
+          },
+          {
+            "$": "ru"
+          },
+          {
+            "$": "be"
+          },
+          {
+            "$": "de"
+          },
+          {
+            "$": "es"
+          },
+          {
+            "$": "fr"
+          },
+          {
+            "$": "id"
+          },
+          {
+            "$": "it"
+          },
+          {
+            "$": "nl"
+          },
+          {
+            "$": "pl"
+          },
+          {
+            "$": "pt"
+          },
+          {
+            "$": "tr"
+          },
+          {
+            "$": "ua"
+          },
+          {
+            "$": "zh"
+          }
+        ],
+        "theme": [
+          {
+            "$name": "dragon",
+            "$": "dragon"
+          },
+          {
+            "$name": "robots-default.txt",
+            "$": "robots-default.txt"
+          },
+          {
+            "$name": "orion",
+            "$": "orion"
+          }
+        ]
+      },
+      "messages": {
+        "$name": "login",
+        "$checked": "0701a6a12d7d44117cf15909863e50d2",
+        "msg": {
+          "ar": "العربية",
+          "bg": "Български",
+          "cn": "中文(简体)",
+          "cz": "Český",
+          "de": "Deutsch (beta)",
+          "en": "English",
+          "es": "Español (beta)",
+          "et": "Eesti keel",
+          "fi": "Suomi",
+          "fr": "Français (beta)",
+          "hu": "Magyar",
+          "hy": "հայերեն",
+          "id": "Bahasa Indonesia (beta)",
+          "it": "Italiano (beta)",
+          "jp": "日本語",
+          "ku": "کوردی",
+          "kz": "kz",
+          "lt": "lietuviu",
+          "nl": "Nederlands (beta)",
+          "pl": "Polski (beta)",
+          "pt": "Português (beta)",
+          "ro": "Română",
+          "ru": "Русский",
+          "tr": "Türkçe (beta)",
+          "th": "ภาษาไทย",
+          "ua": "Українська (beta)",
+          "xx": "Developer",
+          "zh": "中文 (beta)",
+          "ko": "한국어",
+          "be": "Беларускі (beta)",
+          "quarter": "quarter ",
+          "halfyear": "half a year ",
+          "year": "year ",
+          "month": "month ",
+          "week": "week ",
+          "hint_periodend": "End date of the range",
+          "hint_periodstart": "Start date",
+          "currentmonth": "current month",
+          "currentweek": "current week",
+          "currentyear": "current year",
+          "hint_period": "Select a period to generate the report ",
+          "lastday": "previous day",
+          "lastmonth": "previous month",
+          "lastweek": "previous week",
+          "lastyear": "previous year",
+          "nodate": "whole period",
+          "other": "any period",
+          "period": "Period",
+          "today": "current day",
+          "msg_show_more": "Show more",
+          "msg_ide_uploadfile": "Upload file to the editor",
+          "msg_andmorefile": "and more __value__ ",
+          "msg_removefile": "Delete ",
+          "msg_expand": "More",
+          "msg_collapse": "Collapse",
+          "hint_next_disabled": "The form cannot be sent because of the invalid values ",
+          "select_option_not_found": "Not found",
+          "hint_ok_disabled": "The form cannot be sent because of the invalid values ",
+          "progress_groupedit": "Processing the  '__param__' element",
+          "placeholder_mixed_msg": "Different values ",
+          "hint_help_links": "Show useful links ",
+          "tip_help_links": "Click the icon to display useful links ",
+          "dashboard": "Dashboard",
+          "hint_pin": "Pin tab ",
+          "hint_unpin": "Unpin tab ",
+          "msg_formlist_filter_notfound": "No results were found ",
+          "msg_tab_loading": "Loading...",
+          "confirm": "Confirmation",
+          "hint_takefavorite": "Add to Favorites",
+          "hint_takeunfavorite": "Remove from Favorites",
+          "msg_select_all": "Select all",
+          "msg_back": "Back",
+          "msg_ok": "Ok",
+          "msg_moreinfo": "Details",
+          "msg_calendar": "Show calendar",
+          "msg_cancel": "Cancel",
+          "msg_need_execute_func": "Execute the function: ",
+          "msg_user_not_found": "Function is not available for admin. Try using su ",
+          "dismiss": "Hide",
+          "expert_fields_info": "This form contains fields that can be shown only in expert mode. New fields are not shown because they are hidden by additional settings associated with values of other form's fields.",
+          "filterclear": "Clear",
+          "filterfind": "Apply",
+          "filtername": "Filter",
+          "filtersave": "Search and save",
+          "hint_autocomplete": "Use a massage from the template",
+          "hint_confirm": "Re-type the password to ensure it is correct",
+          "hint_copylink": "Copy the link to the form",
+          "hint_help": "Go to the Documentation page",
+          "hint_quote": "Quote the selected text ",
+          "hint_reload": "Update form",
+          "hint_savedmessage": "Use a massage from the template",
+          "moreinfo": "Details",
+          "msg_autocomplete": "Auto complete ",
+          "msg_choosefile": "Choose file ",
+          "msg_default": "Default",
+          "msg_disabled": "    In progress...",
+          "msg_finish": "Finish",
+          "msg_genpwd": "Generate a password",
+          "msg_hideoptional": "Hide additional fields ",
+          "msg_ide_exitfullscreen": "Exit fullscreen",
+          "msg_ide_font": "Font",
+          "msg_ide_fullscreen": "Fullscreen",
+          "msg_ide_gutter": "Show gutter",
+          "msg_ide_invisibles": "Show invisibles",
+          "msg_ide_keybindig": "Key binding",
+          "msg_ide_mode": "Mode",
+          "msg_ide_softwrap": "Soft Wrap",
+          "msg_ide_theme": "Theme",
+          "msg_minus": "Unselect ",
+          "msg_next": "Next >> ",
+          "msg_noquote": "Select the text you want to quote ",
+          "msg_openurl": "Open in a new window",
+          "msg_plus": "Select all ",
+          "msg_possible_val": "Possible values",
+          "msg_pwcheck_donotmatch": "Passwords do not match ",
+          "msg_pwcheck_good": "Good",
+          "msg_pwcheck_short": "Too weak ",
+          "msg_pwcheck_strong": "Strong",
+          "msg_pwcheck_weak": "Weak ",
+          "msg_quote": "Quote ",
+          "msg_savedmessage": "Auto complete",
+          "msg_sec": "sec",
+          "msg_showoptional": "Show additional fields ",
+          "msg_showpwd": "Show/hide password",
+          "msg_unlimit": "Set the unlimited value ",
+          "msg_valuechangedbyvalidator": "The value has been changed by validator",
+          "msg_wizard_step": "Step",
+          "msg_zoom": "Resize the field",
+          "null": "-- none --",
+          "passwd": "Password",
+          "tip_textarea_resize": "Click-and drag the textarea to resize it",
+          "title_filter": "Filter",
+          "msg_notavailablefile": "Unable to upload file",
+          "msg_notsupportedfile": "The file format is not supported",
+          "hint_textdata_copy": "Copy",
+          "msg_textdata_copied": "Copied",
+          "msg_save": "Save",
+          "msg_create": "Create ",
+          "contacts": "Contacts",
+          "browser_support": "Your browser is out of date, so the interface may work incorrectly. Please update or change the browser ",
+          "forget": "Foreign device",
+          "ntfb_login-page": "Login ",
+          "ntfb_recovery": "Password recovery",
+          "restorepassword": "Password recovery",
+          "ntfb_register": "Registration",
+          "ntfb_password": "Password",
+          "ntfb_login": "Username (login) or e-mail",
+          "ntfb_login-ok": "Log in",
+          "ntfb_not_my_pc": "Shared computer",
+          "ntfb_login_with": "Login via",
+          "showroom": "Shop-window ",
+          "full_version": "Full version",
+          "mobile_version": "Mobile version",
+          "mobile_provider": "Choose a provider ",
+          "mobile_savepassword": "Remember password ",
+          "mobile_domain": "Domain",
+          "error_access_29": "You are logged in as Administrator. This application is available only for Users ",
+          "theme": "Theme",
+          "enter": "Log in",
+          "badagent": "The browser you are using is not supported. Supported browsers are Internet Explorer 5.0, Netscape 6 or Mozilla Firefox",
+          "conditions": "Terms of use",
+          "cookie": "Please enable cookies and try again ",
+          "error": "Error:",
+          "expirepass": "Your password has expired. Set a new one to continue using the control panel ",
+          "expirepassbadconfirm": "Passwords do not match",
+          "expirepassbadnew": "New password must differ from the old one ",
+          "fail": "Invalid password ",
+          "iown": "Free access",
+          "lang": "Language ",
+          "loading": "Loading",
+          "newconfirm": "Confirmation",
+          "newpasswd": "New password ",
+          "noproject": "Please, login to the billing panel from the web-site where you want to place an order",
+          "oldpasswd": "Old password ",
+          "privacy": "Privacy",
+          "recovery": "Password recovery",
+          "registration": "Registration",
+          "title": "Authorization",
+          "user": "Login "
+        }
+      },
+      "saved_filters": {},
+      "tips": {
+        "tip": {
+          "$": "help_links"
+        }
+      },
+      "tparams": {
+        "forget": {
+          "$": "on"
+        },
+        "func": {
+          "$": "logon"
+        },
+        "lang": {
+          "$": "en"
+        },
+        "out": {
+          "$": "xjson"
+        },
+        "username": {
+          "$": "dkdgroup@outlook.com"
+        }
+      }
+    }
+  }
+}

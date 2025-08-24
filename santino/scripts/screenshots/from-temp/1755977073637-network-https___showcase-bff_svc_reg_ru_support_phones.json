@@ -1,0 +1,25 @@
+{
+  "url": "https://showcase-bff.svc.reg.ru/support/phones",
+  "headers": {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "content-length": "204",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:24:33 GMT",
+    "etag": "W/\"cc-uWjEcFaC7zbUe/YatzA677r154Q\"",
+    "server": "nginx",
+    "vary": "Origin",
+    "x-powered-by": "Express",
+    "x-request-id": "c4fdef6ce06633a2d9c5907c354103a7"
+  },
+  "body": {
+    "defaultPhone": {
+      "label": "Бесплатный звонок по&nbsp;России",
+      "phone": "8 800 555-34-78"
+    },
+    "regionalPhone": {
+      "label": "Телефон в&nbsp;Москве",
+      "phone": "+7 (495) 580-11-11"
+    }
+  }
+}

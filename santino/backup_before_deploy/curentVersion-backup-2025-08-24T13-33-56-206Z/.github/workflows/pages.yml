@@ -1,0 +1,8 @@
+name: (DISABLED) Pages (curentVersion)
+on:
+  workflow_dispatch:
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Disabled nested workflow"

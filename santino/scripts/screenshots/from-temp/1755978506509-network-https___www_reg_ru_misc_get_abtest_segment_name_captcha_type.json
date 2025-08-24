@@ -1,0 +1,18 @@
+{
+  "url": "https://www.reg.ru/misc/get_abtest_segment?name=captcha_type",
+  "headers": {
+    "cache-control": "no-cache, no-store",
+    "content-encoding": "gzip",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:48:26 GMT",
+    "server": "Angie",
+    "set-cookie": "abtest__captcha_type=old_google_recaptcha; path=/\nSESSION_ID=ec32dc6ccf85a2c4c128905e11595672e5644681; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:48:26 GMT; secure; HttpOnly",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-request-id": "68888fe8ec3296e78a6daf3ce7605b52",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "segment": "old_google_recaptcha"
+  }
+}

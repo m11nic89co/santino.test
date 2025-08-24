@@ -1,0 +1,48 @@
+{
+  "url": "https://mc.yandex.com/watch/1379221?wmode=7&page-url=https%3A%2F%2Fwww.reg.ru%2Fmanager&charset=utf-8&uah=chm%0A%3F0&browser-info=pv%3A1%3Avf%3A20e1f0fh7e9qvbn3mx3nxr36qa6hn%3Afu%3A0%3Aen%3Autf-8%3Ala%3Aen-US%3Av%3A2164%3Acn%3A1%3Adp%3A0%3Als%3A547340025497%3Ahid%3A83666804%3Az%3A180%3Ai%3A20250823222406%3Aet%3A1755977046%3Ac%3A1%3Arn%3A204836372%3Arqn%3A6%3Au%3A1755977008451963460%3Aw%3A1366x768%3As%3A800x600x24%3Ask%3A1%3Afp%3A472%3Awv%3A2%3Ads%3A0%2C0%2C343%2C8%2C1%2C0%2C%2C344%2C14%2C%2C%2C%2C700%3Aco%3A0%3Ans%3A1755977045670%3Aadb%3A2%3Arqnl%3A1%3Ast%3A1755977046%3At%3A%D0%A1%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0%20%D0%BD%D0%B5%C2%A0%D0%BD%D0%B0%D0%B9%D0%B4%D0%B5%D0%BD%D0%B0%20%7C%20%D0%A0%D0%B5%D0%B3.%D1%80%D1%83&t=gdpr(14)clc(0-0-0)rqnt(1)aw(1)rcm(0)cdl(na)eco(84477700)ti(1)",
+  "headers": {
+    "accept-ch": "Sec-CH-UA-Bitness, Sec-CH-UA-Arch, Sec-CH-UA-Full-Version, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform, Sec-CH-UA, UA-Bitness, UA-Arch, UA-Full-Version, UA-Mobile, UA-Model, UA-Platform-Version, UA-Platform, UA",
+    "access-control-allow-credentials": "true",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "cache-control": "private, no-cache, no-store, must-revalidate, max-age=0",
+    "content-length": "698",
+    "content-type": "application/json; charset=utf-8",
+    "expires": "Sat, 23-Aug-2025 19:24:06 GMT",
+    "last-modified": "Sat, 23-Aug-2025 19:24:06 GMT",
+    "pragma": "no-cache",
+    "set-cookie": "receive-cookie-deprecation=1; Expires=Sun, 23-Aug-2026 19:24:06 GMT; Domain=.yandex.com; Path=/; SameSite=None; Secure; HttpOnly; Partitioned",
+    "strict-transport-security": "max-age=31536000",
+    "x-content-type-options": "nosniff",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "settings": {
+      "auto_goals": 1,
+      "button_goals": 1,
+      "c_recp": "1.00000",
+      "form_goals": 1,
+      "pcs": "1",
+      "publisher": {
+        "schema": "microdata"
+      },
+      "webvisor": {
+        "arch_type": "html",
+        "date": "2024-03-01 12:41:19",
+        "forms": 1,
+        "recp": "1.00000",
+        "urls": "regexp:.*"
+      },
+      "sbp": {
+        "a": "vaipbu3UZxOqOQiPTd8/GkspsXw9nd1nh2rTrHma03aX0RAwqbVkh3xJOKmkcTdC",
+        "b": "hWvsSpxWwVuzSc86XgdTuVrqNzzzO3vxGW+YnU19qwN/EP079cZSMIp0SMSF3HCD"
+      },
+      "eu": 1,
+      "hittoken": "1755977046_f1280cc18f640f40c439fa94093cd243581d20b0dec3475c8aceec0cd61aed8c",
+      "cf": 1,
+      "oauth": 1,
+      "wstoken": "10767.eZuNV_zikdra15AO1iVCj-q_Uj1XQ9vlIxLl0JOIcsyQGyyu4QkHA6aXh2Mk_fw43U0v8jS-3COBJrXv42SJ1USXvDhaqMNNrfSgNxBfYfY,.7S1T5zCF8N22C1wjwxukIfbMcPY,",
+      "ymclid": "4887896786226905414"
+    },
+    "userData": {}
+  }
+}

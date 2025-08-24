@@ -1,0 +1,254 @@
+[
+  {
+    "tag": "DIV",
+    "text": "Сайт на хостинге",
+    "href": null,
+    "classes": "b-inregru-header"
+  },
+  {
+    "tag": "A",
+    "text": "Сайт на хостинге",
+    "href": "https://www.reg.ru/",
+    "classes": "b-inregru-header__card"
+  },
+  {
+    "tag": "DIV",
+    "text": "Сайт на хостинге",
+    "href": null,
+    "classes": "b-inregru-header__text"
+  },
+  {
+    "tag": "DIV",
+    "text": "server101.hosting.reg.ru 404 Page not found.Страница не найдена Страница не существует, или в адресе допущена ошибка server101.hosting.reg.ru23 Aug 2025 21:45 Как исправить эту ошибку На главную страницу",
+    "href": null,
+    "classes": "b-hosting-static-main__wrapper"
+  },
+  {
+    "tag": "DIV",
+    "text": "server101.hosting.reg.ru 404 Page not found.Страница не найдена Страница не существует, или в адресе допущена ошибка server101.hosting.reg.ru23 Aug 2025 21:45 Как исправить эту ошибку На главную страницу",
+    "href": null,
+    "classes": "b-hosting-static-main__info"
+  },
+  {
+    "tag": "DIV",
+    "text": "server101.hosting.reg.ru",
+    "href": null,
+    "classes": "b-hosting-static-main__domain"
+  },
+  {
+    "tag": "DIV",
+    "text": "404 Page not found.Страница не найдена Страница не существует, или в адресе допущена ошибка server101.hosting.reg.ru23 Aug 2025 21:45 Как исправить эту ошибку На главную страницу",
+    "href": null,
+    "classes": "b-hosting-static-main__content"
+  },
+  {
+    "tag": "DIV",
+    "text": "404 Page not found.Страница не найдена Страница не существует, или в адресе допущена ошибка server101.hosting.reg.ru23 Aug 2025 21:45",
+    "href": null,
+    "classes": "b-hosting-static-main__desc"
+  },
+  {
+    "tag": "DIV",
+    "text": "Страница не существует, или в адресе допущена ошибка",
+    "href": null,
+    "classes": "b-hosting-static-main__text"
+  },
+  {
+    "tag": "DIV",
+    "text": "server101.hosting.reg.ru23 Aug 2025 21:45",
+    "href": null,
+    "classes": "b-hosting-static-error-info"
+  },
+  {
+    "tag": "SPAN",
+    "text": "server101.hosting.reg.ru",
+    "href": null,
+    "classes": "b-hosting-static-error-info__server-url"
+  },
+  {
+    "tag": "SPAN",
+    "text": "23 Aug 2025 21:45",
+    "href": null,
+    "classes": "b-hosting-static-error-info__server-time"
+  },
+  {
+    "tag": "DIV",
+    "text": "Как исправить эту ошибку На главную страницу",
+    "href": null,
+    "classes": "b-hosting-static-main__btn-wrapper"
+  },
+  {
+    "tag": "A",
+    "text": "Как исправить эту ошибку",
+    "href": "https://help.reg.ru/support/hosting/sayt-ne-rabotayet/oshibki-na-sajte-prichiny-i-sposoby-ustraneniya#6",
+    "classes": "ds-promo-button ds-promo-button_theme_primary ds-promo-button_size_s ds-promo-button_icon ds-promo-button_icon_arrow-right ds-promo-button_icon_right b-hosting-static-main__btn"
+  },
+  {
+    "tag": "A",
+    "text": "На главную страницу",
+    "href": "https://server101.hosting.reg.ru/",
+    "classes": "ds-promo-button ds-promo-button_theme_ghost ds-promo-button_size_s ds-promo-button_icon ds-promo-button_icon_house-stroke ds-promo-button_icon_left b-hosting-static-main__btn b-hosting-static-main__btn-secondary"
+  },
+  {
+    "tag": "DIV",
+    "text": "Бизнес в онлайне начинается с нас© ООО «РЕГ.РУ»Домены и хостингДоменыХостингСоздание сайтовSSL-сертификатыVPS-хостингОблака и IT-инфраструктураОблачные серверыЧастное облакоОблачное хранилищеKubernetes-облакоОблачные базы данныхВыделенные серверыПолезноеНовости компанииНовости технологий и медиа© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__wrapper"
+  },
+  {
+    "tag": "DIV",
+    "text": "Бизнес в онлайне начинается с нас© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__column"
+  },
+  {
+    "tag": "DIV",
+    "text": "Бизнес в онлайне начинается с нас© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__info"
+  },
+  {
+    "tag": "DIV",
+    "text": "Бизнес в онлайне начинается с нас",
+    "href": null,
+    "classes": "b-inregru-footer__text"
+  },
+  {
+    "tag": "DIV",
+    "text": "© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__copyright"
+  },
+  {
+    "tag": "DIV",
+    "text": "Домены и хостингДоменыХостингСоздание сайтовSSL-сертификатыVPS-хостинг",
+    "href": null,
+    "classes": "b-inregru-footer__column"
+  },
+  {
+    "tag": "DIV",
+    "text": "Домены и хостингДоменыХостингСоздание сайтовSSL-сертификатыVPS-хостинг",
+    "href": null,
+    "classes": "b-inregru-footer__menu"
+  },
+  {
+    "tag": "A",
+    "text": "Домены",
+    "href": "https://www.reg.ru/domain/new/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Хостинг",
+    "href": "https://www.reg.ru/hosting/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Создание сайтов",
+    "href": "https://www.reg.ru/sozdanie-saita/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "SSL-сертификаты",
+    "href": "https://www.reg.ru/ssl-certificate/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "VPS-хостинг",
+    "href": "https://www.reg.ru/vps/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "DIV",
+    "text": "Облака и IT-инфраструктураОблачные серверыЧастное облакоОблачное хранилищеKubernetes-облакоОблачные базы данныхВыделенные серверы",
+    "href": null,
+    "classes": "b-inregru-footer__column"
+  },
+  {
+    "tag": "DIV",
+    "text": "Облака и IT-инфраструктураОблачные серверыЧастное облакоОблачное хранилищеKubernetes-облакоОблачные базы данныхВыделенные серверы",
+    "href": null,
+    "classes": "b-inregru-footer__menu"
+  },
+  {
+    "tag": "A",
+    "text": "Облачные серверы",
+    "href": "https://www.reg.ru/cloud/vps/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Частное облако",
+    "href": "https://www.reg.ru/dedicated/private-cloud",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Облачное хранилище",
+    "href": "https://www.reg.ru/cloud/s3-storage",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Kubernetes-облако",
+    "href": "https://www.reg.ru/cloud/managed-kubernetes",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Облачные базы данных",
+    "href": "https://www.reg.ru/cloud/postgresql",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Выделенные серверы",
+    "href": "https://www.reg.ru/dedicated/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "DIV",
+    "text": "ПолезноеНовости компанииНовости технологий и медиа",
+    "href": null,
+    "classes": "b-inregru-footer__column"
+  },
+  {
+    "tag": "DIV",
+    "text": "ПолезноеНовости компанииНовости технологий и медиа",
+    "href": null,
+    "classes": "b-inregru-footer__menu"
+  },
+  {
+    "tag": "A",
+    "text": "Новости компании",
+    "href": "https://companies.rbc.ru/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "A",
+    "text": "Новости технологий и медиа",
+    "href": "https://www.rbc.ru/technology_and_media/",
+    "classes": "b-inregru-footer__item-link"
+  },
+  {
+    "tag": "DIV",
+    "text": "© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__column"
+  },
+  {
+    "tag": "DIV",
+    "text": "© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__info-mob"
+  },
+  {
+    "tag": "DIV",
+    "text": "© ООО «РЕГ.РУ»",
+    "href": null,
+    "classes": "b-inregru-footer__copyright-mob"
+  }
+]

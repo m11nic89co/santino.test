@@ -1,0 +1,18 @@
+{
+  "url": "https://www.reg.ru/support/get_alert",
+  "headers": {
+    "cache-control": "no-cache, no-store",
+    "content-encoding": "gzip",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:23:52 GMT",
+    "server": "Angie",
+    "set-cookie": "SESSION_ID=963f50f487d70aa01561b4c07097b2508700f1ff; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:23:52 GMT; secure; HttpOnly",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-request-id": "a5fd857757f782e8e6059b2627b2876e",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "admin_alert": null
+  }
+}

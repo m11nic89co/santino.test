@@ -1,0 +1,18 @@
+{
+  "url": "https://www.reg.ru/user/regenerate_csrf_token",
+  "headers": {
+    "cache-control": "no-cache, no-store",
+    "content-encoding": "gzip",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:49:21 GMT",
+    "server": "Angie",
+    "set-cookie": "SESSION_ID=ec32dc6ccf85a2c4c128905e11595672e5644681; domain=reg.ru; path=/; expires=Mon, 25-Aug-2025 19:49:21 GMT; secure; HttpOnly",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-request-id": "ceb4669124a466f021fb2e51730e10ac",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "token": "0ab2928ab1b4060473c1c18e999bc43c"
+  }
+}

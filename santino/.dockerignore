@@ -1,0 +1,12 @@
+node_modules
+.env
+.git
+.gitignore
+**/node_modules
+**/dist
+**/screenshots
+*.tgz
+*.zip
+*.tar.gz
+creds.local.json
+scripts/screenshots/outgoing/*.json

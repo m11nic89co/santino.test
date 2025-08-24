@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "url": "https://server101.hosting.reg.ru/manager",
+    "title": "Authorization"
+  },
+  "frames": [
+    {
+      "url": "https://server101.hosting.reg.ru/manager",
+      "title": "Authorization",
+      "nodes": [
+        {
+          "tag": "DIV",
+          "text": "Your browser is out of date, so the interface may work incorrectly. Please update or change the browser",
+          "href": null,
+          "classes": null,
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "AuthorizationLogin PasswordLanguage EnglishInvalid username or password Log in Ispmanager © 2025",
+          "href": null,
+          "classes": "layout",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "AuthorizationLogin PasswordLanguage EnglishInvalid username or password Log in Ispmanager © 2025",
+          "href": null,
+          "classes": "content ispui-scrollbar_gray",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "AuthorizationLogin PasswordLanguage EnglishInvalid username or password Log in Ispmanager © 2025",
+          "href": null,
+          "classes": "login-form",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Login",
+          "href": null,
+          "classes": "field field_invalid",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Login",
+          "href": null,
+          "classes": "outline",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Login",
+          "href": null,
+          "classes": "outline__main",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "LABEL",
+          "text": "Login",
+          "href": null,
+          "classes": "outline__label outline__label_floating",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "href": null,
+          "classes": null,
+          "name": "username",
+          "type": "text"
+        },
+        {
+          "tag": "DIV",
+          "text": "Password",
+          "href": null,
+          "classes": "field field_focused field_invalid",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Password",
+          "href": null,
+          "classes": "outline",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Password",
+          "href": null,
+          "classes": "outline__main",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "LABEL",
+          "text": "Password",
+          "href": null,
+          "classes": "outline__label outline__label_floating",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "href": null,
+          "classes": null,
+          "name": "password",
+          "type": "password"
+        },
+        {
+          "tag": "DIV",
+          "text": "Language English",
+          "href": null,
+          "classes": "field",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Language",
+          "href": null,
+          "classes": "outline",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Language",
+          "href": null,
+          "classes": "outline__main",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "LABEL",
+          "text": "Language",
+          "href": null,
+          "classes": "outline__label outline__label_floating",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "English",
+          "href": null,
+          "classes": "field__input-container",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "English",
+          "href": null,
+          "classes": "button",
+          "name": null,
+          "type": "button"
+        },
+        {
+          "tag": "SPAN",
+          "text": "English",
+          "href": null,
+          "classes": "button__text",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": "Invalid username or password",
+          "href": null,
+          "classes": null,
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Log in",
+          "href": null,
+          "classes": "form__button",
+          "name": null,
+          "type": "submit"
+        },
+        {
+          "tag": "A",
+          "text": "Ispmanager © 2025",
+          "href": "https://www.ispmanager.com/?utm_source=ispmanager_panel",
+          "classes": "copyright",
+          "name": null,
+          "type": null
+        },
+        {
+          "tag": "DIV",
+          "text": ",,,",
+          "href": null,
+          "classes": null,
+          "name": null,
+          "type": null
+        }
+      ]
+    }
+  ]
+}

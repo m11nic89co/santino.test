@@ -1,0 +1,16 @@
+{
+  "url": "https://showcase-static.reg.ru/_nuxt/static/useSolutionsCatalogApi.BcKYroZN.css",
+  "headers": {
+    "access-control-allow-origin": "https://www.reg.ru",
+    "cache-control": "public, max-age=31536000, immutable",
+    "content-encoding": "gzip",
+    "content-type": "text/css; charset=utf-8",
+    "date": "Sat, 23 Aug 2025 19:49:32 GMT",
+    "etag": "W/\"8b0-we7Ezrr+9GVNHb4xFF7YXB5G0BY\"",
+    "last-modified": "Fri, 22 Aug 2025 13:30:55 GMT",
+    "server": "Angie",
+    "vary": "Accept-Encoding",
+    "x-request-id": "b99361bc2f279c1bc93a17b0ce440918"
+  },
+  "body": "@font-face{font-display:swap;font-family:Inter;font-style:normal;font-weight:400;src:url(https://files.reg.ru/fonts/inter/Inter-Regular.woff2) format(\"woff2\"),url(https://files.reg.ru/fonts/inter/Inter-Regular.woff) format(\"woff\")}@font-face{font-display:swap;font-family:Inter;font-style:normal;font-weight:500;src:url(https://files.reg.ru/fonts/inter/Inter-Medium.woff2) format(\"woff2\"),url(https://files.reg.ru/fonts/inter/Inter-Medium.woff) format(\"woff\")}@font-face{font-display:swap;font-family:Inter;font-style:normal;font-weight:600;src:url(https://files.reg.ru/fonts/inter/Inter-SemiBold.woff2) format(\"woff2\"),url(https://files.reg.ru/fonts/inter/Inter-SemiBold.woff) format(\"woff\")}@font-face{font-display:swap;font-family:Aeonik Pro;font-style:normal;font-weight:500;src:url(https://files.reg.ru/fonts/aeonikpro/AeonikPro-Medium.woff2) format(\"woff2\"),url(https://files.reg.ru/fonts/aeonikpro/AeonikPro-Medium.woff) format(\"woff\")}.catalog-badge[data-v-a03d69b9]{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='109' height='28' fill='none' viewBox='0 0 109 28'%3E%3Cpath fill='%233755FA' d='m14.54 0 .361.005c2.648.067 5.113.87 7.199 2.21A13.93 13.93 0 0 1 29.66 0h1.08l.362.005c2.647.067 5.112.87 7.198 2.21A13.94 13.94 0 0 1 45.86 0h1.08l.362.005c2.648.067 5.112.87 7.198 2.21A13.93 13.93 0 0 1 62.06 0h1.08l.361.005c2.648.067 5.112.87 7.198 2.21A13.93 13.93 0 0 1 78.26 0h1.08l.362.005c2.648.067 5.113.87 7.198 2.21A13.93 13.93 0 0 1 94.46 0H95c7.732 0 14 6.268 14 14s-6.268 14-14 14h-.54c-2.785 0-5.38-.814-7.56-2.216a13.9 13.9 0 0 1-7.199 2.211L79.34 28h-1.08c-2.785 0-5.38-.814-7.56-2.216a13.9 13.9 0 0 1-7.199 2.211L63.14 28h-1.08c-2.785 0-5.38-.814-7.56-2.216a13.93 13.93 0 0 1-7.198 2.211L46.94 28h-1.08c-2.785 0-5.38-.814-7.56-2.216a13.93 13.93 0 0 1-7.198 2.211L30.74 28h-1.08c-2.785 0-5.38-.814-7.56-2.216a13.93 13.93 0 0 1-7.199 2.211L14.54 28H14C6.268 28 0 21.732 0 14S6.268 0 14 0z'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-size:contain;box-sizing:border-box;color:#fff;font-family:Inter,Arial,Helvetica Neue,Helvetica,FreeSans,sans-serif;font-size:12px;font-weight:400;letter-spacing:-.01em;line-height:18px;padding:5px 15px}\n"
+}

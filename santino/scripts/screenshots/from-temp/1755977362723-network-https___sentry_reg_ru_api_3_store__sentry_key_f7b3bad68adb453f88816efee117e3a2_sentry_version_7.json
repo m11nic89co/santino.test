@@ -1,0 +1,25 @@
+{
+  "url": "https://sentry.reg.ru/api/3/store/?sentry_key=f7b3bad68adb453f88816efee117e3a2&sentry_version=7",
+  "headers": {
+    "access-control-allow-headers": "X-Sentry-Auth, X-Requested-With, Origin, Accept, Content-Type, Authentication",
+    "access-control-allow-methods": "GET, POST, HEAD, OPTIONS",
+    "access-control-allow-origin": "https://www.reg.ru",
+    "access-control-expose-headers": "X-Sentry-Error, Retry-After",
+    "cache-control": "max-age=0",
+    "connection": "keep-alive",
+    "content-language": "en",
+    "content-length": "41",
+    "content-type": "application/json",
+    "date": "Sat, 23 Aug 2025 19:29:22 GMT",
+    "expires": "Sat, 23 Aug 2025 19:29:22 GMT",
+    "last-modified": "Sat, 23 Aug 2025 19:29:22 GMT",
+    "server": "nginx/1.21.0",
+    "vary": "Accept-Language, Cookie",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "deny",
+    "x-xss-protection": "1; mode=block"
+  },
+  "body": {
+    "id": "e5d8eba6a1704ecd8d20979049c9a9aa"
+  }
+}

@@ -1,0 +1,25 @@
+node_modules/
+backup_before_cleanup_*
+.env
+.env.*
+*.log
+.DS_Store
+thumbs.db
+/*.zip
+/*.tar.gz
+santino.code-workspace
+.vscode/settings.json
+
+# local credentials for automated tasks
+scripts/creds.local.json
+node_modules/
+backup_before_cleanup_*
+.env
+.env.*
+*.log
+.DS_Store
+thumbs.db
+/*.zip
+/*.tar.gz
+santino.code-workspace
+.vscode/settings.json
