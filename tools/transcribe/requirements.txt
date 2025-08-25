@@ -1,6 +1,0 @@
-sounddevice
-numpy
-pyperclip
-faster-whisper
-# optional: whisper
-# whisper
