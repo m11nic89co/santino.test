@@ -1,0 +1,19 @@
+# Ignore backups created by create_backup.ps1
+/backups/
+
+# OS and editor files
+*.log
+*.tmp
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Node/npm
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# Misc
+dist/
