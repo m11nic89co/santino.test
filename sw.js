@@ -49,15 +49,45 @@ self.addEventListener('activate', (evt) => {
 
 self.addEventListener('fetch', (evt) => {
   if (evt.request.method !== 'GET') return;
+
+  const req = evt.request;
+  const url = new URL(req.url);
+
+  // Navigation requests: try network, fallback to cached index.html
+  if (req.mode === 'navigate') {
+    evt.respondWith(
+      fetch(req).catch(() => caches.match('/index.html'))
+    );
+    return;
+  }
+
+  // CSS files: network-first to avoid serving HTML/old content as CSS
+  if (req.destination === 'style' || url.pathname.endsWith('.css')) {
+    evt.respondWith(
+      fetch(req).then(res => {
+        // update cache for offline use
+        const resClone = res.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(req, resClone));
+        return res;
+      }).catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  // Default: cache-first, but populate cache from network when possible
   evt.respondWith(
-    caches.match(evt.request).then(resp => {
-      if (resp) return resp;
-      return fetch(evt.request).then(res => {
-        // optionally cache new resources
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(res => {
+        // cache images and fonts for better offline experience
+        if (req.destination === 'image' || req.destination === 'font') {
+          const resClone = res.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, resClone));
+        }
         return res;
       }).catch(() => {
-        // fallback to cached index for navigation
-        if (evt.request.mode === 'navigate') return caches.match('/index.html');
+        // for non-GET/network errors we don't always have a fallback
+        return undefined;
       });
     })
   );
