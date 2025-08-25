@@ -1,0 +1,6 @@
+sounddevice
+numpy
+pyperclip
+faster-whisper
+# альтернативы: whisper
+# whisper

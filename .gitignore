@@ -14,6 +14,8 @@ node_modules/
 # Python
 __pycache__/
 *.pyc
+.venv/
 
 # Misc
 dist/
+img_opt/
