@@ -21,7 +21,7 @@
 	<meta property="og:title" content="SANTINO | Премиум пластик">
 	<meta property="og:description" content="Завод премиальных пластиковых изделий">
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://m11nic89co.github.io/santino.test/">
+	<!-- og:url intentionally omitted to avoid referencing a public GitHub Pages address -->
 	<meta property="og:image" content="santino_og.png">
 	<meta name="twitter:card" content="summary_large_image">
 	<link
@@ -61,10 +61,26 @@
 		}
 
 		/* Scrollbar styling (desktop/Android). iOS hides scrollbars by default. */
-		:root { scrollbar-color: rgba(24,29,42,0.4) transparent; scrollbar-width: thin; }
-		::-webkit-scrollbar { width: 10px; height: 10px; }
-		::-webkit-scrollbar-track { background: transparent; }
-		::-webkit-scrollbar-thumb { background: rgba(24,29,42,0.4); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+		:root {
+			scrollbar-color: rgba(24, 29, 42, 0.4) transparent;
+			scrollbar-width: thin;
+		}
+
+		::-webkit-scrollbar {
+			width: 10px;
+			height: 10px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: rgba(24, 29, 42, 0.4);
+			border-radius: 8px;
+			border: 2px solid transparent;
+			background-clip: padding-box;
+		}
 
 		/* Blueprint-like millimeter grid overlay (cyan tint), now dimmer */
 		body::before {
@@ -221,7 +237,11 @@
 			will-change: opacity, filter;
 		}
 
-		.loader-logo img { height: 48px; width: auto; display: block; }
+		.loader-logo img {
+			height: 48px;
+			width: auto;
+			display: block;
+		}
 
 		.loader-bar-wrap {
 			width: 180px;
@@ -296,25 +316,34 @@
 			height: 42px;
 			width: auto;
 			display: block;
-			image-rendering: auto; /* prefer smooth scaling */
+			image-rendering: auto;
+			/* prefer smooth scaling */
 			/* legacy IE smoothing */
 			-ms-interpolation-mode: bicubic;
 		}
 
 		@media (max-width: 1200px) {
-			.logo img { height: 40px; }
+			.logo img {
+				height: 40px;
+			}
 		}
 
 		@media (max-width: 1024px) {
-			.logo img { height: 34px; }
+			.logo img {
+				height: 34px;
+			}
 		}
 
 		@media (max-width: 768px) {
-			.logo img { height: 30px; }
+			.logo img {
+				height: 30px;
+			}
 		}
 
 		@media (max-width: 640px) {
-			.logo img { height: 26px; }
+			.logo img {
+				height: 26px;
+			}
 		}
 
 		.logo:hover {
@@ -419,6 +448,7 @@
 				line-height: 1.12;
 				text-align: center;
 			}
+
 			.hero-title .hero-title-main {
 				display: block;
 				width: 100%;
@@ -741,8 +771,10 @@
 				font-size: clamp(1.8rem, 8.5vw, 2.2rem);
 				/* larger on small screens for readability */
 
-			/* Reserve space for CTA to avoid jumps when button appears */
-			.hero-cta { min-height: 120px; }
+				/* Reserve space for CTA to avoid jumps when button appears */
+				.hero-cta {
+					min-height: 120px;
+				}
 			}
 
 			.hero-title {
@@ -1236,7 +1268,9 @@
 		}
 
 		/* Add bottom padding so content never hides behind ticker on mobile */
-		body.mobile-mode { padding-bottom: calc(3.2em + env(safe-area-inset-bottom, 0px)); }
+		body.mobile-mode {
+			padding-bottom: calc(3.2em + env(safe-area-inset-bottom, 0px));
+		}
 
 		/* Seamless, duplicated track for infinite loop */
 		.ticker {
@@ -1337,7 +1371,8 @@
 <body class="site-hidden">
 	<div class="loader-bg" id="loader-bg">
 		<div class="loader-content">
-			<span class="loader-logo" aria-label="Santino"><img src="santino_magneto_outlined.svg" alt="Santino logo" /></span>
+			<span class="loader-logo" aria-label="Santino"><img src="santino_magneto_outlined.svg"
+					alt="Santino logo" /></span>
 			<div class="loader-bar-wrap">
 				<div class="loader-bar" id="loader-bar"></div>
 			</div>
@@ -1365,7 +1400,7 @@
 						<a href="#contact" class="btn">Получить прайс-лист</a>
 					</div>
 				</div>
-				<div class="hero-subtle">нам доверяют с&nbsp;2014&nbsp;года</div>
+				<div class="hero-subtle">нам доверяют с&nbsp;2014&nbsp;г.</div>
 				<div class="ticker-wrap">
 					<div class="ticker" id="ticker">
 						<div class="ticker-track" id="ticker-track">
@@ -2413,6 +2448,16 @@
 				mo.observe(bodyEl, { attributes: true, attributeFilter: ['class'] });
 			} catch (_) { }
 		})();
+	</script>
+	<!-- Service Worker registration for offline support -->
+	<script>
+		try {
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', function () {
+					navigator.serviceWorker.register('/sw.js').catch(function () { /* ignore */ });
+				});
+			}
+		} catch (e) { }
 	</script>
 </body>
 
