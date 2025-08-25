@@ -12,6 +12,7 @@ const ASSETS = [
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
   '/magneto_bold.ttf',
+  '/deferred.css',
   // logos
   '/assets/logos/auchan.svg',
   '/assets/logos/avtodor.svg',
@@ -31,7 +32,7 @@ const ASSETS = [
 self.addEventListener('install', (evt) => {
   evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS.map(u => new Request(u, {cache: 'reload'}))).catch(() => Promise.resolve());
+  return cache.addAll(ASSETS.map(u => new Request(u, {cache: 'reload'}))).catch(() => Promise.resolve());
     })
   );
   self.skipWaiting();
