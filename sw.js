@@ -1,4 +1,4 @@
-const CACHE_NAME = 'santino-v1';
+const CACHE_NAME = 'santino-v2';
 const ASSETS = [
   '/',
   '/index.html',

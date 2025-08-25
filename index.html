@@ -231,7 +231,7 @@
 			align-items: center;
 			justify-content: center;
 			filter: drop-shadow(0 0 24px #00ffe7aa);
-			opacity: 0;
+			opacity: 1;
 			transform: scale(0.92);
 			transition: opacity 0.6s cubic-bezier(.77, 0, .18, 1), filter 0.6s cubic-bezier(.77, 0, .18, 1), transform 1s cubic-bezier(.77, 0, .18, 1);
 			will-change: opacity, filter;
@@ -1460,20 +1460,23 @@
 			const afterflash = document.getElementById('afterflash');
 			const header = document.querySelector('header');
 
-			// --- Плавное появление логотипа (3 секунды, быстрее) ---
-			loaderLogo.style.opacity = '0';
-			loaderLogo.style.filter = 'brightness(0.5)';
-			loaderLogo.style.transform = 'scale(0.90)';
-			loaderLogo.style.transition = 'opacity 3s cubic-bezier(.77,0,.18,1), filter 3s cubic-bezier(.77,0,.18,1), transform 2s cubic-bezier(.77,0,.18,1)';
+			// --- Синхронизированные анимации логотипа и полоски ---
+			const sharedDuration = 1000; // ms for both logo animation and loader bar
+			const logoAnimMs = sharedDuration; // duration for brightness/scale transition
+
+			loaderLogo.style.filter = 'brightness(0.85)';
+			loaderLogo.style.transform = 'scale(0.95)';
+			loaderLogo.style.transition = `filter ${logoAnimMs}ms cubic-bezier(.77,0,.18,1), transform ${logoAnimMs}ms cubic-bezier(.77,0,.18,1)`;
+
+			// start logo animation immediately (no small artificial delay)
 			setTimeout(() => {
-				loaderLogo.style.opacity = '1';
 				loaderLogo.style.filter = 'brightness(1)';
 				loaderLogo.style.transform = 'scale(1)';
-			}, 100);
+			}, 0);
 
-			// --- Быстрая загрузка полоски (1 секунда, параллельно логотипу) ---
+			// --- Загрузка полоски (синхронизирована c logoAnimMs) ---
 			let progress = 0;
-			const duration = 1000;
+			const duration = sharedDuration;
 			const start = performance.now();
 
 			function animateBar(now) {
@@ -1488,7 +1491,20 @@
 			}
 			requestAnimationFrame(animateBar);
 
-			// После загрузки полоски — НЕ скрываем лоадер сразу, а ждём полного появления логотипа (3 секунды)
+			// Robustness/fallback: ensure the bar is visible even if RAF timing is off
+			if (!loaderBar) {
+				console.warn('loaderBar element not found');
+			} else {
+				// ensure starting point
+				loaderBar.style.width = '0%';
+				// trigger CSS transition as a fallback
+				setTimeout(() => {
+					loaderBar.style.width = '100%';
+				}, 20);
+			}
+
+			// После загрузки полоски и логотипа — скрываем лоадер
+			const hideDelay = duration + 200; // wait a bit after both animations complete
 			setTimeout(() => {
 				loaderLogo.style.transition = 'opacity 1s cubic-bezier(.77,0,.18,1)';
 				loaderLogo.style.opacity = '0';

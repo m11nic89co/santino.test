@@ -187,25 +187,7 @@
 		transition-delay: 0.9s;
 	}
 
-	.loader-content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.loader-logo {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		filter: drop-shadow(0 0 24px #00ffe7aa);
-		opacity: 0;
-		transform: scale(0.92);
-		transition: opacity 0.6s cubic-bezier(.77, 0, .18, 1), filter 0.6s cubic-bezier(.77, 0, .18, 1), transform 1s cubic-bezier(.77, 0, .18, 1);
-		will-change: opacity, filter;
-	}
-
-	.loader-logo img { height: 48px; width: auto; display: block; }
+	/* loader styles are critical and kept inline in index.html to avoid flash-of-invisible-logo */
 
 	.loader-bar-wrap {
 		width: 180px;
