@@ -1338,15 +1338,6 @@
 			object-fit: contain;
 		}
 
-		/* allow overriding global ticker logo height and scale from root for fine-tuning */
-		:root {
-			--ticker-logo-height: 1.6em; /* base height used by normalizer */
-			--ticker-logo-scale: 0.3333; /* scale factor to make logos ~3x smaller */
-			--logo-gap: 0.8em; /* reduced gap between logos when small */
-			--ticker-px-per-second: 30; /* visual speed in pixels per second (lower = slower) */
-		}
-		.logo-badge .logo-img { height: calc(var(--ticker-logo-height) * var(--ticker-logo-scale)); }
-
 		/* fallback: reveal text label when image fails */
 		.logo-badge.logo-missing .logo-img {
 			display: none;
@@ -1358,8 +1349,13 @@
 		}
 
 		@keyframes tickerScroll {
-			from { transform: translate3d(0,0,0); }
-			to { transform: translate3d(-50%,0,0); }
+			from {
+				transform: translateX(0);
+			}
+
+			to {
+				transform: translateX(-50%);
+			}
 		}
 
 		/* Desktop-only: make hero text more laconic */
@@ -1376,14 +1372,11 @@
 			}
 
 			.hero-subtle {
-				font-size: 1.9rem;
-				color: #ffb400;
+				font-size: 0.95rem;
 			}
 		}
 	</style>
 </head>
-<script src="/src/js/ticker-normalize-heights.js" defer></script>
-<script src="/src/js/ticker-speed.js" defer></script>
 
 <body class="site-hidden">
 	<div class="loader-bg" id="loader-bg">
@@ -1434,15 +1427,15 @@
 								<span class="ticker-item"><span class="logo-badge" data-brand="lenta"><img class="logo-img"
 											src="assets/logos/lenta.svg" alt="Лента" loading="lazy" /><span
 											class="badge-label">Лента</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="baucenter"><img class="logo-img"
-											src="assets/logos/baucenter.svg" alt="Бауцентр" loading="lazy" /><span
-											class="badge-label">Бауцентр</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="okey"><img class="logo-img"
+											src="assets/logos/okei.svg" alt="О’КЕЙ" loading="lazy" /><span
+											class="badge-label">О’КЕЙ</span></span></span>
 								<span class="ticker-item"><span class="logo-badge" data-brand="auchan"><img class="logo-img"
 											src="assets/logos/auchan.svg" alt="Ашан" loading="lazy" /><span
 											class="badge-label">Ашан</span></span></span>
-								<span class="ticker-item"><span class="logo-badge" data-brand="petrovich"><img class="logo-img"
-											src="assets/logos/petrovich.svg" alt="Петрович" loading="lazy" /><span
-											class="badge-label">Петрович</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="metro"><img class="logo-img"
+											src="assets/logos/metro.svg" alt="METRO" loading="lazy" /><span
+											class="badge-label">METRO</span></span></span>
 								<span class="ticker-item"><span class="logo-badge" data-brand="fix-price"><img class="logo-img"
 											src="assets/logos/fix-price.svg" alt="Fix Price" loading="lazy" /><span
 											class="badge-label">Fix Price</span></span></span>
