@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140" aria-label="Flower box schematic">
+  <title>Flower box / planter - schematic</title>
+  <g fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="48" width="184" height="62" rx="6" ry="6" />
+    <path d="M28 56 h164" stroke-width="1.2"/>
+    <path d="M28 74 h164" stroke-width="1.2"/>
+    <path d="M28 92 h164" stroke-width="1.2"/>
+    <rect x="26" y="66" width="168" height="30" stroke-width="1.0" opacity="0.5"/>
+    <path d="M110 62 q4 -12 14 -18 q-10 8 -4 20 q-10 -8 -14 0" stroke-width="1.6"/>
+    <circle cx="122" cy="48" r="6" stroke-width="1.6"/>
+  </g>
+</svg>

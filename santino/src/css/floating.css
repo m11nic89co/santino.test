@@ -1,0 +1,28 @@
+/* Floating gallery styles adapted to project UI variables */
+.floating-gallery{
+	position:relative;
+	width:100%;
+	height:320px;
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 60%);
+	overflow:hidden;
+	border-radius: calc(var(--radius, 12px) / 2);
+	box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+	border: 1px solid rgba(255,255,255,0.04);
+}
+.floating-item{
+	position:absolute;
+	transition: left 850ms cubic-bezier(.77,0,.18,1), top 850ms cubic-bezier(.77,0,.18,1), transform 850ms cubic-bezier(.77,0,.18,1), opacity 600ms linear;
+	will-change: left, top, transform, opacity;
+	width:120px; height:84px;
+	padding:6px;
+	background: rgba(255,255,255,0.02);
+	border-radius: 8px;
+	display:flex; align-items:center; justify-content:center;
+}
+.floating-item img{ width:100%; height:100%; object-fit:contain; filter:grayscale(0.03) contrast(0.98); opacity:0.98; }
+
+/* smaller on mobile */
+@media (max-width:720px){
+	.floating-gallery{ height:240px; }
+	.floating-item{ width:90px; height:62px; }
+}
