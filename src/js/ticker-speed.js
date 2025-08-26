@@ -17,7 +17,10 @@ const TickerSpeed = (function () {
   }
 
   function init(opts) {
-    const cfg = Object.assign({ selector: '#ticker-track', pxPerSecond: 120 }, opts || {});
+    // read default px/s from CSS variable if present
+    const rootStyle = getComputedStyle(document.documentElement);
+    const cssPx = parseFloat(rootStyle.getPropertyValue('--ticker-px-per-second')) || 120;
+    const cfg = Object.assign({ selector: '#ticker-track', pxPerSecond: cssPx }, opts || {});
     const track = document.querySelector(cfg.selector);
     if (!track) return;
 
