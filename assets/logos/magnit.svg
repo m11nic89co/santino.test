@@ -1,4 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
-  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
-        font-family="Inter, Arial, sans-serif" font-weight="700" font-size="28" fill="#ffffff">МАГНИТ</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" class="logo-svg" preserveAspectRatio="xMidYMid meet">
+  <title>Магнит</title>
+  <g>
+    <rect x="6" y="6" width="44" height="44" rx="8" fill="#E53935" />
+    <path d="M18 26 C22 18,34 18,38 26 L38 38 C34 46,22 46,18 38 Z" fill="#fff" />
+    <text x="92" y="40" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="22" fill="#111">МАГНИТ</text>
+  </g>
+</svg>
 </svg>

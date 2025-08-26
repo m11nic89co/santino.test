@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
   <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
         font-family="Inter, Arial, sans-serif" font-weight="700" font-size="28" fill="#ffffff">О'КЕЙ</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" class="logo-svg" preserveAspectRatio="xMidYMid meet">
+  <title>Окей</title>
+  <g>
+    <circle cx="28" cy="32" r="22" fill="#00ACC1" />
+    <text x="28" y="38" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="20" fill="#fff">OK</text>
+    <text x="92" y="40" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="24" fill="#111">ОКЕЙ</text>
+  </g>
 </svg>
