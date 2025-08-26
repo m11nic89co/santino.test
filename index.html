@@ -1344,8 +1344,16 @@
 		}
 
 		.logo-badge.logo-missing .badge-label {
-			display: inline;
-			font-size: 0.95em;
+			display: inline-block;
+			/* make fallback labels larger and readable */
+			font-size: 1.5em;
+			color: var(--text);
+			font-weight: 700;
+		}
+
+		/* Hide fallback labels in the cloned segment to avoid visible duplication when the track is duplicated for seamless looping */
+		.ticker-track .ticker-segment:not(:first-child) .badge-label {
+			display: none !important;
 		}
 
 		@keyframes tickerScroll {
@@ -1436,9 +1444,15 @@
 								<span class="ticker-item"><span class="logo-badge" data-brand="metro"><img class="logo-img"
 											src="assets/logos/metro.svg" alt="METRO" loading="lazy" /><span
 											class="badge-label">METRO</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="baucenter"><img class="logo-img"
+												src="assets/logos/baucenter.svg" alt="Бауцентр" loading="lazy" /><span
+												class="badge-label">Бауцентр</span></span></span>
+								<span class="ticker-item"><span class="logo-badge" data-brand="petrovich"><img class="logo-img"
+												src="assets/logos/petrovich.svg" alt="Петрович" loading="lazy" /><span
+												class="badge-label">Петрович</span></span></span>
 								<span class="ticker-item"><span class="logo-badge" data-brand="fix-price"><img class="logo-img"
-											src="assets/logos/fix-price.svg" alt="Fix Price" loading="lazy" /><span
-											class="badge-label">Fix Price</span></span></span>
+												src="assets/logos/fix-price.svg" alt="Fix Price" loading="lazy" /><span
+												class="badge-label">Fix Price</span></span></span>
 								<span class="ticker-item"><span class="logo-badge" data-brand="vkusvill"><img class="logo-img"
 											src="assets/logos/vkusvill.svg" alt="ВкусВилл" loading="lazy" /><span
 											class="badge-label">ВкусВилл</span></span></span>
