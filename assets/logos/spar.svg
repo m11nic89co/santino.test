@@ -2,10 +2,7 @@
   <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
         font-family="Inter, Arial, sans-serif" font-weight="700" font-size="28" fill="#ffffff">SPAR</text>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" class="logo-svg" preserveAspectRatio="xMidYMid meet">
-  <title>Spar</title>
-  <g>
-    <rect x="6" y="6" width="44" height="44" rx="6" fill="#C62828" />
-    <path d="M12 42 L22 22 L32 42 Z" fill="#fff" />
-    <text x="92" y="40" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="24" fill="#111">SPAR</text>
-  </g>
+  <title>SPAR</title>
+  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
+        font-family="Playfair Display, Arial, sans-serif" font-weight="700" font-size="24" fill="currentColor">SPAR</text>
 </svg>
