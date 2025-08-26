@@ -42,11 +42,14 @@ const TickerSpeed = (function () {
       return;
     }
 
-    // initial compute
-    recalc();
-    // recompute on resize and when fonts/images load
-    window.addEventListener('resize', () => recalc());
-    window.addEventListener('load', () => setTimeout(recalc, 100));
+  // initial compute
+  recalc();
+  // recompute on resize and when fonts/images load
+  window.addEventListener('resize', () => recalc());
+  window.addEventListener('orientationchange', () => setTimeout(recalc, 80));
+  window.addEventListener('pageshow', () => setTimeout(recalc, 80));
+  window.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(recalc, 80); });
+  window.addEventListener('load', () => setTimeout(recalc, 100));
 
     // also observe mutations in case content changes
     const ro = new MutationObserver(() => recalc());
@@ -59,6 +62,8 @@ const TickerSpeed = (function () {
 // auto-init if found
 if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', () => {
-    TickerSpeed.init({ selector: '#ticker-track', pxPerSecond: 120 });
+    const rootStyle = getComputedStyle(document.documentElement);
+    const cssPx = parseFloat(rootStyle.getPropertyValue('--ticker-px-per-second')) || 30;
+    TickerSpeed.init({ selector: '#ticker-track', pxPerSecond: cssPx });
   });
 }
