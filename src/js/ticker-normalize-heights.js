@@ -51,6 +51,13 @@
     // convert to em relative to ticker font-size
     const em = pxToEm(median, container);
     document.documentElement.style.setProperty('--ticker-logo-height', em + 'em');
+    // apply smoothing for transform (use GPU)
+    const track = container.querySelector('.ticker-track');
+    if (track) {
+      track.style.willChange = 'transform';
+      track.style.backfaceVisibility = 'hidden';
+      track.style.transformStyle = 'preserve-3d';
+    }
   }
 
   function init() {

@@ -1338,9 +1338,13 @@
 			object-fit: contain;
 		}
 
-		/* allow overriding global ticker logo height from root for fine-tuning */
-		:root { --ticker-logo-height: 1.6em; }
-		.logo-badge .logo-img { height: var(--ticker-logo-height); }
+		/* allow overriding global ticker logo height and scale from root for fine-tuning */
+		:root {
+			--ticker-logo-height: 1.6em; /* base height used by normalizer */
+			--ticker-logo-scale: 0.3333; /* scale factor to make logos ~3x smaller */
+			--logo-gap: 0.8em; /* reduced gap between logos when small */
+		}
+		.logo-badge .logo-img { height: calc(var(--ticker-logo-height) * var(--ticker-logo-scale)); }
 
 		/* fallback: reveal text label when image fails */
 		.logo-badge.logo-missing .logo-img {
@@ -1353,13 +1357,8 @@
 		}
 
 		@keyframes tickerScroll {
-			from {
-				transform: translateX(0);
-			}
-
-			to {
-				transform: translateX(-50%);
-			}
+			from { transform: translate3d(0,0,0); }
+			to { transform: translate3d(-50%,0,0); }
 		}
 
 		/* Desktop-only: make hero text more laconic */
