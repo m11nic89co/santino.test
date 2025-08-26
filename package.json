@@ -1,0 +1,42 @@
+{
+  "name": "santino-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Utility scripts for santino.ru.com workspace",
+  "scripts": {
+    "make:og": "node tools/make_og.mjs",
+    "make:icons": "node tools/make_icons.js",
+    "build:assets": "npm run make:og && npm run make:icons",
+    "sync": "node scripts/sync-current-to-src.mjs",
+    "build": "node -r dotenv/config scripts/build.mjs",
+    "build:prod": "cross-env BUILD_ENV=prod node -r dotenv/config scripts/build.mjs",
+    "archive": "node scripts/archive.mjs",
+    "snapshot": "npm run build && node scripts/archive.mjs",
+    "snapshot:repo": "npm run build && node scripts/snapshot-in-repo.mjs",
+    "snapshot:device": "npm run build && node scripts/archive.mjs --device=$DEVICE",
+    "release": "npm run build:prod && node scripts/archive.mjs",
+    "prepare": "husky",
+    "deploy:sftp": "node -r dotenv/config scripts/deploy-sftp.mjs",
+    "deploy": "npm run sync && npm run build:prod && npm run cleanup:demo && npm run deploy:sftp && node scripts/archive.mjs",
+    "deploy:stage": "cross-env $(cat .env.stage 2>/dev/null | xargs) npm run deploy",
+    "deploy:prod": "cross-env $(cat .env.prod 2>/dev/null | xargs) npm run deploy",
+    "cleanup:demo": "node scripts/cleanup-demo.mjs",
+    "archive:demo": "node scripts/archive-demo.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "archiver": "^6.0.2",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^6.1.2",
+    "esbuild": "^0.23.0",
+    "fast-glob": "^3.3.2",
+    "favicons": "^7.2.0",
+    "fs-extra": "^11.2.0",
+    "ssh2": "^1.15.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "husky": "^9.1.6"
+  }
+}

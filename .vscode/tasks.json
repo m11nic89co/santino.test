@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Santino: Sync curentVersion -> src",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "sync"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: Build (prod)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build:prod"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: Deploy (SFTP)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "deploy"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: Deploy STAGE",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "deploy:stage"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: Deploy PROD",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "deploy:prod"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    }
+  ]
+}

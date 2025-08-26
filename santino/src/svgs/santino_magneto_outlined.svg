@@ -1,0 +1,21 @@
+It seems like you're trying to save a project to a specific directory on your computer. However, as an AI text-based model, I don't have the capability to interact with your file system or perform file operations directly.
+
+To save your project to the specified directory, you can follow these general steps depending on the software you are using:
+
+1. **In a Code Editor or IDE (like Visual Studio Code, PyCharm, etc.):**
+   - Go to the "File" menu.
+   - Select "Save As" or "Save".
+   - Navigate to `G:\My Drive\dev\santino`.
+   - Enter a name for your project file and click "Save".
+
+2. **In a Document Editor (like Microsoft Word, Google Docs, etc.):**
+   - Click on "File".
+   - Choose "Save As" or "Download".
+   - Select the location `G:\My Drive\dev\santino`.
+   - Name your document and save it.
+
+3. **Using Command Line (if applicable):**
+   - Open Command Prompt or Terminal.
+   - Use a command like `cp` (for copy) or `mv` (for move) to save your project files to the desired directory.
+
+If you need more specific instructions based on the software you are using, please let me know!

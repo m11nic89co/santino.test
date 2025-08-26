@@ -1,0 +1,15 @@
+It seems like you're trying to save a project to a specific directory on your computer. However, as a text-based AI, I don't have the capability to interact with your file system or save files directly. 
+
+To save your project to the specified directory, you can follow these general steps depending on the software you are using:
+
+1. **In most applications (like text editors, IDEs, etc.):**
+   - Click on `File` in the menu.
+   - Select `Save As...`.
+   - Navigate to `G:\My Drive\dev\santino`.
+   - Enter a name for your project file.
+   - Click `Save`.
+
+2. **If you're using a command line:**
+   - You can use a command like `cp` (for copying files) or `mv` (for moving files) to transfer your project files to the desired directory.
+
+If you need more specific instructions, please let me know what software or programming environment you are using!
