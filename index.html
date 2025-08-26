@@ -1338,6 +1338,10 @@
 			object-fit: contain;
 		}
 
+		/* allow overriding global ticker logo height from root for fine-tuning */
+		:root { --ticker-logo-height: 1.6em; }
+		.logo-badge .logo-img { height: var(--ticker-logo-height); }
+
 		/* fallback: reveal text label when image fails */
 		.logo-badge.logo-missing .logo-img {
 			display: none;
@@ -1377,6 +1381,7 @@
 		}
 	</style>
 </head>
+<script src="/src/js/ticker-speed.js" defer></script>
 
 <body class="site-hidden">
 	<div class="loader-bg" id="loader-bg">
