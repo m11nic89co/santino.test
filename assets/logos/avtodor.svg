@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" class="logo-svg" preserveAspectRatio="xMidYMid meet">
+  <title>Avtodor</title>
   <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
-        font-family="Inter, Arial, sans-serif" font-weight="700" font-size="26" fill="#ffffff">АВТОДОР</text>
+        font-family="Source Sans Pro, Arial, sans-serif" font-weight="700" font-size="20" fill="currentColor">AVTODOR</text>
 </svg>
