@@ -1,0 +1,9 @@
+# Disabled: we no longer deploy to GitHub Pages.
+name: (DISABLED) GitHub Pages
+on:
+  workflow_dispatch:
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "GitHub Pages workflow disabled. Use SFTP deploy."

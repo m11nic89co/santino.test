@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Santino: Snapshot in repo",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command",
+        "& {\n$ErrorActionPreference='Stop';\n$root='${workspaceFolder}';\n$public=Join-Path $root 'public';\n$snapRoot=Join-Path $root 'snapshots';\nif (!(Test-Path $public)) { throw 'public/ not found. Build or copy first.' }\nif (!(Test-Path $snapRoot)) { New-Item -ItemType Directory -Force -Path $snapRoot | Out-Null }\n$ts=Get-Date -Format 'yyyy-MM-dd-HHmmss';\n$dest=Join-Path $snapRoot $ts;\nrobocopy $public $dest /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null;\n$code=$LASTEXITCODE; if ($code -ge 8) { throw \"robocopy failed ($code)\" }\n& git add -- $dest;\n& git commit -m \"snapshot: $ts (public -> snapshots/$ts)\";\nWrite-Host \"SNAPSHOT_OK: $dest\"; }"
+      ]
+    },
+    {
+      "label": "Santino: Deploy (local) + Snapshot",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command",
+        "& {\n$ErrorActionPreference='Stop';\n$root='${workspaceFolder}';\n$src=Join-Path $root 'src';\n$public=Join-Path $root 'public';\n$deploy=Join-Path $root 'santino.ru.com';\n$snapRoot=Join-Path $root 'snapshots';\n@($public,$deploy,$snapRoot) | % { if (!(Test-Path $_)) { New-Item -ItemType Directory -Force -Path $_ | Out-Null } }\nrobocopy $src $public /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null; if ($LASTEXITCODE -ge 8) { throw 'robocopy src->public failed' }\nrobocopy $public $deploy /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null; if ($LASTEXITCODE -ge 8) { throw 'robocopy public->deploy failed' }\n$ts=Get-Date -Format 'yyyy-MM-dd-HHmmss';\n$dest=Join-Path $snapRoot $ts;\nrobocopy $public $dest /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null; if ($LASTEXITCODE -ge 8) { throw 'robocopy public->snapshot failed' }\n& git add -- $dest;\n& git commit -m \"deploy+snapshot: $ts\";\nWrite-Host \"DEPLOY_OK: $deploy\"; Write-Host \"SNAPSHOT_OK: $dest\"; }"
+      ]
+    }
+  ]
+}

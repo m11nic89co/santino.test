@@ -1,0 +1,42 @@
+name: Release build and archive
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 20 * * *" # daily at 20:00 UTC
+
+jobs:
+  build-and-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (ENV=prod)
+        run: npm run build:prod
+
+      - name: Archive ZIP
+        run: npm run archive
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-zip
+          path: oldVersions/*.zip
+
+      # Optional: commit ZIP to repo (disabled by default)
+      # - name: Commit ZIP to repo
+      #   run: |
+      #     git config user.name "github-actions"
+      #     git config user.email "actions@github.com"
+      #     git add oldVersions/*.zip
+      #     git commit -m "chore(archive): add daily ZIP"
+      #     git push

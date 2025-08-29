@@ -1,0 +1,12 @@
+# Disabled: project uses SFTP deploy now. Kept for history.
+name: (DISABLED) Deploy to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: ${{ false }} # disabled intentionally
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Cloudflare Pages workflow disabled. Use SFTP deploy."

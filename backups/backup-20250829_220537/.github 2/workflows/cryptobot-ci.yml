@@ -1,0 +1,9 @@
+# Disabled: crypto-bot not part of this repo.
+name: (DISABLED) crypto-bot CI
+on:
+  workflow_dispatch:
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "crypto-bot workflow disabled."

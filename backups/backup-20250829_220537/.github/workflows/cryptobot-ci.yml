@@ -1,0 +1,41 @@
+name: crypto-bot CI
+
+on:
+  push:
+    paths:
+      - "crypto-bot/**"
+      - ".github/workflows/cryptobot-ci.yml"
+  pull_request:
+    paths:
+      - "crypto-bot/**"
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: crypto-bot
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: crypto-bot/pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Ruff (lint)
+        run: ruff check .
+
+      - name: Mypy (type check)
+        run: mypy src
+
+      - name: Pytest (unit tests)
+        run: pytest -q

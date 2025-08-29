@@ -1,6 +1,7 @@
 :root {
 			--bg: #0b0b0b;
 			--text: #fff;
+			--text-muted: rgba(255,255,255,0.85);
 			--accent: #00ffe7;
 			--gray: #222;
 			--radius: 18px;
@@ -235,24 +236,192 @@
 		}
 
 		header {
-			width: 100vw;
-			padding: 8px 0 0;
-			/* tiny top offset so logo isn't glued to top */
-			background: transparent;
-			/* match section background by showing underlying gradient */
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			width: 100%;
+			padding: 18px 32px;
 			position: fixed;
 			top: 0;
 			left: 0;
 			z-index: 100;
-			box-shadow: none;
-			border: none;
-			pointer-events: none;
-			user-select: none;
-			transition: none;
-			height: auto;
+			box-sizing: border-box;
+			display: flex; /* Flex layout: left nav, logo, right nav */
+			justify-content: space-between;
+			align-items: center; /* Vertically center */
+		}
+
+		.header-left, .header-right {
+			flex: 1; /* let navs grow symmetrically */
+		}
+
+		.header-left { display: flex; justify-content: flex-end; }
+		.header-right { display: flex; justify-content: flex-start; }
+
+	/* central logo: keep comfortable spacing to both navs */
+	.logo { padding: 0 160px; }
+
+	/* Menu: make spacing between items even and responsive */
+	.main-nav { display: flex; align-items: center; gap: clamp(20px, 2.2vw, 40px); }
+	/* Keep and slightly increase the buffer between logo and nav groups so items don't move closer to logo */
+	.header-left .main-nav { margin-right: 28px; }
+	.header-right .main-nav { margin-left: 28px; }
+
+		/* responsive reductions to keep header usable */
+	@media (max-width: 1600px) { .logo { padding: 0 120px; } }
+		@media (max-width: 1200px) { .logo { padding: 0 72px; } }
+		@media (max-width: 900px)  { .logo { padding: 0 24px; } .main-nav { gap: 12px; } }
+
+		.main-nav a {
+			font-family: var(--font-tech);
+			font-size: 1.2rem;
+			font-weight: 300;
+			color: rgba(255,255,255,0.39); /* reduced brightness (~40% darker) */
+			text-decoration: none;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			transition: color 0.25s ease, text-shadow 0.25s ease, font-weight 0.2s;
+		}
+
+		/* Subtle separators between desktop menu items */
+		.main-nav a + a::before {
+			content: "";
+			display: inline-block;
+			width: 4px;
+			height: 4px;
+			border-radius: 50%;
+			background-color: rgba(255, 255, 255, 0.22);
+			vertical-align: middle;
+			margin: 0 6px 2px 2px; /* small breathing room around the dot */
+			box-shadow: 0 0 4px rgba(0, 255, 231, 0.25);
+		}
+
+		/* When either neighbor is active, make the dot a touch brighter */
+		.main-nav a.active + a::before,
+		.main-nav a + a.active::before {
+			background-color: rgba(0, 255, 231, 0.7);
+			box-shadow: 0 0 6px rgba(0, 255, 231, 0.6);
+		}
+
+		/* Remove separators before specific menu targets: "Качество"(index 1) and "Контакты"(index 3).
+		   We target by id and by data-index as a fallback for generated links. */
+		.main-nav a#menu-link-1::before,
+		.main-nav a#menu-link-3::before,
+		.main-nav a[data-index="1"]::before,
+		.main-nav a[data-index="3"]::before {
+			display: none;
+			content: none;
+		}
+
+		.main-nav a.active,
+		.main-nav a:hover {
+			color: var(--text); /* full brightness when active/hover */
+			font-weight: 400;
+			text-shadow: 0 0 12px var(--accent);
+		}
+
+		.hamburger-menu {
+			display: none; /* Hidden on desktop by default */
+			position: absolute; /* Position relative to header */
+			right: 40px;
+			z-index: 101;
+			width: 56px; /* compact width */
+			height: 32px; /* keep below typical logo height */
+			top: 46%;
+			transform: translateY(-50%);
+			display: none;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column; /* stack lines vertically */
+			padding: 4px 6px;
+			box-sizing: border-box;
+			cursor: pointer;
+		}
+
+		/* Hamburger lines: vessel shape — wider on top, narrower on bottom */
+		.hamburger-menu span {
+			display: block;
+			height: 2px; /* thinner lines */
+			background: var(--text-muted);
+			border-radius: 1px;
+			transition: transform 300ms cubic-bezier(.22,.9,.24,1), opacity 180ms ease, width 220ms ease;
+			box-shadow: 0 0 6px rgba(0,255,231,0.04);
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		/* progressive widths for 4 lines (vessel/tapered look) */
+		.hamburger-menu span:nth-child(1) { width: 100%; }
+		.hamburger-menu span:nth-child(2) { width: 90%; }
+		.hamburger-menu span:nth-child(3) { width: 80%; }
+		.hamburger-menu span:nth-child(4) { width: 70%; }
+
+		.hamburger-menu span + span { margin-top: 4px; }
+
+		/* Active state for 4 lines: cross the middle two, slide the outer two away */
+		.hamburger-menu.is-active span:nth-child(1) { opacity: 0; transform: translateY(-5px) scaleX(0); }
+		.hamburger-menu.is-active span:nth-child(4) { opacity: 0; transform: translateY(5px) scaleX(0); }
+		.hamburger-menu.is-active span:nth-child(2) { transform: translateY(5px) rotate(45deg); }
+		.hamburger-menu.is-active span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+		/* Focus-visible for keyboard users */
+		.hamburger-menu:focus-visible {
+			outline: 2px solid var(--accent);
+			outline-offset: 4px;
+		}
+
+		.mobile-nav {
+			display: none;
+		}
+
+		@media (max-width: 900px) {
+			.main-nav {
+				display: none;
+			}
+			.hamburger-menu {
+				display: flex;
+			}
+			.header-left, .header-right {
+				display: none; /* Hide desktop navs on mobile */
+			}
+			header {
+				justify-content: center; /* Center logo on mobile */
+			}
+
+			.mobile-nav {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.95);
+				z-index: 99;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				transform: translateY(-100%);
+				transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+			}
+
+			.mobile-nav.is-open {
+				transform: translateY(0);
+			}
+
+			.mobile-nav a {
+				font-family: var(--font-tech);
+				font-size: 2rem;
+				color: var(--text);
+				text-decoration: none;
+				margin: 20px 0;
+				transition: color 0.3s;
+			}
+
+			.mobile-nav a.active,
+			.mobile-nav a:hover {
+				color: var(--accent);
+			}
+		}
+
+		header > * {
+			pointer-events: auto;
 		}
 
 		.logo {
@@ -266,29 +435,27 @@
 			letter-spacing: 0.18em;
 			color: var(--text);
 			pointer-events: auto;
-			transition: color 0.2s, text-shadow 0.3s, transform 0.7s cubic-bezier(.77, 0, .18, 1), opacity 0.9s cubic-bezier(.77, 0, .18, 1);
+			transition: color 0.2s, text-shadow 0.3s, transform 0.7s cubic-bezier(.77, 0, .18, 1), opacity 0.35s ease;
 			text-shadow: none;
-			/* glow removed */
 			filter: none;
-			/* glow removed */
 			text-transform: none;
-			line-height: 0;
-			/* make header height equal to logo graphic */
-			opacity: 0;
-			/* avoid scaling raster logo to prevent pixelation */
-			transform: translateY(40vh);
+			/* keep natural line height so vertical centering works */
+			line-height: normal;
+			/* show by default so header items are centered */
+			opacity: 1;
+			transform: none;
 		}
 
+		/* gentle load animation: applied only when JS adds .logo-animate-in */
 		.logo.logo-animate-in {
+			transform: translateY(-6px);
 			opacity: 1;
-			/* no scale during animation to keep GIF crisp */
-			transform: translateY(0);
-			transition: transform 1.2s cubic-bezier(.77, 0, .18, 1), opacity 1.2s cubic-bezier(.77, 0, .18, 1);
+			transition: transform 0.9s cubic-bezier(.77, 0, .18, 1), opacity 0.9s cubic-bezier(.77, 0, .18, 1);
 		}
 
 		/* Logo image sizing + smoothing */
 		.logo img {
-			height: 42px;
+			height: 36px;
 			width: auto;
 			display: block;
 			image-rendering: auto;
@@ -299,13 +466,13 @@
 
 		@media (max-width: 1200px) {
 			.logo img {
-				height: 40px;
+				height: 34px;
 			}
 		}
 
 		@media (max-width: 1024px) {
 			.logo img {
-				height: 34px;
+				height: 32px;
 			}
 		}
 
@@ -317,7 +484,7 @@
 
 		@media (max-width: 640px) {
 			.logo img {
-				height: 26px;
+				height: 28px;
 			}
 		}
 
@@ -329,6 +496,73 @@
 			/* ensure no drop-shadow on hover */
 		}
 
+		/* Pagination: small circular bullets stacked on the right */
+		.swiper-pagination {
+			position: absolute;
+			right: 22px;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 50;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.swiper-pagination .swiper-pagination-bullet {
+			width: 10px;
+			height: 10px;
+			background: rgba(255,255,255,0.18);
+			border-radius: 50%;
+			display: block;
+			box-shadow: none;
+			transition: transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
+		}
+
+		.swiper-pagination .swiper-pagination-bullet-active {
+			background: var(--accent);
+			transform: scale(1.25);
+			box-shadow: 0 0 12px var(--accent);
+		}
+
+		/* Tooltip for pagination bullets */
+		.swiper-pagination .swiper-pagination-bullet[data-tooltip]:hover::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			left: -220px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: rgba(0,0,0,0.8);
+			color: #fff;
+			padding: 6px 10px;
+			border-radius: 6px;
+			font-size: 0.9rem;
+			white-space: nowrap;
+			box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+		}
+
+		/* Slide animations: old slide falls down, new slide comes from above */
+		@keyframes slideFallOut {
+			0% { transform: translateY(0); opacity: 1; filter: blur(0); }
+			60% { transform: translateY(18vh); opacity: 0.9; filter: blur(6px); }
+			100% { transform: translateY(40vh) scale(0.98); opacity: 0; filter: blur(14px); }
+		}
+
+		@keyframes slideComeUp {
+			0% { transform: translateY(-30vh); opacity: 0; filter: blur(14px); }
+			60% { transform: translateY(-6vh); opacity: 0.95; filter: blur(6px); }
+			100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+		}
+
+		.slide-fall-out {
+			animation: slideFallOut 1.1s cubic-bezier(.22,.9,.3,1) both;
+			will-change: transform, opacity, filter;
+		}
+
+		.slide-come-up {
+			animation: slideComeUp 1.1s cubic-bezier(.22,.9,.3,1) both;
+			will-change: transform, opacity, filter;
+		}
+
 		main {
 			min-height: 100dvh;
 			min-height: calc(var(--vh, 1vh) * 100);
@@ -336,7 +570,7 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			padding: 0 6vw;
+			padding: 0;
 			position: relative;
 			text-align: center;
 			opacity: 0;
@@ -370,6 +604,7 @@
 			top: 0;
 			z-index: 10;
 			background: inherit;
+			padding: 0 2rem;
 		}
 
 		.hero-section.fog-in {
@@ -383,7 +618,7 @@
 			font-family: var(--font-tech);
 			font-size: 4.5rem;
 			font-weight: 900;
-			margin: 180px 0 2rem 0;
+			margin: 0 0 2rem 0;
 			letter-spacing: 0.01em;
 			line-height: 1.05;
 			color: var(--text);
@@ -907,7 +1142,7 @@
 
 		/* Slow blueprint mockups overlay (SVG drawings) */
 		.blueprints-overlay {
-			position: fixed;
+			position: absolute;
 			inset: 0;
 			z-index: 1;
 			/* above grid, below content */
@@ -1041,17 +1276,12 @@
 			will-change: opacity, transform, filter;
 		}
 
-		/* Fit-to-viewport scaling container for sections */
 		.fit-inner {
-			position: absolute;
-			left: 0;
-			top: 0;
-			transform-origin: top left;
-			will-change: transform;
+			display: none;
 		}
 
 		/* Center hero content in the scaled design area (desktop) */
-		.hero-section .fit-inner {
+		.hero-section {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -1062,7 +1292,7 @@
 			box-sizing: border-box;
 		}
 
-		.hero-section .fit-inner .hero-title {
+		.hero-section .hero-title {
 			margin: 0 0 2rem 0;
 		}
 
@@ -1072,9 +1302,11 @@
 			align-items: center;
 			justify-content: center;
 			gap: 0.6rem;
-			/* no positioning to let hero-subtle anchor to .fit-inner */
 			position: relative;
 			z-index: 2;
+			width: 100%;
+			max-width: 900px;
+			margin: 0 auto;
 		}
 
 		/* Replace large mask with subtle per-letter dark halos via text-shadow */
@@ -1108,7 +1340,7 @@
 			position: absolute;
 			left: 0;
 			right: 0;
-			bottom: calc(2.2em + 18px);
+			bottom: 70px;
 			text-align: center;
 			margin: 0;
 			pointer-events: none;
@@ -1146,20 +1378,7 @@
 			min-height: calc(calc(var(--vh, 1vh) * 100) - var(--header-h, 0px));
 		}
 
-		body.mobile-mode .fit-inner {
-			position: relative;
-			left: 0;
-			top: 0;
-			width: 100%;
-			max-width: 100%;
-			height: auto;
-			transform: none !important;
-			padding: 0 16px 40px;
-			box-sizing: border-box;
-			text-align: center;
-		}
-
-		body.mobile-mode .hero-section .fit-inner {
+		body.mobile-mode .hero-section {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -1197,7 +1416,7 @@
 
 		/* Desktop: also pin ticker and trust line to viewport bottom so zoom doesn't affect visibility */
 		@media (min-width: 901px) {
-			.hero-section .fit-inner {
+			.hero-section {
 				padding-bottom: 84px;
 				/* ensure center area leaves space for pinned elements */
 			}
@@ -1217,7 +1436,7 @@
 				position: fixed;
 				left: 0;
 				right: 0;
-				bottom: calc(2.2em + 18px);
+				bottom: 70px;
 				text-align: center;
 				margin: 0;
 				z-index: 6;
@@ -1355,3 +1574,125 @@
 				font-size: 0.95rem;
 			}
 		}
+
+		/* Swiper & Navigation */
+		.swiper {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* Accessibility helpers */
+.skip-link {
+	position: absolute;
+	left: 8px;
+	top: -40px;
+	padding: 8px 12px;
+	background: var(--accent);
+	color: #0b0b0b;
+	border-radius: 8px;
+	z-index: 10000;
+	text-decoration: none;
+	transition: top .2s ease;
+}
+
+.skip-link:focus { top: 8px; }
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Remove old conflicting tall bullet styles; circular bullets defined earlier are used */
+.section-content h2 {
+	font-family: var(--font-tech);
+	font-size: 3rem;
+	color: var(--accent);
+	margin-bottom: 1rem;
+}
+
+.section-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Improve readability for non-hero sections: wider measure, padding from edges and slightly larger text */
+.section-content .content-wrapper {
+	max-width: 900px;
+	padding: 0 64px; /* horizontal breathing room */
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+.section-content p {
+	font-size: 1.18rem;
+	line-height: 1.78;
+	color: rgba(255,255,255,0.95);
+}
+
+@media (max-width: 1200px) {
+	.section-content .content-wrapper { padding: 0 48px; max-width: 760px; }
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 0 28px; max-width: 640px; }
+	.section-content h2 { font-size: 2.2rem; }
+	.section-content p { font-size: 1.05rem; line-height: 1.6; }
+}
+
+
+.logo-link {
+	text-decoration: none;
+}
+.logo-link {
+	text-decoration: none;
+}
+
+/* First slide: scale content by 5% smaller */
+.hero-scale-95 .hero-core,
+.hero-scale-95 .hero-title,
+.hero-scale-95 .hero-desc,
+.hero-scale-95 .hero-subtle,
+.hero-scale-95 .btn {
+	transform: scale(0.95);
+	transform-origin: center top;
+}
+
+@media (max-width: 600px) {
+	/* On very small screens, keep only the core scaled to avoid over-shrinking text twice */
+	.hero-scale-95 .hero-title,
+	.hero-scale-95 .hero-desc,
+	.hero-scale-95 .hero-subtle,
+	.hero-scale-95 .btn {
+		transform: none;
+	}
+	.hero-scale-95 .hero-core {
+		transform: scale(0.95);
+	}
+}
+
+/* Global pause state for animations when tab is hidden */
+body.is-paused .ticker-track {
+	animation-play-state: paused !important;
+}
+body.is-paused .blueprint {
+	animation-play-state: paused !important;
+}
+/* Also respect reduced motion (most are handled in JS, but ensure CSS animations pause as well) */
+@media (prefers-reduced-motion: reduce) {
+	.ticker-track { animation: none !important; }
+	.blueprint { animation: none !important; }
+}

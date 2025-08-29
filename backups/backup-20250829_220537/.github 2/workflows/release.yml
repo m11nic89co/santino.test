@@ -1,0 +1,10 @@
+name: (DISABLED) Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Release workflow disabled. Use npm run release locally."
