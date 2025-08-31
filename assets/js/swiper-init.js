@@ -194,6 +194,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Ensure mobile menu reflects current active slide on init
+    if (mobileNav) {
+        const mlinks = mobileNav.querySelectorAll('a');
+        mlinks.forEach(a => {
+            const idx = parseInt(a.dataset.index);
+            if (idx === swiper.activeIndex) a.classList.add('active');
+        });
+    }
+
     // Initialize first slide and link
     updateActiveLink(swiper.activeIndex);
     const firstSlide = swiper.slides[swiper.activeIndex];

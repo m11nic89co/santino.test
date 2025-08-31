@@ -531,6 +531,13 @@
 			display: none;
 		}
 
+		/* Force mobile header layout when body has .mobile-mode (works even >900px) */
+		body.mobile-mode .main-nav { display: none !important; }
+		body.mobile-mode .header-left, body.mobile-mode .header-right { display: none !important; }
+		body.mobile-mode .hamburger-menu { display: flex !important; }
+		body.mobile-mode header { justify-content: center; }
+		body.mobile-mode .mobile-nav { z-index: 1000; }
+
 		@media (max-width: 900px) {
 			.main-nav {
 				display: none;
