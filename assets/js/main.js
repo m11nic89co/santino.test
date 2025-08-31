@@ -121,6 +121,7 @@ function isLowPower() {
 							const heroTitle = document.querySelector('.hero-title');
 							const heroDesc = document.querySelector('.hero-desc');
 							const heroBtn = document.querySelector('.btn');
+							const trustLine = document.querySelector('.hero-subtle');
 
 								// --- Разбиваем только вторую часть заголовка на слова и оборачиваем в span ---
 								const mainSpan = heroTitle.querySelector('.hero-title-main');
@@ -158,6 +159,25 @@ function isLowPower() {
 								setTimeout(() => {
 									heroBtn.style.transition = 'opacity 0.9s cubic-bezier(.77,0,.18,1)';
 									heroBtn.style.opacity = '1';
+									// After button visible, compute mid position for hamburger
+									requestAnimationFrame(() => {
+										try {
+											const btnRect = heroBtn.getBoundingClientRect();
+											const trustRect = trustLine ? trustLine.getBoundingClientRect() : { top: window.innerHeight * 0.78 };
+											const mid = Math.round((btnRect.bottom + trustRect.top) / 2);
+											document.documentElement.style.setProperty('--cta-bottom', btnRect.bottom + 'px');
+											document.documentElement.style.setProperty('--trust-top', trustRect.top + 'px');
+											// Also adjust on resize/orientation
+											function updateBurgerVars(){
+												const b = heroBtn.getBoundingClientRect();
+												const t = trustLine ? trustLine.getBoundingClientRect() : { top: window.innerHeight * 0.78 };
+												document.documentElement.style.setProperty('--cta-bottom', b.bottom + 'px');
+												document.documentElement.style.setProperty('--trust-top', t.top + 'px');
+											}
+											window.addEventListener('resize', () => requestAnimationFrame(updateBurgerVars), { passive: true });
+											window.addEventListener('orientationchange', () => setTimeout(() => requestAnimationFrame(updateBurgerVars), 50), { passive: true });
+										} catch(_) { }
+									});
 								}, 200 + words.length * 500 + 400);
 
 								// Старт синего чертежного цикла сразу после вспышки

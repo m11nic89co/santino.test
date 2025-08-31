@@ -599,22 +599,30 @@
 			.mobile-nav a.active,
 			.mobile-nav a:hover { color: var(--accent); }
 
-			/* Move hamburger to bottom-center on mobile, just above ticker */
+			/* Place hamburger vertically centered between CTA (.btn) and trust line (.hero-subtle) */
 			.hamburger-menu {
 				position: fixed;
-				top: auto;
-				bottom: calc(env(safe-area-inset-bottom, 0px) + 2.8em);
 				left: 50%;
-				right: auto;
 				transform: translateX(-50%);
-				width: 64px; height: 44px; padding: 8px 10px;
+				bottom: auto;
+				top: calc((var(--cta-bottom, 55vh) + var(--trust-top, 70vh)) / 2);
+				/* Fallback if vars not set: roughly 62vh */
+				width: auto; height: auto; padding: 10px 14px;
 				background: rgba(0,0,0,0.25);
 				border-radius: 999px;
 				box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+				display: flex; flex-direction: column; align-items: center; gap: 10px;
 				z-index: 101;
 			}
 
-			.hamburger-caption { display: block; position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 2.2em + 52px); font-family: var(--font-tech); font-size: 0.8rem; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; text-transform: uppercase; pointer-events: none; }
+			.hamburger-menu .hamburger-lines { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+			.hamburger-menu .hamburger-lines span { display: block; height: 2px; background: var(--text-muted); border-radius: 1px; width: 100%; }
+			.hamburger-menu .hamburger-lines span:nth-child(1){ width: 100%; }
+			.hamburger-menu .hamburger-lines span:nth-child(2){ width: 85%; }
+			.hamburger-menu .hamburger-lines span:nth-child(3){ width: 70%; }
+			.hamburger-menu .hamburger-lines span:nth-child(4){ width: 55%; }
+
+			.hamburger-menu .hamburger-label { font-family: var(--font-tech); font-size: 0.85rem; color: rgba(255,255,255,0.7); letter-spacing: 0.12em; text-transform: uppercase; line-height: 1; }
 		}
 
 		header > * {
