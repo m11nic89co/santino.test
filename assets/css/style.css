@@ -10,6 +10,8 @@
 			--nav-underline-offset: 3px; /* baseline for arrows/line */
 			--nav-arrow-size: 8px;
 			--nav-arrow-half: 4px;
+			/* Inform UA we handle both schemes and keep visuals consistent via explicit colors */
+			color-scheme: dark light;
 		}
 
 		html,
@@ -18,6 +20,8 @@
 			margin: 0;
 			padding: 0;
 		}
+
+		html { background-color: #222831; }
 
 		body {
 			/* Prefer the dynamic viewport unit on modern browsers (dvh).
