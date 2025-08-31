@@ -166,6 +166,14 @@ function isLowPower() {
 									if (!reduced) startBlueprintCycle();
 								} catch (_) { }
 
+								// Ensure hero button cycle starts when hero is visible and not in low-power/reduced-motion
+								try {
+									const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+									if (!reduced && !isLowPower() && typeof startBtnCycle === 'function') {
+										startBtnCycle();
+									}
+								} catch (_) { }
+
 							}, 500);
 						}, 700);
 					}, 900);
@@ -189,7 +197,8 @@ function isLowPower() {
 		let heroBtnIntervalId = null;
 
 		function lampFlickerChange() {
-			if (!heroBtn) return;
+			const btn = document.querySelector('.btn');
+			if (!btn) return;
 			if (btnCycleActive) return;
 			btnCycleActive = true;
 
@@ -198,32 +207,32 @@ function isLowPower() {
 			const neonDuration = 1500;
 
 			// 1. Перегорание (исчезновение)
-			heroBtn.classList.add('flicker');
-			heroBtn.classList.remove('neon');
+			btn.classList.add('flicker');
+			btn.classList.remove('neon');
 
 			setTimeout(() => {
 				// 2. Кнопка полностью исчезла, делаем разрыв (gap)
-				heroBtn.classList.remove('flicker');
-				heroBtn.style.visibility = 'hidden';
+				btn.classList.remove('flicker');
+				btn.style.visibility = 'hidden';
 
 				// Искры сварки во время gap
 				try {
 					const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 					if (!reduced && !isLowPower()) {
 						// slower, longer sparks during the gap
-						spawnSparks(heroBtn, { duration: gapDuration + 600, bursts: 2 });
+						spawnSparks(btn, { duration: gapDuration + 600, bursts: 2 });
 					}
 				} catch (_) { }
 
 				// 3. После разрыва — меняем текст и показываем неоновую кнопку
 				setTimeout(() => {
 					btnIndex = (btnIndex + 1) % buttonTexts.length;
-					heroBtn.textContent = buttonTexts[btnIndex];
-					heroBtn.style.visibility = 'visible';
-					heroBtn.classList.add('neon');
+					btn.textContent = buttonTexts[btnIndex];
+					btn.style.visibility = 'visible';
+					btn.classList.add('neon');
 					setTimeout(() => {
 						// fix: remove 'neon' in latin, not Cyrillic
-						heroBtn.classList.remove('neon');
+						btn.classList.remove('neon');
 						btnCycleActive = false;
 					}, neonDuration);
 				}, gapDuration);
@@ -335,6 +344,8 @@ function isLowPower() {
 			if (_sparksOverlay && document.body.contains(_sparksOverlay)) return _sparksOverlay;
 			const el = document.createElement('div');
 			el.className = 'sparks-overlay';
+			// ensure overlay is above the main 3d and hero layers
+			el.style.zIndex = 10000;
 			document.body.appendChild(el);
 			_sparksOverlay = el;
 			return el;

@@ -44,21 +44,70 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
+    // --- Hero Parallax driver ---
+    // Uses slide.progress to drive lightweight transforms on .hero-bg and .hero-parallax
+    // Respects prefers-reduced-motion and runtime low-power flag on <body>
+    const _prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let _parallaxRaf = null;
+
+    function _applyParallaxOnce() {
+        if (_prefersReducedMotion || document.body.classList.contains('is-low-power')) {
+            document.querySelectorAll('.hero-bg, .hero-parallax').forEach(el => {
+                el.style.transform = '';
+                el.style.willChange = '';
+            });
+            return;
+        }
+
+        swiper.slides.forEach(slide => {
+            const p = slide.progress; // -1 .. 0 .. 1
+            const bg = slide.querySelector && slide.querySelector('.hero-bg');
+            const para = slide.querySelector && slide.querySelector('.hero-parallax');
+
+            if (bg) {
+                // subtle vertical parallax + tiny zoom based on how far the slide is from center
+                const bgTranslate = (p * 12); // percent
+                const bgScale = 1 + Math.min(0.06, Math.abs(p) * 0.03);
+                bg.style.willChange = 'transform';
+                bg.style.transform = `translate3d(0, ${bgTranslate}%, 0) scale(${bgScale})`;
+            }
+            if (para) {
+                // content moves the opposite direction and less distance
+                const paraTranslate = (p * -6); // percent
+                para.style.willChange = 'transform';
+                para.style.transform = `translate3d(0, ${paraTranslate}%, 0)`;
+            }
+        });
+    }
+
+    function _scheduleParallax() {
+        if (_parallaxRaf) cancelAnimationFrame(_parallaxRaf);
+        _parallaxRaf = requestAnimationFrame(_applyParallaxOnce);
+    }
+
+    // Hook into Swiper lifecycle for smooth updates
+    swiper.on('setTranslate', _scheduleParallax);
+    swiper.on('slideChangeTransitionEnd', _applyParallaxOnce);
+    // Run once on init so the first slide (hero) is correctly positioned
+    _applyParallaxOnce();
+
     // --- Menu Generation ---
     const navLeft = document.querySelector('.main-nav-left');
     const navRight = document.querySelector('.main-nav-right');
     const mobileNav = document.querySelector('.mobile-nav');
-
-    const menuItems = slideTitles.map((title, index) => {
-        return `<a href="#" data-index="${index}" id="menu-link-${index}">${title}</a>`;
-    }).join('');
-
     const midPoint = Math.ceil(slideTitles.length / 2);
     const leftItems = slideTitles.slice(0, midPoint).map((title, index) => {
+        if (!title) return '';
         return `<a href="#" data-index="${index}" id="menu-link-${index}">${title}</a>`;
     }).join('');
     const rightItems = slideTitles.slice(midPoint).map((title, index) => {
-        return `<a href="#" data-index="${midPoint + index}" id="menu-link-${midPoint + index}">${title}</a>`;
+        if (!title) return '';
+        const realIndex = midPoint + index;
+        return `<a href="#" data-index="${realIndex}" id="menu-link-${realIndex}">${title}</a>`;
+    }).join('');
+    const menuItems = slideTitles.map((title, index) => {
+        if (!title) return '';
+        return `<a href="#" data-index="${index}" id="menu-link-${index}">${title}</a>`;
     }).join('');
 
     navLeft.innerHTML = leftItems;
@@ -75,7 +124,8 @@ document.addEventListener('DOMContentLoaded', function () {
         allNavLinks.forEach(link => {
             link.classList.remove('active');
             link.removeAttribute('aria-current');
-            if (parseInt(link.dataset.index) === index) {
+            const isTarget = parseInt(link.dataset.index) === index;
+            if (isTarget) {
                 link.classList.add('active');
                 link.setAttribute('aria-current', 'page');
             }
@@ -90,6 +140,13 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', function (e) {
             e.preventDefault();
             const slideIndex = parseInt(this.dataset.index);
+            if (Number.isNaN(slideIndex)) return; // ignore logo or non-nav
+            // slot-machine roll on desktop menu links
+            if (this.classList.contains('has-slot')) {
+                this.classList.remove('roll');
+                void this.offsetWidth; // force reflow
+                this.classList.add('roll');
+            }
             swiper.slideTo(slideIndex);
             if (mobileNav.classList.contains('is-open')) {
                 mobileNav.classList.remove('is-open');
@@ -158,4 +215,28 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // --- Dimension labels in millimeters under menu underline (desktop only) ---
+    const PX_PER_MM = 3.7795275591; // CSS reference: 1in = 96px, 1mm = 96/25.4
+    const ARROW_SIZE_PX = 8; // must match --nav-arrow-size in CSS
+
+    function updateMenuDimensionLabels() {
+        const desktopLinks = document.querySelectorAll('.main-nav a[data-index]');
+        desktopLinks.forEach(link => {
+            const rect = link.getBoundingClientRect();
+            // inner width approximated by total anchor width minus arrowheads
+            const lineWidthPx = Math.max(0, rect.width - (ARROW_SIZE_PX * 2));
+            const mm = Math.max(1, Math.round(lineWidthPx / PX_PER_MM));
+            link.setAttribute('data-mm', String(mm));
+        });
+    }
+
+    // initial compute after layout (after nav injected)
+    requestAnimationFrame(() => updateMenuDimensionLabels());
+    // recompute on resize with a light debounce
+    let _mmRaf = 0;
+    window.addEventListener('resize', () => {
+        if (_mmRaf) cancelAnimationFrame(_mmRaf);
+        _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
+    });
 });
