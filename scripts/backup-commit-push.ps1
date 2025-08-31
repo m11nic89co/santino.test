@@ -22,7 +22,12 @@ try {
         Write-Warning 'Nothing to backup (no items found)'
     }
 
+    # Stage all changes, then unstage everything under backups/, then re-add only the fresh backup zip
     & git add -A | Out-Null
+    & git reset -- backups/ | Out-Null
+    if (Test-Path -LiteralPath $zip) {
+        & git add -- $zip | Out-Null
+    }
     $changes = & git status --porcelain
     if ($changes) {
         & git commit -m ("backup: " + $ts) | Out-Null
