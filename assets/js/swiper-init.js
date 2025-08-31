@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Refresh selector after we injected nav HTML so we capture generated links
     let allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
     const hamburger = document.getElementById('hamburger-menu');
+    const hamburgerCaption = document.querySelector('.hamburger-caption');
     // const mobileNav = document.getElementById('mobile-nav'); // This was the duplicate declaration, now removed.
 
     function updateActiveLink(index) {
@@ -161,6 +162,10 @@ document.addEventListener('DOMContentLoaded', function () {
         mobileNav.classList.toggle('is-open', willOpen);
         hamburger.setAttribute('aria-expanded', String(willOpen));
         mobileNav.setAttribute('aria-hidden', String(!willOpen));
+        if (hamburgerCaption) {
+            // keep caption visible even when menu open; could dim if needed
+            hamburgerCaption.style.opacity = willOpen ? '0.9' : '1';
+        }
         if (willOpen) {
             // move focus to first link
             const first = mobileNav.querySelector('a');
@@ -209,6 +214,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (firstSlide) {
         firstSlide.classList.add('slide-come-up');
     }
+
+    // Hide caption on desktop
+    function updateCaptionVisibility() {
+        const isMobile = window.innerWidth <= 900;
+        if (hamburgerCaption) hamburgerCaption.style.display = isMobile ? 'block' : 'none';
+    }
+    updateCaptionVisibility();
+    window.addEventListener('resize', () => requestAnimationFrame(updateCaptionVisibility), { passive: true });
 
     // Keyboard support for pagination bullets (enter/space)
     const paginationEl = document.querySelector('.swiper-pagination');

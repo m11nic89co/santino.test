@@ -496,22 +496,21 @@
 		}
 
 		.hamburger-menu {
-			display: none; /* Hidden on desktop by default */
-			position: absolute; /* Position relative to header */
-			right: 40px;
-			z-index: 101;
-			width: 56px; /* compact width */
-			height: 32px; /* keep below typical logo height */
-			top: 46%;
-			transform: translateY(-50%);
-			display: none;
-			align-items: center;
-			justify-content: center;
-			flex-direction: column; /* stack lines vertically */
-			padding: 4px 6px;
-			box-sizing: border-box;
-			cursor: pointer;
-		}
+					display: none; /* Hidden on desktop by default */
+					position: absolute; /* desktop: in header */
+					right: 40px;
+					z-index: 101;
+					width: 56px;
+					height: 32px;
+					top: 46%;
+					transform: translateY(-50%);
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+					padding: 4px 6px;
+					box-sizing: border-box;
+					cursor: pointer;
+				}
 
 		/* Hamburger lines: vessel shape — wider on top, narrower on bottom */
 		.hamburger-menu span {
@@ -560,9 +559,7 @@
 			.main-nav {
 				display: none;
 			}
-			.hamburger-menu {
-				display: flex;
-			}
+			.hamburger-menu { display: flex; }
 			.header-left, .header-right {
 				display: none; /* Hide desktop navs on mobile */
 			}
@@ -600,9 +597,24 @@
 			}
 
 			.mobile-nav a.active,
-			.mobile-nav a:hover {
-				color: var(--accent);
+			.mobile-nav a:hover { color: var(--accent); }
+
+			/* Move hamburger to bottom-center on mobile, just above ticker */
+			.hamburger-menu {
+				position: fixed;
+				top: auto;
+				bottom: calc(env(safe-area-inset-bottom, 0px) + 2.8em);
+				left: 50%;
+				right: auto;
+				transform: translateX(-50%);
+				width: 64px; height: 44px; padding: 8px 10px;
+				background: rgba(0,0,0,0.25);
+				border-radius: 999px;
+				box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+				z-index: 101;
 			}
+
+			.hamburger-caption { display: block; position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 2.2em + 52px); font-family: var(--font-tech); font-size: 0.8rem; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; text-transform: uppercase; pointer-events: none; }
 		}
 
 		header > * {

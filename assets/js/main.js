@@ -176,14 +176,12 @@ function isLowPower() {
 
 								// Mobile mode auto-toggle and reveal the mm grid subtly
 								try {
-									const preferMobile = document.body.getAttribute('data-mobile') === '1' || document.body.getAttribute('data-mobile') === 'true';
 									function applyMobileMode() {
-										const shouldMobile = preferMobile || window.innerWidth <= 900;
+										const shouldMobile = window.innerWidth <= 900;
 										document.body.classList.toggle('mobile-mode', shouldMobile);
 									}
 									applyMobileMode();
 									window.addEventListener('resize', () => {
-										// debounce via rAF
 										if (window.__mm_resize_raf) cancelAnimationFrame(window.__mm_resize_raf);
 										window.__mm_resize_raf = requestAnimationFrame(applyMobileMode);
 									}, { passive: true });
