@@ -174,6 +174,8 @@ function isLowPower() {
 									}
 								} catch (_) { }
 
+								// After everything visible, reveal the mm grid subtly
+								setTimeout(() => document.body.classList.add('grid-on'), 250);
 							}, 500);
 						}, 700);
 					}, 900);
@@ -719,11 +721,109 @@ function isLowPower() {
 			return svg;
 		}
 
+		// ----- New: tableware and construction-themed blueprints -----
+		function svgWineGlass() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 200 260');
+			// bowl
+			const bowl = document.createElementNS(ns, 'path');
+			bowl.setAttribute('d', 'M60 40 C 60 100, 140 100, 140 40');
+			svg.appendChild(bowl);
+			// stem
+			const stem = document.createElementNS(ns, 'rect'); stem.setAttribute('x', '96'); stem.setAttribute('y', '40'); stem.setAttribute('width', '8'); stem.setAttribute('height', '120'); svg.appendChild(stem);
+			// base
+			const base = document.createElementNS(ns, 'ellipse'); base.setAttribute('cx', '100'); base.setAttribute('cy', '170'); base.setAttribute('rx', '36'); base.setAttribute('ry', '8'); base.setAttribute('class', 'major'); svg.appendChild(base);
+			return svg;
+		}
+
+		function svgBeerGlass() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 200 260');
+			// tapered sides
+			const left = document.createElementNS(ns, 'path'); left.setAttribute('d', 'M70 40 C 74 60, 82 200, 92 220'); svg.appendChild(left);
+			const right = document.createElementNS(ns, 'path'); right.setAttribute('d', 'M130 40 C 126 60, 118 200, 108 220'); svg.appendChild(right);
+			// lip and bottom
+			const lip = document.createElementNS(ns, 'rect'); lip.setAttribute('x', '68'); lip.setAttribute('y', '40'); lip.setAttribute('width', '64'); lip.setAttribute('height', '8'); lip.setAttribute('class', 'major'); svg.appendChild(lip);
+			const base = document.createElementNS(ns, 'ellipse'); base.setAttribute('cx', '100'); base.setAttribute('cy', '224'); base.setAttribute('rx', '40'); base.setAttribute('ry', '8'); base.setAttribute('class', 'major'); svg.appendChild(base);
+			return svg;
+		}
+
+		function svgCup() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 220 200');
+			const rim = document.createElementNS(ns, 'ellipse'); rim.setAttribute('cx', '110'); rim.setAttribute('cy', '40'); rim.setAttribute('rx', '70'); rim.setAttribute('ry', '12'); rim.setAttribute('class', 'major'); svg.appendChild(rim);
+			const body = document.createElementNS(ns, 'path'); body.setAttribute('d', 'M40 40 C 48 120, 172 120, 180 40'); svg.appendChild(body);
+			const foot = document.createElementNS(ns, 'ellipse'); foot.setAttribute('cx', '110'); foot.setAttribute('cy', '130'); foot.setAttribute('rx', '50'); foot.setAttribute('ry', '8'); foot.setAttribute('class', 'major'); svg.appendChild(foot);
+			const handle = document.createElementNS(ns, 'path'); handle.setAttribute('d', 'M178 56 C 196 68, 196 100, 178 110'); svg.appendChild(handle);
+			return svg;
+		}
+
+		function svgPlate() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 260 160');
+			const rim = document.createElementNS(ns, 'ellipse'); rim.setAttribute('cx', '130'); rim.setAttribute('cy', '80'); rim.setAttribute('rx', '100'); rim.setAttribute('ry', '28'); rim.setAttribute('class', 'major'); svg.appendChild(rim);
+			const well = document.createElementNS(ns, 'ellipse'); well.setAttribute('cx', '130'); well.setAttribute('cy', '82'); well.setAttribute('rx', '60'); well.setAttribute('ry', '16'); svg.appendChild(well);
+			return svg;
+		}
+
+		function svgStackedPlates() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 260 180');
+			for (let i = 0; i < 3; i++) {
+				const e = document.createElementNS(ns, 'ellipse');
+				e.setAttribute('cx', '130'); e.setAttribute('cy', String(80 + i * 16)); e.setAttribute('rx', String(100 - i * 8)); e.setAttribute('ry', '24');
+				if (i === 0) e.setAttribute('class', 'major');
+				svg.appendChild(e);
+			}
+			return svg;
+		}
+
+		function svgToolbox() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 300 190');
+			const base = document.createElementNS(ns, 'rect'); base.setAttribute('x', '30'); base.setAttribute('y', '60'); base.setAttribute('width', '240'); base.setAttribute('height', '90'); base.setAttribute('class', 'major'); svg.appendChild(base);
+			const lid = document.createElementNS(ns, 'rect'); lid.setAttribute('x', '30'); lid.setAttribute('y', '48'); lid.setAttribute('width', '240'); lid.setAttribute('height', '12'); svg.appendChild(lid);
+			const handle = document.createElementNS(ns, 'rect'); handle.setAttribute('x', '130'); handle.setAttribute('y', '28'); handle.setAttribute('width', '40'); handle.setAttribute('height', '20'); svg.appendChild(handle);
+			for (let x = 52; x <= 248; x += 32) { const l = document.createElementNS(ns, 'line'); l.setAttribute('x1', String(x)); l.setAttribute('y1', '60'); l.setAttribute('x2', String(x)); l.setAttribute('y2', '150'); svg.appendChild(l); }
+			return svg;
+		}
+
+		function svgPalletCrate() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 320 200');
+			const crate = document.createElementNS(ns, 'rect'); crate.setAttribute('x', '30'); crate.setAttribute('y', '40'); crate.setAttribute('width', '260'); crate.setAttribute('height', '120'); crate.setAttribute('class', 'major'); svg.appendChild(crate);
+			for (let y = 60; y <= 140; y += 20) { const l = document.createElementNS(ns, 'line'); l.setAttribute('x1', '30'); l.setAttribute('y1', String(y)); l.setAttribute('x2', '290'); l.setAttribute('y2', String(y)); svg.appendChild(l); }
+			// pallet
+			const p1 = document.createElementNS(ns, 'rect'); p1.setAttribute('x', '40'); p1.setAttribute('y', '164'); p1.setAttribute('width', '240'); p1.setAttribute('height', '8'); svg.appendChild(p1);
+			const p2 = document.createElementNS(ns, 'rect'); p2.setAttribute('x', '40'); p2.setAttribute('y', '176'); p2.setAttribute('width', '240'); p2.setAttribute('height', '8'); svg.appendChild(p2);
+			return svg;
+		}
+
+		function svgBucket() {
+			const ns = 'http://www.w3.org/2000/svg';
+			const svg = document.createElementNS(ns, 'svg');
+			svg.setAttribute('viewBox', '0 0 220 240');
+			const rim = document.createElementNS(ns, 'ellipse'); rim.setAttribute('cx', '110'); rim.setAttribute('cy', '40'); rim.setAttribute('rx', '70'); rim.setAttribute('ry', '12'); rim.setAttribute('class', 'major'); svg.appendChild(rim);
+			const body = document.createElementNS(ns, 'path'); body.setAttribute('d', 'M40 40 L60 200 L160 200 L180 40'); svg.appendChild(body);
+			const base = document.createElementNS(ns, 'rect'); base.setAttribute('x', '60'); base.setAttribute('y', '200'); base.setAttribute('width', '100'); base.setAttribute('height', '10'); svg.appendChild(base);
+			const handle = document.createElementNS(ns, 'path'); handle.setAttribute('d', 'M50 60 C 110 0, 110 0, 170 60'); svg.appendChild(handle);
+			return svg;
+		}
+
 		const blueprintFactories = [
 			svgPot, svgCrate, svgBox, svgBasket, svgTray, svgBottle,
 			svgPlanterBox, svgFlowerVase, svgPlantSupport, svgHoneycombMesh, svgPedestalVase,
 			svgConicalPot, svgHangingPot, svgTallPlanter, svgRoundBowl, svgWallPlanter, svgUrn, svgWindowBox,
-			svgSquarePot, svgCylinderVase
+			svgSquarePot, svgCylinderVase,
+			// newly added themed shapes
+			svgWineGlass, svgBeerGlass, svgCup, svgPlate, svgStackedPlates, svgToolbox, svgPalletCrate, svgBucket
 		];
 
 		// Add animated professional-like dimensions (horizontal top and vertical right) to an SVG
