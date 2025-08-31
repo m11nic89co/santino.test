@@ -10,8 +10,8 @@
 			--nav-underline-offset: 3px; /* baseline for arrows/line */
 			--nav-arrow-size: 8px;
 			--nav-arrow-half: 4px;
-			/* Inform UA we handle both schemes and keep visuals consistent via explicit colors */
-			color-scheme: dark light;
+			/* Force UA controls/scrollbars to dark scheme for consistent look */
+			color-scheme: dark;
 		}
 
 		html,
@@ -41,11 +41,11 @@
 
 		/* Scrollbar styling (desktop/Android). iOS hides scrollbars by default. */
 		:root {
-			scrollbar-color: rgba(57, 62, 70, 0.4) transparent;
+			scrollbar-color: rgba(57, 62, 70, 0.4) transparent; /* Firefox */
 			scrollbar-width: thin;
 		}
 
-		::-webkit-scrollbar {
+	::-webkit-scrollbar {
 			width: 10px;
 			height: 10px;
 		}
@@ -60,6 +60,10 @@
 			border: 2px solid transparent;
 			background-clip: padding-box;
 		}
+
+		::-webkit-scrollbar-thumb:hover { background: rgba(57, 62, 70, 0.6); }
+		::-webkit-scrollbar-thumb:active { background: rgba(57, 62, 70, 0.8); }
+		::-webkit-scrollbar-corner { background: transparent; }
 
 	/* Blueprint-like millimeter grid overlay (cyan tint), hidden by default and faded in late) */
 		body::before {
@@ -86,6 +90,16 @@
 		body.grid-on::before { opacity: 1; }
 
 		/* noise overlay removed to avoid potential banding/stripes near the logo */
+
+		/* Guard: neutralize any future prefers-color-scheme overrides by mirroring base colors */
+		@media (prefers-color-scheme: dark) {
+			:root { color-scheme: dark; }
+			html { background-color: #222831; }
+		}
+		@media (prefers-color-scheme: light) {
+			:root { color-scheme: dark; }
+			html { background-color: #222831; }
+		}
 
 		.paparazzi-flash {
 			position: fixed;
