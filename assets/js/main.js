@@ -277,7 +277,10 @@ function isLowPower() {
 
 		(function setVhCssVar() {
 			function updateVh() {
-				const vh = window.innerHeight * 0.01;
+				// Prefer visualViewport height when available (iOS Safari, Android Chrome)
+				const vv = window.visualViewport;
+				const h = vv && vv.height ? vv.height : window.innerHeight;
+				const vh = h * 0.01;
 				document.documentElement.style.setProperty('--vh', vh + 'px');
 			}
 
@@ -286,6 +289,29 @@ function isLowPower() {
 			window.addEventListener('orientationchange', updateVh, { passive: true });
 			// Also update after a short delay to catch browser UI transitions
 			window.addEventListener('focus', () => setTimeout(updateVh, 150), { passive: true });
+			// Extra: update bottom padding for ticker visibility on mobile
+			function updateMobileTickerPadding() {
+				if (!document.body.classList.contains('mobile-mode')) return;
+				const vv = window.visualViewport;
+				const safeInset = (() => {
+					// Try CSS env first (iOS notch), fallback 0
+					try {
+						const v = getComputedStyle(document.documentElement).getPropertyValue('env(safe-area-inset-bottom)');
+						return parseFloat(v) || 0;
+					} catch(_) { return 0; }
+				})();
+				// Base space for ticker height (~2.2em ≈ 36px) + small buffer
+				const tickerH = 36; // px
+				const buffer = 6;   // px
+				const bottomPad = tickerH + safeInset + buffer;
+				document.body.style.paddingBottom = bottomPad + 'px';
+				const ticker = document.querySelector('.ticker-wrap');
+				if (ticker) ticker.style.bottom = safeInset + 'px';
+			}
+			updateMobileTickerPadding();
+			window.addEventListener('resize', updateMobileTickerPadding, { passive: true });
+			window.addEventListener('orientationchange', updateMobileTickerPadding, { passive: true });
+			window.addEventListener('focus', () => setTimeout(updateMobileTickerPadding, 150), { passive: true });
 		})();
 
 		// ---- Sparks: simple particle system for welding effect ----
