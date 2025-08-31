@@ -150,8 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             swiper.slideTo(slideIndex);
             if (mobileNav.classList.contains('is-open')) {
-                mobileNav.classList.remove('is-open');
-                hamburger.classList.remove('is-active');
+                toggleMenu(false);
             }
         });
     });
@@ -162,6 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
         mobileNav.classList.toggle('is-open', willOpen);
         hamburger.setAttribute('aria-expanded', String(willOpen));
         mobileNav.setAttribute('aria-hidden', String(!willOpen));
+        // lock body scroll when menu is open (mobile)
+        document.body.dataset.scrollLock = willOpen ? '1' : '';
+        document.body.style.overflow = willOpen ? 'hidden' : '';
         if (hamburgerCaption) {
             // keep caption visible even when menu open; could dim if needed
             hamburgerCaption.style.opacity = willOpen ? '0.9' : '1';
@@ -180,6 +182,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMenu(); }
         if (e.key === 'Escape') { toggleMenu(false); }
     });
+
+    // Click outside links to close when overlay is open
+    mobileNav.addEventListener('click', (e) => {
+        if (!e.target.closest('a')) toggleMenu(false);
+    });
+
+    // Safety: close on hash change or wheel interaction when open
+    window.addEventListener('hashchange', () => { if (mobileNav.classList.contains('is-open')) toggleMenu(false); });
+    swiper.on('wheel', () => { if (mobileNav.classList.contains('is-open')) toggleMenu(false); });
 
     // Focus trap inside mobile nav when open
     mobileNav.addEventListener('keydown', (e) => {
@@ -244,9 +255,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateMenuDimensionLabels() {
         const desktopLinks = document.querySelectorAll('.main-nav a[data-index]');
-        desktopLinks.forEach(link => {
+        const mobileLinks  = document.querySelectorAll('.mobile-nav a[data-index]');
+        [...desktopLinks, ...mobileLinks].forEach(link => {
             const rect = link.getBoundingClientRect();
-            // inner width approximated by total anchor width minus arrowheads
             const lineWidthPx = Math.max(0, rect.width - (ARROW_SIZE_PX * 2));
             const mm = Math.max(1, Math.round(lineWidthPx / PX_PER_MM));
             link.setAttribute('data-mm', String(mm));
@@ -260,5 +271,11 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', () => {
         if (_mmRaf) cancelAnimationFrame(_mmRaf);
         _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
+    });
+    // recompute when opening the mobile menu (links become centered and wider)
+    mobileNav.addEventListener('transitionend', (e) => {
+        if (e.propertyName === 'transform' && mobileNav.classList.contains('is-open')) {
+            requestAnimationFrame(updateMenuDimensionLabels);
+        }
     });
 });

@@ -117,6 +117,8 @@ function isLowPower() {
 								main.style.transform = '';
 								main.classList.add('site-visible');
 								heroSection.classList.add('fog-in');
+								// Mark intro done so FAB dim can start reacting after first render
+								document.body.classList.add('fab-intro-done');
 
 							const heroTitle = document.querySelector('.hero-title');
 							const heroDesc = document.querySelector('.hero-desc');
@@ -214,6 +216,95 @@ function isLowPower() {
 				}, 900);
 			}, 3000 + 100);
 		});
+
+// Dim FAB on scroll, then restore
+(function setupScrollDim() {
+	try {
+		let scrollTimer = null;
+		const onScroll = () => {
+			// Ignore during intro, and do not re-dim after FAB was used
+			if (!document.body.classList.contains('fab-intro-done')) return;
+			if (document.body.classList.contains('fab-used')) return;
+			document.body.classList.add('is-scrolling');
+			document.body.classList.add('fab-dimmed');
+			if (scrollTimer) clearTimeout(scrollTimer);
+			scrollTimer = setTimeout(() => document.body.classList.remove('is-scrolling'), 180);
+		};
+		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('wheel', onScroll, { passive: true });
+		// Fallback for older touch devices where pointer events may be off
+		window.addEventListener('touchmove', () => {
+			if (!document.body.classList.contains('fab-intro-done')) return;
+			if (document.body.classList.contains('fab-used')) return;
+			document.body.classList.add('is-swiping');
+			document.body.classList.add('fab-dimmed');
+			if (scrollTimer) clearTimeout(scrollTimer);
+			scrollTimer = setTimeout(() => document.body.classList.remove('is-swiping'), 180);
+		}, { passive: true });
+	} catch(_) {}
+})();
+
+// Dim and drop FAB on swipe gestures (touch move)
+// Minimal swipe detector to apply half-opacity during touch move
+(function setupSwipeFlag() {
+	try {
+		let timer = null;
+		let down = false;
+		const arm = () => {
+			if (timer) clearTimeout(timer);
+			timer = setTimeout(() => document.body.classList.remove('is-swiping'), 180);
+		};
+		window.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') down = true; }, { passive: true });
+		window.addEventListener('pointermove', (e) => {
+			if (e.pointerType !== 'touch' || !down) return;
+			if (!document.body.classList.contains('fab-intro-done')) return;
+			if (document.body.classList.contains('fab-used')) return;
+			document.body.classList.add('is-swiping');
+			document.body.classList.add('fab-dimmed');
+			arm();
+		}, { passive: true });
+		window.addEventListener('pointerup', () => { down = false; arm(); }, { passive: true });
+		window.addEventListener('pointercancel', () => { down = false; arm(); }, { passive: true });
+	} catch(_) {}
+})();
+
+// Clear persistent dim when FAB is clicked/tapped
+(function setupFabUndimOnClick() {
+	try {
+		const fab = document.querySelector('.hamburger-menu');
+		if (!fab) return;
+		const markUsed = () => document.body.classList.add('fab-used');
+		const undim = () => { document.body.classList.remove('fab-dimmed'); markUsed(); };
+		fab.addEventListener('click', undim);
+		fab.addEventListener('pointerup', (e) => { if (e.pointerType === 'touch') undim(); }, { passive: true });
+		fab.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') undim(); });
+	} catch(_) {}
+})();
+
+// Idle dim: if FAB не использовали некоторое время после загрузки, приглушаем
+(function setupFabIdleDim() {
+	try {
+		const fab = document.querySelector('.hamburger-menu'); if (!fab) return;
+		const IDLE_MS = 6000; // 6s после загрузки
+		const timer = setTimeout(() => {
+			// Only after intro and only if FAB was not used
+			if (document.body.classList.contains('fab-intro-done') && !document.body.classList.contains('fab-used')) {
+				document.body.classList.add('fab-dimmed');
+			}
+		}, IDLE_MS);
+		// На первое взаимодействие помечаем как использованную
+		const markUsedOnce = () => {
+			document.body.classList.add('fab-used');
+			fab.removeEventListener('click', markUsedOnce);
+			fab.removeEventListener('pointerdown', markUsedOnce);
+			fab.removeEventListener('keydown', keyMark);
+		};
+		const keyMark = (e) => { if (e.key === 'Enter' || e.key === ' ') markUsedOnce(); };
+		fab.addEventListener('click', markUsedOnce, { once: true });
+		fab.addEventListener('pointerdown', markUsedOnce, { once: true, passive: true });
+		fab.addEventListener('keydown', keyMark);
+	} catch(_) {}
+})();
 
 		const buttonTexts = [
 			'Получить персональную цену',
