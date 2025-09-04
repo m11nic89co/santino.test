@@ -19,6 +19,23 @@ assets/img/*.avif
 !assets/img/collection-bg-desktop.jpg
 !assets/img/collection-bg-desktop@2x.jpg
 !assets/img/collection-bg-mobile.jpg
+!assets/img/collection-bg-desktop.webp
+!assets/img/collection-bg-desktop.avif
+!assets/img/collection-bg-desktop@2x.webp
+!assets/img/collection-bg-desktop@2x.avif
+!assets/img/collection-bg-mobile.webp
+!assets/img/collection-bg-mobile.avif
+
+# About section optimized outputs
+!assets/img/about-bg-desktop.jpg
+!assets/img/about-bg-desktop.webp
+!assets/img/about-bg-desktop.avif
+!assets/img/about-bg-desktop@2x.jpg
+!assets/img/about-bg-desktop@2x.webp
+!assets/img/about-bg-desktop@2x.avif
+!assets/img/about-bg-mobile.jpg
+!assets/img/about-bg-mobile.webp
+!assets/img/about-bg-mobile.avif
 
 # Editors/OS
 .idea/

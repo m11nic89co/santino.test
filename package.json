@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:images": "node ./scripts/build-images.mjs assets/img/source/collection-source.jpg"
+  "build:images:collection": "node ./scripts/build-images.mjs assets/img/source/collection-source.jpg collection",
+  "build:images:about": "node ./scripts/build-images.mjs \"NK2_2198 (1).jpg\" about",
+  "build:images": "npm run build:images:collection && npm run build:images:about"
   },
   "dependencies": {
     "sharp": "^0.33.4"

@@ -166,6 +166,16 @@ document.addEventListener('DOMContentLoaded', function () {
     updateCollectionPan();
     swiper.on('slideChange', updateCollectionPan);
 
+    // Toggle slow background pan only when ABOUT (section-1) is active
+    const aboutIdx = 1; // section-1
+    function updateAboutPan() {
+        const target = slides[aboutIdx];
+        if (!target) return;
+        target.classList.toggle('about-pan', swiper.activeIndex === aboutIdx);
+    }
+    updateAboutPan();
+    swiper.on('slideChange', updateAboutPan);
+
     // --- Menu Generation ---
     const navLeft = document.querySelector('.main-nav-left');
     const navRight = document.querySelector('.main-nav-right');
