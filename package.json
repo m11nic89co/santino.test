@@ -1,0 +1,12 @@
+{
+  "name": "santino.test",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:images": "node ./scripts/build-images.mjs assets/img/source/collection-source.jpg"
+  },
+  "dependencies": {
+    "sharp": "^0.33.4"
+  }
+}

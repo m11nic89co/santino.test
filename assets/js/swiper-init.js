@@ -129,9 +129,14 @@ document.addEventListener('DOMContentLoaded', function () {
     updateGridOverlay();
     swiper.on('slideChange', updateGridOverlay);
 
-    // --- Italian-style reveal for the "Коллекция" section ---
+    // --- Italian-style reveal for the "НАША КОЛЛЕКЦИЯ" (Коллекция) section ---
     const collectionIdx = (() => {
-        let idx = slideTitles.findIndex(t => (t || '').toLowerCase() === 'коллекция');
+        // Support both legacy 'Коллекция' and new 'НАША КОЛЛЕКЦИЯ' titles
+        const norm = (t) => (t || '').toLowerCase().trim();
+        let idx = slideTitles.findIndex(t => {
+            const n = norm(t);
+            return n === 'коллекция' || n === 'наша коллекция';
+        });
         if (idx < 0) idx = 2; // fallback to known index
         return idx;
     })();
@@ -139,17 +144,27 @@ document.addEventListener('DOMContentLoaded', function () {
     function playCollectionReveal() {
         const target = slides[collectionIdx];
         if (!target) return;
-        // retrigger CSS animation by removing/forcing reflow/adding
+        // retrigger CSS animation by removing/forcing reflow/adding with a slight delay for "fog from nowhere"
         target.classList.remove('italian-reveal');
-        // force reflow
         void target.offsetWidth;
-        target.classList.add('italian-reveal');
+        setTimeout(() => {
+            target.classList.add('italian-reveal');
+        }, 120);
     }
     // Play on initial load if we start at collection, and on entering it
     if (swiper.activeIndex === collectionIdx) playCollectionReveal();
     swiper.on('slideChangeTransitionStart', () => {
         if (swiper.activeIndex === collectionIdx) playCollectionReveal();
     });
+
+    // Toggle slow background pan only when collection is active
+    function updateCollectionPan() {
+        const target = slides[collectionIdx];
+        if (!target) return;
+        target.classList.toggle('collection-pan', swiper.activeIndex === collectionIdx);
+    }
+    updateCollectionPan();
+    swiper.on('slideChange', updateCollectionPan);
 
     // --- Menu Generation ---
     const navLeft = document.querySelector('.main-nav-left');
@@ -160,8 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const allItems = slideTitles.map((t, i) => ({ title: t, idx: i })).filter(it => !!it.title);
     const byIdx = Object.fromEntries(allItems.map(it => [it.idx, it]));
 
-    // Explicit order requested after slide rearrangement: left => 1:'О НАС', 2:'КОЛЛЕКЦИЯ'; right => 3:'ПОД ЗАКАЗ', 4:'КОНТАКТЫ'
-    const labelMap = { 1: 'О НАС', 2: 'КОЛЛЕКЦИЯ', 3: 'ПОД ЗАКАЗ', 4: 'КОНТАКТЫ' };
+    // Explicit order with new titles: left => 1:'О НАС', 2:'НАША КОЛЛЕКЦИЯ'; right => 3:'КОНТРАКТНОЕ ЛИТЬЁ', 4:'КОНТАКТЫ'
+    const labelMap = { 1: 'О НАС', 2: 'НАША КОЛЛЕКЦИЯ', 3: 'КОНТРАКТНОЕ ЛИТЬЁ', 4: 'КОНТАКТЫ' };
     const desiredOrder = [1, 2, 3, 4].filter(i => byIdx[i]);
     // Append any other indices (if exist) in natural order excluding duplicates and 0 (hero)
     const others = allItems
@@ -174,20 +189,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const leftGroup = contentItems.slice(0, 2);
     const rightGroup = contentItems.slice(2);
 
-    const leftItemsHtml = leftGroup.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`).join('');
+    const leftItemsHtml  = leftGroup.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`).join('');
     const rightItemsHtml = rightGroup.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`).join('');
+    const allItemsHtml   = [leftItemsHtml, rightItemsHtml].join('');
     // Mobile menu gets a leading 'ГЛАВНАЯ' pointing to slide 0
-    const homeItemHtml = `<a href="#" data-index="0" id="menu-link-0">ГЛАВНАЯ</a>`;
-    const mobileItemsHtml = [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('');
+    const homeItemHtml   = `<a href="#" data-index="0" id="menu-link-0">ГЛАВНАЯ</a>`;
+    const mobileItemsHtml= [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('');
 
-    navLeft.innerHTML = leftItemsHtml;
-    navRight.innerHTML = rightItemsHtml;
-    mobileNav.innerHTML = mobileItemsHtml;
+    function injectMenusForViewport() {
+        const isDesktop = window.innerWidth > 900;
+        if (isDesktop) {
+            // Desktop: all items go to the left cascade; right menu cleared
+            // Include HOME at the very top per request
+            navLeft.innerHTML = homeItemHtml + allItemsHtml;
+            navRight.innerHTML = '';
+        } else {
+            // Mobile/Tablet: keep split around logo as before
+            navLeft.innerHTML = leftItemsHtml;
+            navRight.innerHTML = rightItemsHtml;
+        }
+        mobileNav.innerHTML = mobileItemsHtml;
+    }
 
-    // Labels already set above; no DOM swapping or relabeling needed here.
+    injectMenusForViewport();
 
-
-    // Refresh selector after we injected nav HTML so we capture generated links
+    // Refresh selector after injection so we capture generated links
     let allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
     const hamburger = document.getElementById('hamburger-menu');
     const hamburgerCaption = document.querySelector('.hamburger-caption');
@@ -209,7 +235,9 @@ document.addEventListener('DOMContentLoaded', function () {
         updateActiveLink(swiper.activeIndex);
     });
 
-    allNavLinks.forEach(link => {
+    function bindLink(link) {
+        if (link.dataset.bound === '1') return;
+        link.dataset.bound = '1';
         link.addEventListener('click', function (e) {
             e.preventDefault();
             const slideIndex = parseInt(this.dataset.index);
@@ -225,7 +253,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 toggleMenu(false);
             }
         });
-    });
+    }
+
+    allNavLinks.forEach(bindLink);
 
     function toggleMenu(open) {
         const willOpen = typeof open === 'boolean' ? open : !mobileNav.classList.contains('is-open');
@@ -337,10 +367,16 @@ document.addEventListener('DOMContentLoaded', function () {
     requestAnimationFrame(() => updateMenuDimensionLabels());
     // recompute on resize with a light debounce
     let _mmRaf = 0;
-    window.addEventListener('resize', () => {
+    function handleResize() {
+        // reinject menus for breakpoint and rebind links safely
+        injectMenusForViewport();
+        allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
+        allNavLinks.forEach(bindLink);
+        updateActiveLink(swiper.activeIndex);
         if (_mmRaf) cancelAnimationFrame(_mmRaf);
         _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
-    });
+    }
+    window.addEventListener('resize', handleResize, { passive: true });
     // recompute when opening the mobile menu (links become centered and wider)
     mobileNav.addEventListener('transitionend', (e) => {
         const prop = e.propertyName;

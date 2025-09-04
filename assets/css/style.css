@@ -3,6 +3,7 @@
 			--text: #EEEEEE;
 			--text-muted: rgba(238,238,238,0.85);
 			--accent: #00ADB5;
+			--accent-rgb: 0, 173, 181;
 			--gray: #393E46;
 			--radius: 18px;
 			--font-main: 'Inter', sans-serif;
@@ -837,18 +838,44 @@
 			}
 		}
 
+		/* Subtle neon glow for the logo image */
+		.logo img { filter: drop-shadow(0 0 10px rgba(0,173,181,0.26)) drop-shadow(0 0 18px rgba(0,173,181,0.16)); transition: filter 200ms ease; }
+		.logo:hover img { filter: drop-shadow(0 0 14px rgba(0,173,181,0.36)) drop-shadow(0 0 26px rgba(0,173,181,0.22)); }
+
 		.logo:hover {
 			color: var(--accent);
 			text-shadow: none;
-			/* no glow on hover */
-			filter: none;
-			/* ensure no drop-shadow on hover */
 		}
 
 		/* Pagination: small circular bullets stacked on the right */
+		@media (min-width: 901px) {
+			/* Left-side cascade nav: stack main nav links vertically and center by height */
+			.header-left { position: relative; z-index: 60; }
+			.header-left .main-nav {
+				position: fixed;
+				left: clamp(16px, 4vw, 48px);
+				top: 50%;
+				transform: translateY(-50%);
+				display: flex !important;
+				flex-direction: column;
+				gap: clamp(14px, 1.8vh, 24px);
+				align-items: flex-start;
+			}
+			.header-left .main-nav a {
+				display: inline-block;
+			font-size: 1.02rem;
+				line-height: 1.2;
+				transform-origin: left center;
+			transition: transform 160ms ease, color 160ms ease, text-shadow 160ms ease;
+			margin-block: 2px; /* extra breathing space */
+			}
+			.header-left .main-nav a:hover {
+				transform: scale(1.06);
+			}
+		}
 		.swiper-pagination {
 			position: absolute;
-			right: 22px;
+			right: clamp(28px, 3.8vw, 48px);
 			top: 50%;
 			transform: translateY(-50%);
 			z-index: 50;
@@ -858,20 +885,94 @@
 		}
 
 		.swiper-pagination .swiper-pagination-bullet {
-			width: 10px;
-			height: 10px;
+			width: 8px;
+			height: 8px;
 			background: rgba(255,255,255,0.18);
 			border-radius: 50%;
 			display: block;
+			/* add subtle halo via pseudo-element; keep native shadow free here */
 			box-shadow: none;
-			transition: transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
+			position: relative;
+			z-index: 1;
+			transition: transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
 		}
+
+		/* circular dark backdrop to enhance visibility on any background */
+		.swiper-pagination .swiper-pagination-bullet::before {
+			content: "";
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 18px;
+			height: 18px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.18) 75%, rgba(0,0,0,0.0) 100%);
+			filter: blur(0.6px);
+			pointer-events: none;
+			z-index: 0; /* under the bullet itself (z:1) */
+		}
+
+		/* natural white-to-accent diffusion for active bullet; bounded size and slight left bias */
+		.swiper-pagination .swiper-pagination-bullet-active::after {
+			content: "";
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-64%, -50%); /* stronger inward bias */
+			width: clamp(18px, 4vw, 30px);
+			height: clamp(18px, 4vw, 30px);
+			border-radius: 50%;
+			background: radial-gradient(circle,
+				rgba(255,255,255,0.45) 0 14%,
+				rgba(var(--accent-rgb),0.60) 30%,
+				rgba(var(--accent-rgb),0.22) 58%,
+				rgba(var(--accent-rgb),0.00) 100%);
+			filter: blur(1.2px);
+			pointer-events: none;
+			z-index: 0; /* below the bullet circle */
+			will-change: transform;
+			animation: bulletHaloShift 280ms cubic-bezier(.22,.9,.24,1) both;
+		}
+
+@keyframes bulletHaloShift {
+	0%   { transform: translate(-40%, -50%); }
+	100% { transform: translate(-62%, -50%); }
+}
 
 		.swiper-pagination .swiper-pagination-bullet-active {
 			background: var(--accent);
-			transform: scale(1.25);
-			box-shadow: 0 0 12px var(--accent);
+			transform: scale(1.12);
+			/* smaller neon radius to avoid overflow */
+			box-shadow:
+				0 0 0 3px rgba(var(--accent-rgb), 0.10),
+				0 0 8px var(--accent),
+				0 0 16px rgba(var(--accent-rgb), 0.45);
+			filter: brightness(1.08) saturate(1.08);
 		}
+
+		/* extra guard for very small screens */
+		@media (max-width: 480px) {
+			.swiper-pagination { right: max(38px, 7vw); }
+			.swiper-pagination .swiper-pagination-bullet-active::after {
+				width: clamp(18px, 7vw, 26px);
+				height: clamp(18px, 7vw, 26px);
+				transform: translate(-74%, -50%);
+			}
+		}
+
+		/* tablet guard */
+		@media (max-width: 768px) {
+			.swiper-pagination { right: max(36px, 6vw); }
+			.swiper-pagination .swiper-pagination-bullet-active::after {
+				width: clamp(18px, 6vw, 28px);
+				height: clamp(18px, 6vw, 28px);
+				transform: translate(-70%, -50%);
+			}
+		}
+
+		/* reduce dark halo under the active bullet so the neon pops */
+		.swiper-pagination .swiper-pagination-bullet-active::before { opacity: 0; }
 
 		/* Tooltip for pagination bullets */
 		.swiper-pagination .swiper-pagination-bullet[data-tooltip]:hover::after {
@@ -1984,6 +2085,30 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
     box-sizing: border-box;
 }
 
+/* Gradient overlay for all content sections (exclude the hero which has its own .hero-bg) */
+.section-content {
+	position: relative;
+	isolation: isolate;
+}
+.section-content::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1; /* above section-specific bg (e.g., collection), below content */
+	background-image:
+		/* side vignettes (slightly stronger) */
+		linear-gradient(90deg, rgba(0,0,0,0.44) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(270deg, rgba(0,0,0,0.44) 0%, rgba(0,0,0,0.00) 22%),
+		/* top vignette like hero and slight lift at bottom for uniformity */
+		linear-gradient(180deg, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.16) 40%, rgba(0,0,0,0.00) 70%),
+		/* subtle teal accent like hero */
+		radial-gradient(ellipse at 18% 22%, rgba(0,173,181,0.08) 0%, rgba(0,173,181,0.00) 32%),
+		/* base diagonal tint like hero */
+		linear-gradient(120deg, rgba(34,40,49,0.88), rgba(57,62,70,0.78));
+	background-blend-mode: normal, normal, normal, screen, normal;
+	pointer-events: none;
+}
+
 /* Remove old conflicting tall bullet styles; circular bullets defined earlier are used */
 .section-content h2 {
 	font-family: var(--font-tech);
@@ -2026,37 +2151,38 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	overflow: hidden;
 }
 .collection-section::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	z-index: -1;
-	background-color: #1d2128;
+	/* disable this pseudo so section gradient uses ::before without conflict */
+	content: none;
 }
 .collection-section::after {
 	content: "";
 	position: absolute;
 	inset: 0;
-	z-index: -1;
+	z-index: -3; /* below gradient layer */
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover; /* fill and crop */
-	filter: saturate(1.05) contrast(1.05);
-	opacity: 0.95;
+	/* slightly darker to match requested look */
+	filter: brightness(0.9) contrast(1.06) saturate(1.02);
+	opacity: 0.94;
 }
-/* Subtle gradient overlay to improve legibility */
+/* Remove centered dark panel: content should be transparent and full-bleed */
 .collection-section .content-wrapper {
-	background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
-	border-radius: 16px;
+	background: transparent; /* no inner dark panel */
+	border-radius: 0; /* full-bleed feel */
 	padding-top: 28px;
 	padding-bottom: 28px;
+	box-shadow: none;
+	border: none;
 }
 
 /* Desktop-only: assign desktop image; high-DPR override to @2x */
 @media (min-width: 901px) {
 	/* Prefer AVIF/WEBP with JPG fallback; 1x by default, 2x for high-DPR */
 	.collection-section::after {
-		/* Layer 1: modern formats via image-set; Layer 2: plain JPG fallback */
+		/* Layer 1: darkening overlay; Layer 2+: image-set with JPG fallback */
 		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
 			image-set(
 				url('../img/collection-bg-desktop.avif') type('image/avif') 1x,
 				url('../img/collection-bg-desktop.webp') type('image/webp') 1x,
@@ -2068,6 +2194,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 @media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
 	.collection-section::after {
 		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
 			image-set(
 				url('../img/collection-bg-desktop@2x.avif') type('image/avif') 2x,
 				url('../img/collection-bg-desktop@2x.webp') type('image/webp') 2x,
@@ -2081,6 +2208,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 @media (max-width: 900px) {
 	.collection-section::after {
 		background-image:
+			linear-gradient(rgba(0,0,0,0.14), rgba(0,0,0,0.14)),
 			image-set(
 				url('../img/collection-bg-mobile.avif') type('image/avif') 1x,
 				url('../img/collection-bg-mobile.webp') type('image/webp') 1x,
@@ -2089,11 +2217,16 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 			url('../img/collection-bg-mobile.jpg');
 		background-position: 55% 40%; /* focus on перчатки и цветы */
 		background-size: cover;
-		opacity: 0.98;
+		opacity: 1;
 	}
-	/* soften overlay and increase padding for readability */
+	/* Stronger, crisper pan on mobile for clarity */
+	.collection-section.collection-pan::after {
+		animation: collectionPanMobile 26s ease-in-out 0.5s infinite alternate;
+		transform-origin: 55% 40%; /* pivot around focal area */
+	}
+	/* ensure inner container is transparent on mobile too */
 	.collection-section .content-wrapper {
-		background: linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.46) 100%);
+		background: transparent;
 		padding-top: 36px;
 		padding-bottom: 36px;
 	}
@@ -2106,13 +2239,15 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 }
 .collection-section .content-wrapper {
 	will-change: transform, opacity;
-	transform: translate3d(0, 16px, 0);
+	transform: translate3d(0, 22px, 0);
 	opacity: 0;
 }
 .collection-section::after {
 	will-change: filter, opacity, transform;
-	transform: translate3d(0, 6px, 0) scale(1.02);
-	filter: saturate(0.9) contrast(0.95) blur(1px);
+	transform: translate3d(0, 10px, 0) scale(1.03);
+	/* keep colors crisp; no persistent blur to avoid haze */
+	filter: brightness(1.06) contrast(1.05) saturate(1.08);
+    opacity: 1;
 }
 
 /* triggerable animation class applied from JS when slide becomes active */
@@ -2123,21 +2258,106 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	animation: itRevealBg 1100ms cubic-bezier(.22,.9,.24,1) forwards;
 }
 
+/* Continuous slow background pan (enabled via .collection-pan) */
+.collection-section.collection-pan::after {
+	animation: collectionPan 34s ease-in-out 0.9s infinite alternate;
+}
+
+@keyframes collectionPan {
+	0%   { transform: translate3d(0, 0, 0) scale(1.04); }
+	50%  { transform: translate3d(8%, -8%, 0) scale(1.14); }
+	100% { transform: translate3d(3.5%, 3.5%, 0) scale(1.08); }
+}
+
+/* Mobile-specific: more pronounced movement to be visible on smaller screens */
+@keyframes collectionPanMobile {
+	0%   { transform: translate3d(0, 0, 0) scale(1.1); }
+	50%  { transform: translate3d(14%, -14%, 0) scale(1.22); }
+	100% { transform: translate3d(6%, 6%, 0) scale(1.14); }
+}
+
 @keyframes itRevealUp {
-	0% { opacity: 0; transform: translate3d(0, 24px, 0); }
-	40% { opacity: 0.4; transform: translate3d(0, 10px, 0); }
+	0% { opacity: 0; transform: translate3d(0, 28px, 0); }
+	40% { opacity: 0.4; transform: translate3d(0, 12px, 0); }
 	100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes itRevealBg {
-	0% { opacity: 0.78; transform: translate3d(0, 10px, 0) scale(1.035); filter: saturate(0.85) contrast(0.9) blur(2px); }
-	60% { opacity: 0.94; transform: translate3d(0, 3px, 0) scale(1.015); filter: saturate(0.98) contrast(1.02) blur(0.5px); }
-	100% { opacity: 0.98; transform: translate3d(0, 0, 0) scale(1); filter: saturate(1.05) contrast(1.05) blur(0); }
+	0% { opacity: 0.78; transform: translate3d(0, 14px, 0) scale(1.04); filter: saturate(1.02) contrast(1.0) blur(2.5px); }
+	60% { opacity: 0.95; transform: translate3d(0, 6px, 0) scale(1.02); filter: saturate(1.1) contrast(1.06) blur(0.6px); }
+	100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: saturate(1.12) contrast(1.08) blur(0); }
+}
+
+/* Lighten global overlay specifically for Collection (reduce side/top vignette strength) */
+.collection-section.section-content::before {
+	background-image:
+		/* softer sides for visibility */
+		linear-gradient(90deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.00) 16%),
+		linear-gradient(270deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.00) 16%),
+		/* slightly lighter top vignette */
+		linear-gradient(180deg, rgba(0,0,0,0.46) 0%, rgba(0,0,0,0.14) 38%, rgba(0,0,0,0.00) 68%),
+		radial-gradient(ellipse at 18% 22%, rgba(0,173,181,0.08) 0%, rgba(0,173,181,0.00) 32%),
+		linear-gradient(120deg, rgba(34,40,49,0.88), rgba(57,62,70,0.78));
+	background-blend-mode: normal, normal, normal, screen, normal;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.collection-section .content-wrapper,
 	.collection-section::after { animation: none !important; transition: none !important; transform: none !important; }
 	.collection-section .content-wrapper { opacity: 1 !important; }
+}
+
+/* Story blocks inside Collection */
+.collection-section .story-blocks {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	margin-top: 16px;
+}
+.collection-section .story-block {
+	display: grid;
+	grid-template-columns: 48px 1fr;
+	gap: 12px;
+	align-items: start;
+	padding: 14px 16px;
+	background: rgba(0,0,0,0.38);
+	border: 1px solid rgba(255,255,255,0.06);
+	border-radius: 14px;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+	will-change: transform, opacity;
+	transform: translate3d(0, 18px, 0);
+	opacity: 0;
+}
+.collection-section .story-logo img {
+	width: 40px; height: 40px; object-fit: contain; display: block; filter: drop-shadow(0 0 8px rgba(0,173,181,0.35));
+}
+.collection-section .story-text h3 {
+	margin: 0 0 4px; font-family: var(--font-tech); font-weight: 400; letter-spacing: 0.04em; color: var(--text);
+}
+.collection-section .story-text p {
+	margin: 0; font-size: 1rem; line-height: 1.55; color: rgba(255,255,255,0.92);
+}
+
+/* Staggered drop-in when italian-reveal triggers */
+.italian-reveal.collection-section .story-blocks .story-block { animation-duration: 780ms; animation-timing-function: cubic-bezier(.22,.9,.24,1); animation-fill-mode: forwards; }
+/* alternate directions: odd from left, even from right */
+.collection-section .story-blocks .story-block:nth-child(odd) { transform: translate3d(-26px, 0, 0); }
+.collection-section .story-blocks .story-block:nth-child(even) { transform: translate3d(26px, 0, 0); }
+.italian-reveal.collection-section .story-blocks .story-block:nth-child(odd) { animation-name: storySlideL; }
+.italian-reveal.collection-section .story-blocks .story-block:nth-child(even) { animation-name: storySlideR; }
+.italian-reveal.collection-section .story-blocks .story-block:nth-child(1) { animation-delay: 120ms; }
+.italian-reveal.collection-section .story-blocks .story-block:nth-child(2) { animation-delay: 220ms; }
+.italian-reveal.collection-section .story-blocks .story-block:nth-child(3) { animation-delay: 320ms; }
+.italian-reveal.collection-section .story-blocks .story-block:nth-child(4) { animation-delay: 420ms; }
+
+@keyframes storySlideL { 0% { opacity: 0; transform: translate3d(-26px, 0, 0); } 60% { opacity: 1; transform: translate3d(-6px, 0, 0); } 100% { opacity: 1; transform: translate3d(0, 0, 0); } }
+@keyframes storySlideR { 0% { opacity: 0; transform: translate3d(26px, 0, 0); } 60% { opacity: 1; transform: translate3d(6px, 0, 0); } 100% { opacity: 1; transform: translate3d(0, 0, 0); } }
+
+@media (max-width: 900px) {
+	.collection-section .story-blocks { grid-template-columns: 1fr; }
+	/* on mobile, slide slightly up to keep coherence */
+	.collection-section .story-blocks .story-block { transform: translate3d(0, 16px, 0); }
+	@keyframes storySlideL { 0% { opacity: 0; transform: translate3d(0, 16px, 0); } 60% { opacity: 1; transform: translate3d(0, 4px, 0); } 100% { opacity: 1; transform: translate3d(0, 0, 0); } }
+	@keyframes storySlideR { 0% { opacity: 0; transform: translate3d(0, 16px, 0); } 60% { opacity: 1; transform: translate3d(0, 4px, 0); } 100% { opacity: 1; transform: translate3d(0, 0, 0); } }
 }
 
 
