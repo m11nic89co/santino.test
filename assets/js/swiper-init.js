@@ -142,6 +142,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } catch (e) { /* ignore if navs not present */ }
 
+    // Mobile: set labels in the same order (left group then right group)
+    try {
+        const mlinks = mobileNav.querySelectorAll('a');
+        const mobileLabels = ['О НАС', 'КОЛЛЕКЦИЯ', 'ПОД ЗАКАЗ', 'КОНТАКТЫ'];
+        for (let i = 0; i < mlinks.length && i < mobileLabels.length; i++) {
+            mlinks[i].textContent = mobileLabels[i];
+        }
+        // Fallback replacement for legacy text
+        mlinks.forEach(a => {
+            if ((a.textContent || '').trim() === 'КОНТРАКТНОЕ ПРОИЗВОДСТВО') a.textContent = 'ПОД ЗАКАЗ';
+        });
+    } catch (e) { /* ignore */ }
+
 
     // Refresh selector after we injected nav HTML so we capture generated links
     let allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
