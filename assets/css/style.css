@@ -1967,6 +1967,11 @@
 	outline-offset: 2px;
 }
 
+/* Improve tap behavior on mobile: prefer click over double-tap zoom on actionable elements */
+a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
+	touch-action: manipulation;
+}
+
 .swiper-slide {
     text-align: center;
     font-size: 18px;

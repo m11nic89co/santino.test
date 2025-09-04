@@ -306,6 +306,30 @@ function isLowPower() {
 	} catch(_) {}
 })();
 
+// Prevent double-tap zoom on mobile (keeps pinch-zoom). Skips inputs/textarea/select/contenteditable
+(function preventDoubleTapZoom() {
+	try {
+		let last = 0;
+		const isEditable = (el) => !!(el && (el.closest('input, textarea, select, [contenteditable="true"], [contenteditable=""]')));
+		document.addEventListener('touchend', (e) => {
+			// ignore multi-touch gestures (pinch)
+			if (e.touches && e.touches.length > 0) return;
+			const t = Date.now();
+			const target = e.target;
+			if (isEditable(target)) return;
+			if (t - last <= 300) {
+				e.preventDefault();
+			}
+			last = t;
+		}, { passive: false });
+		// Some browsers still trigger dblclick leading to zoom
+		document.addEventListener('dblclick', (e) => {
+			if (isEditable(e.target)) return;
+			e.preventDefault();
+		}, { passive: false });
+	} catch(_) {}
+})();
+
 		const buttonTexts = [
 			'Получить персональную цену',
 			'Посмотреть каталог 2025',
