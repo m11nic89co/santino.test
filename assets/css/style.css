@@ -695,15 +695,37 @@
 				box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 6px 6px 12px rgba(0,0,0,0.35), inset -4px -4px 10px rgba(255,255,255,0.05);
 			}
 
-			/* Icon: minimal 3-line burger */
-			.hamburger-menu .hamburger-lines { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 32px; position: relative; z-index: 3; }
-			.hamburger-menu .hamburger-lines span { display: block; height: 2px; width: 32px; background: var(--text); border-radius: 1px; transition: transform 220ms ease, opacity 160ms ease; }
+			/* Icon: minimal 3-line burger (mobile) - precise transforms so burger reliably becomes a cross */
+			.hamburger-menu .hamburger-lines {
+				display: block;
+				width: 32px;
+				height: 20px;
+				position: relative;
+				z-index: 3;
+			}
+			.hamburger-menu .hamburger-lines span {
+				display: block;
+				position: absolute;
+				left: 0;
+				right: 0;
+				margin: 0 auto;
+				height: 2px;
+				width: 32px;
+				background: var(--text);
+				border-radius: 1px;
+				transition: transform 220ms cubic-bezier(.22,.9,.24,1), opacity 160ms ease;
+				transform-origin: center;
+			}
+			/* position the three visible lines neatly: 1 - top, 2 - center, 3 - bottom; hide the 4th used on desktop */
+			.hamburger-menu .hamburger-lines span:nth-child(1) { top: 3px; }
+			.hamburger-menu .hamburger-lines span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+			.hamburger-menu .hamburger-lines span:nth-child(3) { bottom: 3px; }
 			.hamburger-menu .hamburger-lines span:nth-child(4) { display: none; }
 
-			/* Active state → cross */
-			.hamburger-menu.is-active .hamburger-lines span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-			.hamburger-menu.is-active .hamburger-lines span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-			.hamburger-menu.is-active .hamburger-lines span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+			/* Active state → cross: rotate top and bottom into an X, hide middle line */
+			.hamburger-menu.is-active .hamburger-lines span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+			.hamburger-menu.is-active .hamburger-lines span:nth-child(2) { opacity: 0; transform: scaleX(0.01); }
+			.hamburger-menu.is-active .hamburger-lines span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 			/* Hide caption for clean look */
 			.hamburger-menu .hamburger-label {

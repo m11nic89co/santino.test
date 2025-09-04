@@ -96,11 +96,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const navRight = document.querySelector('.main-nav-right');
     const mobileNav = document.querySelector('.mobile-nav');
     const midPoint = Math.ceil(slideTitles.length / 2);
-    const leftItems = slideTitles.slice(0, midPoint).map((title, index) => {
+    const leftSlice = slideTitles.slice(0, midPoint);
+    const rightSlice = slideTitles.slice(midPoint);
+    // Keep indices aligned with slides; we'll override visible labels for specific items
+    // Map to anchors but allow relabeling below
+    const leftItems = leftSlice.map((title, index) => {
         if (!title) return '';
         return `<a href="#" data-index="${index}" id="menu-link-${index}">${title}</a>`;
     }).join('');
-    const rightItems = slideTitles.slice(midPoint).map((title, index) => {
+    const rightItems = rightSlice.map((title, index) => {
         if (!title) return '';
         const realIndex = midPoint + index;
         return `<a href="#" data-index="${realIndex}" id="menu-link-${realIndex}">${title}</a>`;
@@ -113,6 +117,20 @@ document.addEventListener('DOMContentLoaded', function () {
     navLeft.innerHTML = leftItems;
     navRight.innerHTML = rightItems;
     mobileNav.innerHTML = menuItems;
+
+    // Rename visible menu labels (text only) without touching data-index mapping.
+    // Right nav: replace first two visible items text to 'О НАС', 'КОЛЛЕКЦИЯ' (if present)
+    try {
+        const rightAnchors = navRight.querySelectorAll('a');
+        if (rightAnchors.length >= 1) rightAnchors[0].textContent = 'О НАС';
+        if (rightAnchors.length >= 2) rightAnchors[1].textContent = 'КОЛЛЕКЦИЯ';
+    } catch (e) { /* ignore if navRight not found */ }
+    // Left nav: replace items to 'КОНТРАКТНОЕ ПРОИЗВОДСТВО', 'КОНТАКТЫ' (starting from first two)
+    try {
+        const leftAnchors = navLeft.querySelectorAll('a');
+        if (leftAnchors.length >= 1) leftAnchors[0].textContent = 'КОНТРАКТНОЕ ПРОИЗВОДСТВО';
+        if (leftAnchors.length >= 2) leftAnchors[1].textContent = 'КОНТАКТЫ';
+    } catch (e) { /* ignore if navLeft not found */ }
 
 
     // Refresh selector after we injected nav HTML so we capture generated links
