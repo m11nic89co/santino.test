@@ -95,65 +95,36 @@ document.addEventListener('DOMContentLoaded', function () {
     const navLeft = document.querySelector('.main-nav-left');
     const navRight = document.querySelector('.main-nav-right');
     const mobileNav = document.querySelector('.mobile-nav');
-    const midPoint = Math.ceil(slideTitles.length / 2);
-    const leftSlice = slideTitles.slice(0, midPoint);
-    const rightSlice = slideTitles.slice(midPoint);
-    // Keep indices aligned with slides; we'll override visible labels for specific items
-    // Map to anchors but allow relabeling below
-    const leftItems = leftSlice.map((title, index) => {
-        if (!title) return '';
-        return `<a href="#" data-index="${index}" id="menu-link-${index}">${title}</a>`;
-    }).join('');
-    const rightItems = rightSlice.map((title, index) => {
-        if (!title) return '';
-        const realIndex = midPoint + index;
-        return `<a href="#" data-index="${realIndex}" id="menu-link-${realIndex}">${title}</a>`;
-    }).join('');
-    const menuItems = slideTitles.map((title, index) => {
-        if (!title) return '';
-        return `<a href="#" data-index="${index}" id="menu-link-${index}">${title}</a>`;
-    }).join('');
 
-    navLeft.innerHTML = leftItems;
-    navRight.innerHTML = rightItems;
-    mobileNav.innerHTML = menuItems;
+    // Build items excluding the hero (index 0). Keep data-index values so logo (index 0) still goes to hero.
+    const allItems = slideTitles.map((t, i) => ({ title: t, idx: i })).filter(it => !!it.title);
+    const byIdx = Object.fromEntries(allItems.map(it => [it.idx, it]));
 
-    // Swap first two visible menu items between left and right navs (preserve data-index).
-    // After swap, normalize the label 'КОНТРАКТНОЕ ПРОИЗВОДСТВО' -> 'ПОД ЗАКАЗ'.
-    try {
-        const rightAnchors = navRight.querySelectorAll('a');
-        const leftAnchors = navLeft.querySelectorAll('a');
-        // swap first items
-        if (rightAnchors.length >= 1 && leftAnchors.length >= 1) {
-            const tmp = rightAnchors[0].textContent;
-            rightAnchors[0].textContent = leftAnchors[0].textContent;
-            leftAnchors[0].textContent = tmp;
-        }
-        // swap second items
-        if (rightAnchors.length >= 2 && leftAnchors.length >= 2) {
-            const tmp2 = rightAnchors[1].textContent;
-            rightAnchors[1].textContent = leftAnchors[1].textContent;
-            leftAnchors[1].textContent = tmp2;
-        }
-        // replace long label with shorter requested label
-        const allAnchors = [...navLeft.querySelectorAll('a'), ...navRight.querySelectorAll('a')];
-        allAnchors.forEach(a => {
-            if ((a.textContent || '').trim() === 'КОНТРАКТНОЕ ПРОИЗВОДСТВО') a.textContent = 'ПОД ЗАКАЗ';
-        });
-    } catch (e) { /* ignore if navs not present */ }
+    // Explicit order requested after slide rearrangement: left => 1:'О НАС', 2:'КОЛЛЕКЦИЯ'; right => 3:'ПОД ЗАКАЗ', 4:'КОНТАКТЫ'
+    const labelMap = { 1: 'О НАС', 2: 'КОЛЛЕКЦИЯ', 3: 'ПОД ЗАКАЗ', 4: 'КОНТАКТЫ' };
+    const desiredOrder = [1, 2, 3, 4].filter(i => byIdx[i]);
+    // Append any other indices (if exist) in natural order excluding duplicates and 0 (hero)
+    const others = allItems
+        .map(it => it.idx)
+        .filter(i => i !== 0 && !desiredOrder.includes(i));
+    const orderedIdx = [...desiredOrder, ...others];
+    const contentItems = orderedIdx.map(i => ({ idx: i, title: labelMap[i] || (byIdx[i]?.title || '') }));
 
-    // Mobile: set labels in the same order (left group then right group)
-    try {
-        const mlinks = mobileNav.querySelectorAll('a');
-        const mobileLabels = ['О НАС', 'КОЛЛЕКЦИЯ', 'ПОД ЗАКАЗ', 'КОНТАКТЫ'];
-        for (let i = 0; i < mlinks.length && i < mobileLabels.length; i++) {
-            mlinks[i].textContent = mobileLabels[i];
-        }
-        // Fallback replacement for legacy text
-        mlinks.forEach(a => {
-            if ((a.textContent || '').trim() === 'КОНТРАКТНОЕ ПРОИЗВОДСТВО') a.textContent = 'ПОД ЗАКАЗ';
-        });
-    } catch (e) { /* ignore */ }
+    // Split groups: first two left, rest right
+    const leftGroup = contentItems.slice(0, 2);
+    const rightGroup = contentItems.slice(2);
+
+    const leftItemsHtml = leftGroup.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`).join('');
+    const rightItemsHtml = rightGroup.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`).join('');
+    // Mobile menu gets a leading 'ГЛАВНАЯ' pointing to slide 0
+    const homeItemHtml = `<a href="#" data-index="0" id="menu-link-0">ГЛАВНАЯ</a>`;
+    const mobileItemsHtml = [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('');
+
+    navLeft.innerHTML = leftItemsHtml;
+    navRight.innerHTML = rightItemsHtml;
+    mobileNav.innerHTML = mobileItemsHtml;
+
+    // Labels already set above; no DOM swapping or relabeling needed here.
 
 
     // Refresh selector after we injected nav HTML so we capture generated links
