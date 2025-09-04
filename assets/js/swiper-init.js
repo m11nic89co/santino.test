@@ -48,11 +48,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 return `<span class="${className}" data-tooltip="${title}" role="button" tabindex="0" aria-label="${label}" aria-controls="section-${index}"></span>`;
             },
         },
-    speed: _prefersReducedMotion ? 600 : 900,
-    effect: _prefersReducedMotion ? 'slide' : 'fade',
+        speed: _prefersReducedMotion ? 600 : 950,
+        effect: _prefersReducedMotion ? 'slide' : 'cube',
         grabCursor: true,
-    creativeEffect: undefined,
-    fadeEffect: _prefersReducedMotion ? undefined : { crossFade: true },
+        creativeEffect: undefined,
+        fadeEffect: undefined,
+        cubeEffect: _prefersReducedMotion ? undefined : {
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 24,
+            shadowScale: 0.86,
+        },
         keyboard: {
             enabled: true,
         },
