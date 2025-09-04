@@ -122,6 +122,35 @@ document.addEventListener('DOMContentLoaded', function () {
     // Run once on init so the first slide (hero) is correctly positioned
     _applyParallaxOnce();
 
+    // --- Grid overlay only on the first (hero) slide ---
+    function updateGridOverlay() {
+        document.body.classList.toggle('grid-on', swiper.activeIndex === 0);
+    }
+    updateGridOverlay();
+    swiper.on('slideChange', updateGridOverlay);
+
+    // --- Italian-style reveal for the "Коллекция" section ---
+    const collectionIdx = (() => {
+        let idx = slideTitles.findIndex(t => (t || '').toLowerCase() === 'коллекция');
+        if (idx < 0) idx = 2; // fallback to known index
+        return idx;
+    })();
+
+    function playCollectionReveal() {
+        const target = slides[collectionIdx];
+        if (!target) return;
+        // retrigger CSS animation by removing/forcing reflow/adding
+        target.classList.remove('italian-reveal');
+        // force reflow
+        void target.offsetWidth;
+        target.classList.add('italian-reveal');
+    }
+    // Play on initial load if we start at collection, and on entering it
+    if (swiper.activeIndex === collectionIdx) playCollectionReveal();
+    swiper.on('slideChangeTransitionStart', () => {
+        if (swiper.activeIndex === collectionIdx) playCollectionReveal();
+    });
+
     // --- Menu Generation ---
     const navLeft = document.querySelector('.main-nav-left');
     const navRight = document.querySelector('.main-nav-right');

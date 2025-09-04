@@ -2094,6 +2094,47 @@
 	}
 }
 
+/* Italian-style reveal: elegant emergence from nowhere */
+.collection-section {
+	/* ensure separate stacking for animation */
+	isolation: isolate;
+}
+.collection-section .content-wrapper {
+	will-change: transform, opacity;
+	transform: translate3d(0, 16px, 0);
+	opacity: 0;
+}
+.collection-section::after {
+	will-change: filter, opacity, transform;
+	transform: translate3d(0, 6px, 0) scale(1.02);
+	filter: saturate(0.9) contrast(0.95) blur(1px);
+}
+
+/* triggerable animation class applied from JS when slide becomes active */
+.italian-reveal.collection-section .content-wrapper {
+	animation: itRevealUp 950ms cubic-bezier(.22,.9,.24,1) forwards;
+}
+.italian-reveal.collection-section::after {
+	animation: itRevealBg 1100ms cubic-bezier(.22,.9,.24,1) forwards;
+}
+
+@keyframes itRevealUp {
+	0% { opacity: 0; transform: translate3d(0, 24px, 0); }
+	40% { opacity: 0.4; transform: translate3d(0, 10px, 0); }
+	100% { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes itRevealBg {
+	0% { opacity: 0.78; transform: translate3d(0, 10px, 0) scale(1.035); filter: saturate(0.85) contrast(0.9) blur(2px); }
+	60% { opacity: 0.94; transform: translate3d(0, 3px, 0) scale(1.015); filter: saturate(0.98) contrast(1.02) blur(0.5px); }
+	100% { opacity: 0.98; transform: translate3d(0, 0, 0) scale(1); filter: saturate(1.05) contrast(1.05) blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.collection-section .content-wrapper,
+	.collection-section::after { animation: none !important; transition: none !important; transform: none !important; }
+	.collection-section .content-wrapper { opacity: 1 !important; }
+}
+
 
 .logo-link {
 	text-decoration: none;
