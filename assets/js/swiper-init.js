@@ -48,27 +48,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 return `<span class="${className}" data-tooltip="${title}" role="button" tabindex="0" aria-label="${label}" aria-controls="section-${index}"></span>`;
             },
         },
-        speed: _prefersReducedMotion ? 600 : 1000,
-        effect: _prefersReducedMotion ? 'slide' : 'creative',
+    speed: _prefersReducedMotion ? 600 : 900,
+    effect: _prefersReducedMotion ? 'slide' : 'fade',
         grabCursor: true,
-        creativeEffect: _prefersReducedMotion ? undefined : {
-            limitProgress: 2,
-            shadowPerProgress: true,
-            prev: {
-                // move previous slide up and tilt backward with depth
-                translate: [0, '-110%', -200],
-                rotate: [55, 0, 0],
-                opacity: 0.4,
-                shadow: true,
-            },
-            next: {
-                // bring next slide from below with slight scale and depth
-                translate: [0, '110%', -180],
-                scale: 0.95,
-                opacity: 1,
-                shadow: true,
-            },
-        },
+    creativeEffect: undefined,
+    fadeEffect: _prefersReducedMotion ? undefined : { crossFade: true },
         keyboard: {
             enabled: true,
         },
@@ -122,11 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Run once on init so the first slide (hero) is correctly positioned
     _applyParallaxOnce();
 
-    // --- Grid overlay only on the first (hero) slide ---
+    // --- Grid overlay: show only after leaving the hero (no grid on first slide, and not during preload) ---
     function updateGridOverlay() {
-        document.body.classList.toggle('grid-on', swiper.activeIndex === 0);
+        document.body.classList.toggle('grid-on', swiper.activeIndex !== 0);
     }
-    updateGridOverlay();
     swiper.on('slideChange', updateGridOverlay);
 
     // --- Italian-style reveal for the "НАША КОЛЛЕКЦИЯ" (Коллекция) section ---
