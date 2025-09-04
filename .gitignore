@@ -10,3 +10,17 @@ yarn-error.log*
 
 # Папка с модулями Node.js
 node_modules/
+
+# Generated responsive images (kept out of Git; reproducible via scripts)
+assets/img/*.jpg
+assets/img/*.webp
+assets/img/*.avif
+!assets/img/source/**
+!assets/img/collection-bg-desktop.jpg
+!assets/img/collection-bg-desktop@2x.jpg
+!assets/img/collection-bg-mobile.jpg
+
+# Editors/OS
+.idea/
+.vscode/
+Thumbs.db
