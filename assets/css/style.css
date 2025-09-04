@@ -10,6 +10,10 @@
 			--nav-underline-offset: 3px; /* baseline for arrows/line */
 			--nav-arrow-size: 8px;
 			--nav-arrow-half: 4px;
+			/* Collection bg defaults (desktop used as fallback for mobile) */
+			--collection-bg-desktop: url('../img/collection-bg-desktop.jpg');
+			--collection-bg-desktop-2x: url('../img/collection-bg-desktop@2x.jpg');
+			--collection-bg-mobile: var(--collection-bg-desktop);
 			/* Force UA controls/scrollbars to dark scheme for consistent look */
 			color-scheme: dark;
 		}
@@ -2009,6 +2013,85 @@
 	.section-content .content-wrapper { padding: 0 28px; max-width: 640px; }
 	.section-content h2 { font-size: 2.2rem; }
 	.section-content p { font-size: 1.05rem; line-height: 1.6; }
+}
+
+/* Collection (Коллекция) section background */
+.collection-section {
+	position: relative;
+	overflow: hidden;
+}
+.collection-section::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background-color: #1d2128;
+}
+.collection-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover; /* fill and crop */
+	filter: saturate(1.05) contrast(1.05);
+	opacity: 0.95;
+}
+/* Subtle gradient overlay to improve legibility */
+.collection-section .content-wrapper {
+	background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
+	border-radius: 16px;
+	padding-top: 28px;
+	padding-bottom: 28px;
+}
+
+/* Desktop-only: assign desktop image; high-DPR override to @2x */
+@media (min-width: 901px) {
+	/* Prefer AVIF/WEBP with JPG fallback; 1x by default, 2x for high-DPR */
+	.collection-section::after {
+		/* Layer 1: modern formats via image-set; Layer 2: plain JPG fallback */
+		background-image:
+			image-set(
+				url('../img/collection-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/collection-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/collection-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-desktop.jpg');
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.collection-section::after {
+		background-image:
+			image-set(
+				url('../img/collection-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/collection-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/collection-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/collection-bg-desktop@2x.jpg');
+	}
+}
+
+/* Mobile: adjust crop for portrait, keep subject centered (hands + растения) */
+@media (max-width: 900px) {
+	.collection-section::after {
+		background-image:
+			image-set(
+				url('../img/collection-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/collection-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/collection-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-mobile.jpg');
+		background-position: 55% 40%; /* focus on перчатки и цветы */
+		background-size: cover;
+		opacity: 0.98;
+	}
+	/* soften overlay and increase padding for readability */
+	.collection-section .content-wrapper {
+		background: linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.46) 100%);
+		padding-top: 36px;
+		padding-bottom: 36px;
+	}
 }
 
 
