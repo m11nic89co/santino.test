@@ -274,7 +274,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // recompute when opening the mobile menu (links become centered and wider)
     mobileNav.addEventListener('transitionend', (e) => {
-        if (e.propertyName === 'transform' && mobileNav.classList.contains('is-open')) {
+        const prop = e.propertyName;
+        if ((prop === 'opacity' || prop === 'transform') && mobileNav.classList.contains('is-open')) {
             requestAnimationFrame(updateMenuDimensionLabels);
         }
     });
