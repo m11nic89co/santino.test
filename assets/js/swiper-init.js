@@ -118,19 +118,29 @@ document.addEventListener('DOMContentLoaded', function () {
     navRight.innerHTML = rightItems;
     mobileNav.innerHTML = menuItems;
 
-    // Rename visible menu labels (text only) without touching data-index mapping.
-    // Right nav: replace first two visible items text to 'О НАС', 'КОЛЛЕКЦИЯ' (if present)
+    // Swap first two visible menu items between left and right navs (preserve data-index).
+    // After swap, normalize the label 'КОНТРАКТНОЕ ПРОИЗВОДСТВО' -> 'ПОД ЗАКАЗ'.
     try {
         const rightAnchors = navRight.querySelectorAll('a');
-        if (rightAnchors.length >= 1) rightAnchors[0].textContent = 'О НАС';
-        if (rightAnchors.length >= 2) rightAnchors[1].textContent = 'КОЛЛЕКЦИЯ';
-    } catch (e) { /* ignore if navRight not found */ }
-    // Left nav: replace items to 'КОНТРАКТНОЕ ПРОИЗВОДСТВО', 'КОНТАКТЫ' (starting from first two)
-    try {
         const leftAnchors = navLeft.querySelectorAll('a');
-        if (leftAnchors.length >= 1) leftAnchors[0].textContent = 'КОНТРАКТНОЕ ПРОИЗВОДСТВО';
-        if (leftAnchors.length >= 2) leftAnchors[1].textContent = 'КОНТАКТЫ';
-    } catch (e) { /* ignore if navLeft not found */ }
+        // swap first items
+        if (rightAnchors.length >= 1 && leftAnchors.length >= 1) {
+            const tmp = rightAnchors[0].textContent;
+            rightAnchors[0].textContent = leftAnchors[0].textContent;
+            leftAnchors[0].textContent = tmp;
+        }
+        // swap second items
+        if (rightAnchors.length >= 2 && leftAnchors.length >= 2) {
+            const tmp2 = rightAnchors[1].textContent;
+            rightAnchors[1].textContent = leftAnchors[1].textContent;
+            leftAnchors[1].textContent = tmp2;
+        }
+        // replace long label with shorter requested label
+        const allAnchors = [...navLeft.querySelectorAll('a'), ...navRight.querySelectorAll('a')];
+        allAnchors.forEach(a => {
+            if ((a.textContent || '').trim() === 'КОНТРАКТНОЕ ПРОИЗВОДСТВО') a.textContent = 'ПОД ЗАКАЗ';
+        });
+    } catch (e) { /* ignore if navs not present */ }
 
 
     // Refresh selector after we injected nav HTML so we capture generated links
