@@ -2,11 +2,37 @@ document.addEventListener('DOMContentLoaded', function () {
     const slides = document.querySelectorAll('.swiper-slide');
     const slideTitles = Array.from(slides).map(slide => slide.dataset.title || '');
 
+    const _prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const swiper = new Swiper('.swiper', {
         direction: 'vertical',
         slidesPerView: 1,
         spaceBetween: 0,
-        mousewheel: true,
+        // Make progress-based logic reliable for parallax
+        watchSlidesProgress: true,
+        roundLengths: true,
+        observer: true,
+        observeParents: true,
+        // Smoothen wheel/touch behavior across devices
+        mousewheel: {
+            forceToAxis: true,
+            releaseOnEdges: true,
+            thresholdDelta: 8,
+            thresholdTime: 40,
+            sensitivity: 0.7,
+        },
+    // Touch tuning for mobile
+    touchAngle: 30,           // stricter vertical intent
+    threshold: 8,             // px before we start swiping
+    followFinger: true,
+    simulateTouch: true,
+    passiveListeners: true,
+    touchStartPreventDefault: true,
+    iOSEdgeSwipeDetection: true,
+    iOSEdgeSwipeThreshold: 30,
+        resistanceRatio: 0.86,
+        longSwipesMs: 180,
+        touchReleaseOnEdges: true,
         a11y: {
             enabled: true,
             firstSlideMessage: 'Первая секция',
@@ -22,32 +48,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 return `<span class="${className}" data-tooltip="${title}" role="button" tabindex="0" aria-label="${label}" aria-controls="section-${index}"></span>`;
             },
         },
-        speed: 1200, // Slower speed for the new effect
-        effect: 'slide',
+        speed: _prefersReducedMotion ? 600 : 1000,
+        effect: _prefersReducedMotion ? 'slide' : 'creative',
+        grabCursor: true,
+        creativeEffect: _prefersReducedMotion ? undefined : {
+            limitProgress: 2,
+            shadowPerProgress: true,
+            prev: {
+                // move previous slide up and tilt backward with depth
+                translate: [0, '-110%', -200],
+                rotate: [55, 0, 0],
+                opacity: 0.4,
+                shadow: true,
+            },
+            next: {
+                // bring next slide from below with slight scale and depth
+                translate: [0, '110%', -180],
+                scale: 0.95,
+                opacity: 1,
+                shadow: true,
+            },
+        },
         keyboard: {
             enabled: true,
         },
-        on: {
-            slideChangeTransitionStart: function () {
-                const previousSlide = this.slides[this.previousIndex];
-                const currentSlide = this.slides[this.activeIndex];
-
-                if (previousSlide) {
-                    previousSlide.classList.remove('slide-come-up');
-                    previousSlide.classList.add('slide-fall-out');
-                }
-                if (currentSlide) {
-                    currentSlide.classList.remove('slide-fall-out');
-                    currentSlide.classList.add('slide-come-up');
-                }
-            },
-        },
+    on: {},
     });
 
     // --- Hero Parallax driver ---
     // Uses slide.progress to drive lightweight transforms on .hero-bg and .hero-parallax
     // Respects prefers-reduced-motion and runtime low-power flag on <body>
-    const _prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // use the _prefersReducedMotion defined above
     let _parallaxRaf = null;
 
     function _applyParallaxOnce() {
@@ -233,10 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize first slide and link
     updateActiveLink(swiper.activeIndex);
-    const firstSlide = swiper.slides[swiper.activeIndex];
-    if (firstSlide) {
-        firstSlide.classList.add('slide-come-up');
-    }
+    // custom slide animation classes removed in favor of Swiper creativeEffect
 
     // Hide caption on desktop
     function updateCaptionVisibility() {
