@@ -141,12 +141,15 @@ function isLowPower() {
 								heroBtn.style.opacity = '0';
 								heroBtn.style.transform = 'none'; // keep flow, avoid shift
 
-								// Поочерёдное появление каждого слова (увеличено до 0.5 секунды между кнопками)
+								// Поочерёдное появление каждого слова + вспышка "shine" по слову
 								wordSpans.forEach((span, i) => {
 									setTimeout(() => {
 										span.style.transition = 'opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1)';
 										span.style.opacity = '1';
 										span.style.transform = 'none';
+										// запустить короткий блик после появления
+										span.classList.add('word-shine');
+										setTimeout(() => span.classList.remove('word-shine'), 1000);
 									}, 200 + i * 500);
 								});
 
@@ -191,7 +194,8 @@ function isLowPower() {
 								// Ensure hero button cycle starts when hero is visible and not in low-power/reduced-motion
 								try {
 									const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-									if (!reduced && !isLowPower() && typeof startBtnCycle === 'function') {
+									const isHero = 0 === 0; // always true here, but keep explicit for readability
+									if (isHero && !reduced && !isLowPower() && typeof startBtnCycle === 'function') {
 										startBtnCycle();
 									}
 								} catch (_) { }

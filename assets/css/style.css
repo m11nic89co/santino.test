@@ -70,7 +70,7 @@
 		::-webkit-scrollbar-thumb:active { background: rgba(57, 62, 70, 0.8); }
 		::-webkit-scrollbar-corner { background: transparent; }
 
-	/* Blueprint-like millimeter grid overlay (cyan tint), hidden by default and faded in late) */
+	/* Blueprint-like millimeter grid overlay (cyan tint), almost invisible by default) */
 		body::before {
 			content: "";
 			position: fixed;
@@ -80,19 +80,68 @@
 			/* below main content (z=2), above background */
 			/* fine mm-like grid (~12px) + major grid (60px) */
 			background:
-				repeating-linear-gradient(0deg, rgba(0, 173, 181, 0.16) 0 1px, transparent 1px 12px),
-				repeating-linear-gradient(90deg, rgba(0, 173, 181, 0.13) 0 1px, transparent 1px 12px),
-				repeating-linear-gradient(0deg, rgba(0, 173, 181, 0.32) 0 2px, transparent 2px 60px),
-				repeating-linear-gradient(90deg, rgba(0, 173, 181, 0.22) 0 2px, transparent 2px 60px);
+				repeating-linear-gradient(0deg, rgba(0, 173, 181, 0.06) 0 1px, transparent 1px 12px),
+				repeating-linear-gradient(90deg, rgba(0, 173, 181, 0.05) 0 1px, transparent 1px 12px),
+				repeating-linear-gradient(0deg, rgba(0, 173, 181, 0.10) 0 2px, transparent 2px 60px),
+				repeating-linear-gradient(90deg, rgba(0, 173, 181, 0.08) 0 2px, transparent 2px 60px);
 			/* hidden initially; shown later via .grid-on on <body> */
 			display: block;
-			opacity: 0;
+			opacity: 0; /* keep hidden by default */
 			transition: opacity 600ms cubic-bezier(.77,0,.18,1);
 			/* control visibility via RGBA above */
 		}
 
-		/* Show grid when the site intro fully completes */
-		body.grid-on::before { opacity: 1; }
+	/* Even when enabled globally, keep it very faint */
+	body.grid-on::before { opacity: 0.06; }
+	/* Show on hero only (first slide) at ultra-low opacity */
+	/* Keep legacy global hero grid minimal; primary hero grid handled by section overlay below */
+	/* keep a faint legacy layer but let the hero section overlay provide the main effect */
+	body.grid-hero::before { opacity: 0.06; }
+
+	/* Per-section side vignette: subtle darkening on left/right edges with active-state boost */
+	.swiper-slide { position: relative; }
+	.swiper-slide::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 3; /* above background layers, below content */
+		background: linear-gradient(to right,
+			rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.24) 6%, rgba(0,0,0,0.10) 16%, rgba(0,0,0,0.00) 32%,
+			rgba(0,0,0,0.00) 68%, rgba(0,0,0,0.10) 84%, rgba(0,0,0,0.24) 94%, rgba(0,0,0,0.38) 100%
+		);
+		opacity: 0.22;
+		transition: opacity 420ms cubic-bezier(.22,.9,.24,1);
+	}
+	.swiper-slide.swiper-slide-active::before {
+		opacity: 0.3;
+	}
+	@media (max-width: 900px) {
+		.swiper-slide::before { opacity: 0.18; }
+		.swiper-slide.swiper-slide-active::before { opacity: 0.24; }
+	}
+
+	/* Hero-only millimeter grid overlay (faint, appears when hero is active) */
+	.hero-section::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 2; /* below vignette, above hero background */
+		pointer-events: none;
+		background:
+			/* fine grid (~12px) - stronger alpha */
+			repeating-linear-gradient(0deg, rgba(0,173,181,0.10) 0 1px, transparent 1px 12px),
+			repeating-linear-gradient(90deg, rgba(0,173,181,0.09) 0 1px, transparent 1px 12px),
+			/* major grid (~60px) - stronger alpha */
+			repeating-linear-gradient(0deg, rgba(0,173,181,0.18) 0 2px, transparent 2px 60px),
+			repeating-linear-gradient(90deg, rgba(0,173,181,0.14) 0 2px, transparent 2px 60px);
+		opacity: 0;
+		transition: opacity 420ms cubic-bezier(.22,.9,.24,1);
+	}
+	.swiper-slide-active.hero-section::after { opacity: 0.22; }
+	@media (max-width: 900px) {
+		.swiper-slide-active.hero-section::after { opacity: 0.18; }
+	}
 
 		/* noise overlay removed to avoid potential banding/stripes near the logo */
 
@@ -940,6 +989,12 @@
 	100% { transform: translate(-62%, -50%); }
 }
 
+/* Performance hints */
+.hero-bg, .hero-parallax, .swiper-slide::after {
+	will-change: transform, opacity;
+	transform: translateZ(0);
+}
+
 		.swiper-pagination .swiper-pagination-bullet-active {
 			background: var(--accent);
 			transform: scale(1.12);
@@ -1062,6 +1117,33 @@
 		.hero-title .hero-title-rest {
 			font-family: var(--font-main);
 			font-weight: 300;
+		}
+
+		/* Shine sweep accent for staged word reveal on hero */
+		.hero-title .word {
+			position: relative;
+			overflow: hidden;
+		}
+		.hero-title .word::after {
+			content: "";
+			position: absolute;
+			top: -10%;
+			left: -30%;
+			width: 30%;
+			height: 120%;
+			background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.22) 45%, rgba(0,173,181,0.18) 60%, rgba(255,255,255,0) 100%);
+			transform: skewX(-18deg) translateX(-120%);
+			filter: blur(0.5px);
+			opacity: 0;
+		}
+		.hero-title .word.word-shine::after {
+			opacity: 1;
+			animation: wordShine 900ms cubic-bezier(.22,.9,.24,1) forwards;
+		}
+		@keyframes wordShine {
+			0%   { transform: skewX(-18deg) translateX(-120%); opacity: 0; }
+			12%  { opacity: 1; }
+			100% { transform: skewX(-18deg) translateX(220%); opacity: 0; }
 		}
 
 		.hero-title-main {
@@ -1740,30 +1822,14 @@
 			margin: 0 auto;
 		}
 
-		/* Replace large mask with subtle per-letter dark halos via text-shadow */
-		.logo .logo-text,
-		.hero-title,
-		.hero-desc {
-			text-shadow:
-				0 0 8px rgba(0, 0, 0, 0.55),
-				0 0 16px rgba(0, 0, 0, 0.45),
-				0 0 28px rgba(0, 0, 0, 0.35);
-		}
-
-		/* Stronger readability: small dark shadow under each letter (no big rectangle) */
+		/* Remove heavy text shadows on hero for a cleaner look */
 		.hero-title,
 		.hero-title .word,
 		.hero-title-main,
 		.hero-title-rest,
 		.hero-desc,
 		.hero-subtle {
-			text-shadow:
-				0 1px 1px rgba(0, 0, 0, 0.85),
-				0 2px 2px rgba(0, 0, 0, 0.70),
-				0 3px 4px rgba(0, 0, 0, 0.60),
-				0 5px 8px rgba(0, 0, 0, 0.50),
-				0 8px 12px rgba(0, 0, 0, 0.40),
-				0 12px 18px rgba(0, 0, 0, 0.32);
+			text-shadow: none;
 		}
 
 		/* Place the subtle trust line just above the ticker on desktop */
@@ -2083,6 +2149,25 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
     flex-direction: column;
     height: 100%;
     box-sizing: border-box;
+		position: relative; /* allow absolute overlays like fog-layer */
+}
+
+/* Transitional fog overlay used during slide change */
+.fog-layer {
+		position: absolute;
+		inset: 0;
+		z-index: 3; /* above backgrounds/gradients, below header */
+		pointer-events: none;
+		opacity: var(--fogOpacity, 0);
+		filter: blur(var(--fogBlur, 0px));
+		transition: opacity 200ms ease-out, filter 200ms ease-out;
+		will-change: opacity, filter;
+		background:
+			radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.02) 60%, rgba(255,255,255,0.00) 80%),
+			radial-gradient(180% 180% at 60% 40%, rgba(var(--accent-rgb),0.08) 0%, rgba(var(--accent-rgb),0.05) 40%, rgba(var(--accent-rgb),0.00) 70%),
+			radial-gradient(160% 160% at 30% 70%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.00) 60%);
+		/* slight brightening to simulate light haze */
+		mix-blend-mode: screen;
 }
 
 /* Gradient overlay for all content sections (exclude the hero which has its own .hero-bg) */
@@ -2147,10 +2232,97 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 
 /* Improve readability for non-hero sections: wider measure, padding from edges and slightly larger text */
 .section-content .content-wrapper {
+	position: relative;
+	z-index: 4; /* above vignette */
 	max-width: 900px;
 	padding: 0 64px; /* horizontal breathing room */
 	margin: 0 auto;
 	box-sizing: border-box;
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 0 18px; }
+}
+
+/* Mobile typography tweaks specifically for the "О НАС" (about) slide */
+@media (max-width: 900px) {
+	.about-section .content-wrapper {
+		/* Strong top offset on mobile/tablet so content sits well below header/logo */
+		/* much larger top offset per latest design request */
+		padding-top: calc(var(--header-h, 64px) + 260px);
+		padding-left: 16px;
+		padding-right: 16px;
+		max-width: 720px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.about-section h2 {
+		font-size: 1.9rem;
+		line-height: 1.12;
+		margin-bottom: 0.75rem;
+		text-align: left;
+	}
+	.about-story {
+		font-size: 1.02rem;
+		line-height: 1.72;
+		text-align: left;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		hyphens: auto;
+		word-break: normal;
+		overflow-wrap: anywhere;
+		margin-top: 6px;
+	}
+	.about-story .story-block {
+		margin-bottom: 1.05rem;
+		padding: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.about-section .content-wrapper {
+		/* Even larger top offset on narrow phones to avoid overlap */
+		/* increased to give ample space under the fixed header on small phones */
+		padding-top: calc(var(--header-h, 64px) + 360px);
+		padding-left: 14px;
+		padding-right: 14px;
+		max-width: none;
+	}
+	.about-section h2 {
+		font-size: 1.6rem;
+	}
+	.about-story {
+		font-size: 1rem;
+		line-height: 1.78;
+	}
+}
+
+/* Desktop & general: increase vertical spacing so the title doesn't collide with fixed header/logo
+   Use --header-h when available (set in JS) so spacing adapts to actual header height. */
+.about-section .content-wrapper {
+	/* Much larger top offset so the title clears the fixed header/logo */
+	padding-top: calc(var(--header-h, 84px) + 220px);
+	padding-bottom: 72px;
+	padding-left: 96px;
+	padding-right: 96px;
+}
+.about-section h2 {
+	margin-top: 8px; /* small breathing under top padding */
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+	.about-section .content-wrapper { max-width: 980px; }
+}
+
+@media (min-width: 901px) {
+	/* Center about text on desktop for a balanced layout under the fixed header */
+	.about-section .content-wrapper {
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.about-section h2 { text-align: center; }
+	.about-story { text-align: center; }
 }
 
 .section-content p {
@@ -2246,7 +2418,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	}
 	/* Stronger, crisper pan on mobile for clarity */
 	.collection-section.collection-pan::after {
-		animation: collectionPanMobile 26s ease-in-out 0.5s infinite alternate;
+		animation: collectionPanMobile 30s ease-in-out 0s infinite alternate;
 		transform-origin: 55% 40%; /* pivot around focal area */
 	}
 	/* ensure inner container is transparent on mobile too */
@@ -2256,6 +2428,71 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 		padding-bottom: 36px;
 	}
 }
+
+/* Contract Molding (КОНТРАКТНОЕ ЛИТЬЁ) section background */
+.contract-section { position: relative; overflow: hidden; }
+.contract-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	filter: brightness(0.98) contrast(1.05) saturate(1.04);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes contractPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%,  1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with progressive enhancement (AVIF/WEBP) and JPG fallback */
+@media (min-width: 901px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/contract-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/contract-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../../slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/contract-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/contract-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../../slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+/* Mobile crop */
+@media (max-width: 900px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/contract-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/contract-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../../slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 42%;
+		background-size: cover;
+	}
+}
+/* Run pan only when slide is active (class toggled by JS) */
+.contract-section.contract-pan::after { animation: contractPan 30s ease-in-out infinite alternate; }
 
 /* About (О НАС / Качество) section background */
 .about-section {
@@ -2313,7 +2550,49 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 
 /* Run the pan only when slide is active (class toggled by JS) */
 .about-section.about-pan::after {
-	animation: aboutPan 28s ease-in-out infinite alternate;
+	animation: aboutPan 30s ease-in-out infinite alternate;
+}
+
+/* About content reveal */
+.about-section .content-wrapper h2,
+.about-section .about-story .story-block {
+	opacity: 0;
+	transform: translate3d(0, 14px, 0);
+	will-change: opacity, transform;
+}
+.about-section.about-reveal .content-wrapper h2 { animation: aboutRevealUp 1100ms cubic-bezier(.22,.9,.24,1) 120ms forwards; }
+
+/* Staged reveal for about-story blocks */
+.about-section .about-story { display: grid; gap: 12px; margin-top: 12px; }
+
+@keyframes aboutRevealLeft {
+		0%   { opacity: 0; transform: translate3d(-24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(-6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,     0,   0);  filter: blur(0); }
+}
+@keyframes aboutRevealRight {
+		0%   { opacity: 0; transform: translate3d(24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,    0,  0);   filter: blur(0); }
+}
+
+.about-section.about-reveal .about-story .story-block:nth-child(1) { animation: aboutRevealLeft 1200ms cubic-bezier(.22,.9,.24,1) 240ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(2) { animation: aboutRevealRight 1250ms cubic-bezier(.22,.9,.24,1) 780ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+	.about-section .content-wrapper h2,
+	.about-section .about-story .story-block {
+		animation: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+}
+@keyframes aboutRevealUp {
+	0%   { opacity: 0; transform: translate3d(0, 18px, 0); filter: blur(0.6px); }
+	60%  { opacity: 1; transform: translate3d(0, 4px, 0);  filter: blur(0.2px); }
+	100% { opacity: 1; transform: translate3d(0, 0, 0);   filter: blur(0); }
 }
 
 /* Italian-style reveal: elegant emergence from nowhere */
@@ -2328,7 +2607,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 }
 .collection-section::after {
 	will-change: filter, opacity, transform;
-	transform: translate3d(0, 10px, 0) scale(1.03);
+	transform: translate3d(0, 0, 0) scale(1);
 	/* keep colors crisp; no persistent blur to avoid haze */
 	filter: brightness(1.06) contrast(1.05) saturate(1.08);
     opacity: 1;
@@ -2344,11 +2623,12 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 
 /* Continuous slow background pan (enabled via .collection-pan) */
 .collection-section.collection-pan::after {
-	animation: collectionPan 34s ease-in-out 0.9s infinite alternate;
+	animation: collectionPan 30s ease-in-out 0s infinite alternate;
 }
 
 @keyframes collectionPan {
-	0%   { transform: translate3d(0, 0, 0) scale(1.04); }
+	/* Start exactly at the end state of reveal (scale(1), no offset) to avoid jump */
+	0%   { transform: translate3d(0, 0, 0) scale(1); }
 	50%  { transform: translate3d(8%, -8%, 0) scale(1.14); }
 	100% { transform: translate3d(3.5%, 3.5%, 0) scale(1.08); }
 }
@@ -2366,9 +2646,9 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes itRevealBg {
-	0% { opacity: 0.78; transform: translate3d(0, 14px, 0) scale(1.04); filter: saturate(1.02) contrast(1.0) blur(2.5px); }
-	60% { opacity: 0.95; transform: translate3d(0, 6px, 0) scale(1.02); filter: saturate(1.1) contrast(1.06) blur(0.6px); }
-	100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: saturate(1.12) contrast(1.08) blur(0); }
+	0% { opacity: 0.78; transform: translate3d(0, 12px, 0) scale(1.02); filter: saturate(1.02) contrast(1.0) blur(2.2px); }
+	60% { opacity: 0.95; transform: translate3d(0, 4px, 0)  scale(1.01); filter: saturate(1.1)  contrast(1.06) blur(0.5px); }
+	100% { opacity: 1; transform: translate3d(0, 0, 0)  scale(1);    filter: saturate(1.12) contrast(1.08) blur(0); }
 }
 
 /* Lighten global overlay specifically for Collection (reduce side/top vignette strength) */

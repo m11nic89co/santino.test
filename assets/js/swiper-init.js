@@ -61,22 +61,23 @@ document.addEventListener('DOMContentLoaded', function () {
         mousewheel: {
             forceToAxis: true,
             releaseOnEdges: true,
-            thresholdDelta: 8,
-            thresholdTime: 40,
-            sensitivity: 0.7,
+            thresholdDelta: 24,   // require a larger wheel delta to trigger
+            thresholdTime: 80,    // and slightly longer time window
+            sensitivity: 0.4,     // lower sensitivity for calmer steps
         },
     // Touch tuning for mobile
     touchAngle: 30,           // stricter vertical intent
-    threshold: 8,             // px before we start swiping
+    threshold: 10,            // a touch needs a bit more travel to start
     followFinger: true,
     simulateTouch: true,
-    passiveListeners: true,
-    touchStartPreventDefault: true,
+    passiveListeners: true,   // keep listeners passive to avoid main-thread jank
+    touchStartPreventDefault: false, // don't call preventDefault on passive listeners
     iOSEdgeSwipeDetection: true,
     iOSEdgeSwipeThreshold: 30,
-        resistanceRatio: 0.86,
-        longSwipesMs: 180,
+        resistanceRatio: 0.92, // gentler resistance for smoother feel
+        longSwipesMs: 220,     // slightly longer swipe timing window
         touchReleaseOnEdges: true,
+        preventInteractionOnTransition: true, // ignore new input while animating
         a11y: {
             enabled: true,
             firstSlideMessage: 'Первая секция',
@@ -151,8 +152,10 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Only consider slides near the viewport to reduce per-frame work
         swiper.slides.forEach(slide => {
             const p = slide.progress; // -1 .. 0 .. 1
+            if (p < -1.5 || p > 1.5) return;
             const bg = slide.querySelector && slide.querySelector('.hero-bg');
             const para = slide.querySelector && slide.querySelector('.hero-parallax');
 
@@ -185,9 +188,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Grid overlay: show only after leaving the hero (no grid on first slide, and not during preload) ---
     function updateGridOverlay() {
-        document.body.classList.toggle('grid-on', swiper.activeIndex !== 0);
+        // Keep grid off for all slides except the first, where it's ultra-faint
+        const isHero = swiper.activeIndex === 0;
+        document.body.classList.toggle('grid-hero', isHero);
+        document.body.classList.remove('grid-on');
     }
+    // Ensure correct state on slide changes and init
     swiper.on('slideChange', updateGridOverlay);
+    updateGridOverlay();
 
     // --- Italian-style reveal for the "НАША КОЛЛЕКЦИЯ" (Коллекция) section ---
     const collectionIdx = (() => {
@@ -221,7 +229,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateCollectionPan() {
         const target = slides[collectionIdx];
         if (!target) return;
-        target.classList.toggle('collection-pan', swiper.activeIndex === collectionIdx);
+        const shouldPan = swiper.activeIndex === collectionIdx;
+        if (!shouldPan) {
+            target.classList.remove('collection-pan');
+            return;
+        }
+        // Delay start until current transition completes to avoid jump
+        if (swiper.animating) {
+            const startPan = () => {
+                target.classList.add('collection-pan');
+                swiper.off('slideChangeTransitionEnd', startPan);
+            };
+            swiper.on('slideChangeTransitionEnd', startPan);
+        } else {
+            target.classList.add('collection-pan');
+        }
     }
     updateCollectionPan();
     swiper.on('slideChange', updateCollectionPan);
@@ -231,10 +253,45 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateAboutPan() {
         const target = slides[aboutIdx];
         if (!target) return;
-        target.classList.toggle('about-pan', swiper.activeIndex === aboutIdx);
+        const isActive = swiper.activeIndex === aboutIdx;
+        target.classList.toggle('about-pan', isActive);
+        if (isActive) {
+            // retrigger reveal by toggling class
+            target.classList.remove('about-reveal');
+            void target.offsetWidth;
+            requestAnimationFrame(() => target.classList.add('about-reveal'));
+        } else {
+            target.classList.remove('about-reveal');
+        }
     }
     updateAboutPan();
     swiper.on('slideChange', updateAboutPan);
+
+    // Toggle slow background pan only when CONTRACT MOLDING (section-3) is active
+    const contractIdx = 3; // section-3
+    function updateContractPan() {
+        const target = slides[contractIdx];
+        if (!target) return;
+        target.classList.toggle('contract-pan', swiper.activeIndex === contractIdx);
+    }
+    updateContractPan();
+    swiper.on('slideChange', updateContractPan);
+
+    // --- Welding sparks: run only on the first slide (hero) ---
+    function updateWeldingSparksCycle() {
+        try {
+            const isHero = swiper.activeIndex === 0;
+            const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const lowPower = document.body.classList.contains('is-low-power');
+            if (!isHero) {
+                if (typeof window.stopBtnCycle === 'function') window.stopBtnCycle();
+            } else {
+                if (!reduced && !lowPower && typeof window.startBtnCycle === 'function') window.startBtnCycle();
+            }
+        } catch (_) { /* no-op */ }
+    }
+    updateWeldingSparksCycle();
+    swiper.on('slideChange', updateWeldingSparksCycle);
 
     // --- Menu Generation ---
     const navLeft = document.querySelector('.main-nav-left');
