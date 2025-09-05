@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# После смены ветки: напоминание про синхронизацию и локальные настройки
+set -eu
+
+echo "[post-checkout] Ветка переключена. Рекомендуется: git fetch --prune && git pull --ff-only (если применимо)."
+mkdir -p .local/"$(hostname 2>/dev/null || echo machine)" || true
+[ -f .env.local ] || touch .env.local

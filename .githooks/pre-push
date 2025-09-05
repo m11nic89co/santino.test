@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+# Блокирует push, если локальная ветка отстает от upstream.
+# Это помогает избежать конфликтов между машинами.
+
+set -eu
+
+# Нет upstream — позволяем push (например, новая ветка)
+if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
+  exit 0
+fi
+
+# Обновить информацию об удаленном
+git fetch -q || true
+
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse @{u})
+BASE=$(git merge-base @ @{u})
+
+if [ "$LOCAL" = "$REMOTE" ]; then
+  # В актуальном состоянии
+  exit 0
+fi
+
+if [ "$LOCAL" = "$BASE" ]; then
+  echo "[pre-push] Ваша ветка отстает от удаленной. Выполните pull (ff-only), решите конфликты и попробуйте снова." >&2
+  exit 1
+fi
+
+if [ "$REMOTE" = "$BASE" ]; then
+  # Впереди удаленной — push допустим
+  exit 0
+fi
+
+echo "[pre-push] Ветка разошлась с upstream. Сначала синхронизируйтесь (rebase/merge)." >&2
+exit 1

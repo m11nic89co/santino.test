@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# Автодобавление короткой информации о ветке в сообщение коммита (можно удалить вручную)
+set -eu
+
+MSG_FILE=$1
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+if [ -n "$BRANCH" ] && [ "$BRANCH" != "HEAD" ]; then
+  printf "\n[%s]\n" "$BRANCH" >> "$MSG_FILE"
+fi
