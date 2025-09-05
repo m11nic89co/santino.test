@@ -56,6 +56,30 @@
         "${workspaceFolder}/prompts.json"
       ],
       "problemMatcher": []
+    },
+    {
+      "label": "Santino: Prompts Auto-Import (on open)",
+      "type": "shell",
+      "windows": {
+        "command": "powershell.exe",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}\\scripts\\auto-import-prompts.ps1"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [ "${workspaceFolder}/scripts/auto-import-prompts.sh" ]
+      },
+      "linux": {
+        "command": "bash",
+        "args": [ "${workspaceFolder}/scripts/auto-import-prompts.sh" ]
+      },
+      "runOptions": { "runOn": "folderOpen" },
+      "problemMatcher": []
     }
   ]
 }
