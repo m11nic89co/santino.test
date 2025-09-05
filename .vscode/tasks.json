@@ -58,7 +58,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Santino: Prompts Auto-Import (on open)",
+      "label": "Santino: Prompts Auto-Import",
       "type": "shell",
       "windows": {
         "command": "powershell.exe",
@@ -78,6 +78,42 @@
         "command": "bash",
         "args": [ "${workspaceFolder}/scripts/auto-import-prompts.sh" ]
       },
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: Autosync (bootstrap)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "windows": {
+        "command": "powershell.exe",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}\\scripts\\bootstrap.ps1"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [ "${workspaceFolder}/scripts/bootstrap.sh" ]
+      },
+      "linux": {
+        "command": "bash",
+        "args": [ "${workspaceFolder}/scripts/bootstrap.sh" ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: On Open (Autosync + Prompts)",
+      "type": "shell",
+      "command": "echo",
+      "args": ["on open"],
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Santino: Autosync (bootstrap)",
+        "Santino: Prompts Auto-Import"
+      ],
       "runOptions": { "runOn": "folderOpen" },
       "problemMatcher": []
     }
