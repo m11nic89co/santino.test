@@ -33,6 +33,29 @@
         "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command",
         "& {\n$ErrorActionPreference='Stop';\n$root='${workspaceFolder}';\n$src=Join-Path $root 'src';\n$public=Join-Path $root 'public';\n$deploy=Join-Path $root 'santino.ru.com';\n$snapRoot=Join-Path $root 'snapshots';\n@($public,$deploy,$snapRoot) | % { if (!(Test-Path $_)) { New-Item -ItemType Directory -Force -Path $_ | Out-Null } }\nrobocopy $src $public /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null; if ($LASTEXITCODE -ge 8) { throw 'robocopy src->public failed' }\nrobocopy $public $deploy /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null; if ($LASTEXITCODE -ge 8) { throw 'robocopy public->deploy failed' }\n$ts=Get-Date -Format 'yyyy-MM-dd-HHmmss';\n$dest=Join-Path $snapRoot $ts;\nrobocopy $public $dest /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null; if ($LASTEXITCODE -ge 8) { throw 'robocopy public->snapshot failed' }\n& git add -- $dest;\n& git commit -m \"deploy+snapshot: $ts\";\nWrite-Host \"DEPLOY_OK: $deploy\"; Write-Host \"SNAPSHOT_OK: $dest\"; }"
       ]
+    },
+    {
+      "label": "Santino: Import Copilot Prompts",
+      "type": "shell",
+      "command": "powershell.exe",
+      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+        "${workspaceFolder}\\scripts\\import-prompts.ps1",
+        "-Source", "${workspaceFolder}\\prompts.json"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Santino: Import Copilot Prompts (macOS/Linux)",
+      "type": "shell",
+      "command": "bash",
+      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "${workspaceFolder}/scripts/import-prompts.sh",
+        "${workspaceFolder}/prompts.json"
+      ],
+      "problemMatcher": []
     }
   ]
 }

@@ -41,3 +41,8 @@ assets/img/*.avif
 .idea/
 .vscode/
 Thumbs.db
+
+# Copilot prompts (local source and derived files)
+prompts.local.json
+.local/copilot/
+.vscode/copilot-prompts.code-snippets

@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+# После merge/pull: установить зависимости или выполнить локальную инициализацию при необходимости
+set -eu
+
+# Пример: если есть package.json, поставить зависимости (необязательно)
+if [ -f package.json ]; then
+  if command -v npm >/dev/null 2>&1; then
+    echo "[post-merge] npm ci (опционально)"
+    npm ci || true
+  fi
+fi
+
+# Создать локальные каталоги, если отсутствуют
+mkdir -p .local/"$(hostname 2>/dev/null || echo machine)" || true
+[ -f .env.local ] || touch .env.local
+
+# Refresh prompts from prompts.json if present
+if [ -f prompts.json ]; then
+  if command -v powershell.exe >/dev/null 2>&1; then
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/import-prompts.ps1 -Source prompts.json || true
+  elif command -v pwsh >/dev/null 2>&1; then
+    pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/import-prompts.ps1 -Source prompts.json || true
+  elif command -v bash >/dev/null 2>&1; then
+    bash scripts/import-prompts.sh prompts.json || true
+  fi
+fi
