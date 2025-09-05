@@ -3,6 +3,7 @@
 set -euo pipefail
 
 SRC="${1:-"$(cd "$(dirname "$0")/.." && pwd)/prompts.json"}"
+INSTALL_USER_SNIPPETS="1"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 info(){ printf '[prompts] %s\n' "$1"; }
@@ -45,3 +46,19 @@ else
 fi
 
 info 'Готово.'
+
+# Optionally install to user snippets (VS Code Settings Sync)
+if [ "${INSTALL_USER_SNIPPETS}" = "1" ] && [ -f "$SNIPPETS_PATH" ]; then
+  set +e
+  USER_DIRS=(
+    "$HOME/Library/Application Support/Code/User/snippets"
+    "$HOME/Library/Application Support/Code - Insiders/User/snippets"
+    "$HOME/.config/Code/User/snippets"
+    "$HOME/.config/VSCodium/User/snippets"
+  )
+  for d in "${USER_DIRS[@]}"; do
+    mkdir -p "$d"
+    cp -f "$SNIPPETS_PATH" "$d/copilot-prompts.code-snippets" 2>/dev/null && info "Установлено: $d/copilot-prompts.code-snippets"
+  done
+  set -e
+fi

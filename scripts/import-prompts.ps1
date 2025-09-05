@@ -1,7 +1,8 @@
 # Import prompts from a root JSON into local storage and VS Code snippets (Windows)
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/import-prompts.ps1 [-Source <path>]
 param(
-  [string]$Source = "$PSScriptRoot\..\prompts.json"
+  [string]$Source = "$PSScriptRoot\..\prompts.json",
+  [switch]$InstallUserSnippets = $true
 )
 
 Set-StrictMode -Version Latest
@@ -85,6 +86,34 @@ if ($snippets.Count -gt 0) {
   Write-Info "Созданы сниппеты: $snippetsPath"
 } else {
   Write-Warn 'Структура JSON не распознана для сниппетов. Файл просто сохранен локально.'
+}
+
+# Optionally install into VS Code user snippets (synced by Settings Sync)
+if ($InstallUserSnippets -and $snippets.Count -gt 0) {
+  function Get-UserSnippetDirs {
+    $dirs = @()
+    $base = $env:APPDATA
+    if ($base) {
+      $candidates = @(
+        Join-Path $base 'Code\\User\\snippets'),
+        (Join-Path $base 'Code - Insiders\\User\\snippets'),
+        (Join-Path $base 'VSCodium\\User\\snippets')
+    }
+    foreach ($d in $candidates) {
+      if (!(Test-Path $d)) {
+        try { New-Item -ItemType Directory -Force -Path $d | Out-Null } catch { }
+      }
+      if (Test-Path $d) { $dirs += $d }
+    }
+    return $dirs
+  }
+
+  $userDirs = Get-UserSnippetDirs
+  foreach ($d in $userDirs) {
+    $userSnip = Join-Path $d 'copilot-prompts.code-snippets'
+    ($snippets | ConvertTo-Json -Depth 6) | Out-File -FilePath $userSnip -Encoding UTF8
+    Write-Info "Установлено в пользовательские сниппеты: $userSnip"
+  }
 }
 
 Write-Info 'Готово.'
