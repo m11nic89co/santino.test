@@ -4,49 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const _prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // --- Transition mode selection ---
-    function getTransitionMode() {
-        if (_prefersReducedMotion) return 'slide';
-        const params = new URLSearchParams(window.location.search);
-        const fromQuery = (params.get('mode') || params.get('transition') || '').toLowerCase();
-        const fromBody = (document.body.dataset.transition || '').toLowerCase();
-        const cand = fromQuery || fromBody || '';
-        if (['mist','zoom','glide','fade','slide'].includes(cand)) return cand;
-        return 'mist'; // default
-    }
-
-    const TRANSITION_MODE = getTransitionMode();
-
-    // Map mode to Swiper effect and options
-    let selectedEffect = 'slide';
-    let fadeEffectOpt = undefined;
-    let creativeEffectOpt = undefined;
-    let speedMs = _prefersReducedMotion ? 600 : 920;
-
-    if (_prefersReducedMotion || TRANSITION_MODE === 'slide') {
-        selectedEffect = 'slide';
-    } else if (TRANSITION_MODE === 'mist' || TRANSITION_MODE === 'fade') {
-        selectedEffect = 'fade';
-        fadeEffectOpt = { crossFade: true };
-    } else if (TRANSITION_MODE === 'zoom') {
-        selectedEffect = 'creative';
-        creativeEffectOpt = {
-            perspective: true,
-            limitProgress: 2,
-            prev: { translate: [0, -120, -80], scale: 0.92, opacity: 0.8 },
-            next: { translate: [0, 120, -80],  scale: 1.06, opacity: 1   },
-        };
-        speedMs = 940;
-    } else if (TRANSITION_MODE === 'glide') {
-        selectedEffect = 'creative';
-        creativeEffectOpt = {
-            perspective: true,
-            limitProgress: 2,
-            prev: { translate: [-60, -100, -60], rotate: [0, 0, -3], opacity: 0.85 },
-            next: { translate: [ 60,  100, -60], rotate: [0, 0,  3], opacity: 1    },
-        };
-        speedMs = 980;
-    }
+    // Simplified: force plain vertical slide effect (no fancy creative/fade modes)
+    const selectedEffect = 'slide';
+    const speedMs = _prefersReducedMotion ? 550 : 750;
 
     const swiper = new Swiper('.swiper', {
         direction: 'vertical',
@@ -96,46 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
         speed: speedMs,
         effect: selectedEffect,
         grabCursor: true,
-        creativeEffect: creativeEffectOpt,
-        fadeEffect: fadeEffectOpt,
-        cubeEffect: undefined,
-        flipEffect: undefined,
         keyboard: {
             enabled: true,
         },
         on: {},
     });
-
-    // --- Fog overlay setup (only for mist mode) ---
-    const fogLayers = [];
-    if (TRANSITION_MODE === 'mist' && !_prefersReducedMotion) {
-        slides.forEach(slide => {
-            const fog = document.createElement('div');
-            fog.className = 'fog-layer';
-            slide.appendChild(fog);
-            fogLayers.push(fog);
-        });
-
-        function fogIn(index) {
-            const fog = fogLayers[index]; if (!fog) return;
-            fog.style.setProperty('--fogOpacity', '0.85');
-            fog.style.setProperty('--fogBlur', '14px');
-        }
-        function fogOut(index) {
-            const fog = fogLayers[index]; if (!fog) return;
-            fog.style.setProperty('--fogOpacity', '0');
-            fog.style.setProperty('--fogBlur', '0px');
-        }
-
-        // On transition start, raise fog on previous (outgoing); on end, clear on new and previous
-        swiper.on('slideChangeTransitionStart', () => {
-            fogIn(swiper.previousIndex ?? 0);
-        });
-        swiper.on('slideChangeTransitionEnd', () => {
-            fogOut(swiper.activeIndex);
-            if (Number.isInteger(swiper.previousIndex)) fogOut(swiper.previousIndex);
-        });
-    }
+    // Removed fog/creative effects; simple scroll-like navigation only
 
     // --- Hero Parallax driver ---
     // Uses slide.progress to drive lightweight transforms on .hero-bg and .hero-parallax
@@ -254,8 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const target = slides[aboutIdx];
         if (!target) return;
         const isActive = swiper.activeIndex === aboutIdx;
-        target.classList.toggle('about-pan', isActive);
-    target.classList.toggle('about-credits-run', isActive);
+    target.classList.toggle('about-pan', isActive);
         if (isActive) {
             // retrigger reveal by toggling class
             target.classList.remove('about-reveal');
@@ -286,6 +211,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const lowPower = document.body.classList.contains('is-low-power');
             if (!isHero) {
                 if (typeof window.stopBtnCycle === 'function') window.stopBtnCycle();
+                // extra: ensure paparazzi flash hidden if leftover timers existed
+                try {
+                    const flash = document.getElementById('paparazzi-flash');
+                    if (flash) {
+                        flash.classList.remove('lightning-series');
+                        flash.style.display = 'none';
+                    }
+                    if (window.__flashTimers) { window.__flashTimers.forEach(id=>clearTimeout(id)); window.__flashTimers = []; }
+                } catch(_) {}
             } else {
                 if (!reduced && !lowPower && typeof window.startBtnCycle === 'function') window.startBtnCycle();
             }

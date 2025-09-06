@@ -57,36 +57,61 @@ function isLowPower() {
 					mainLogo.style.opacity = '0';
 					mainLogo.style.transform = 'translateY(40vh) scale(1.5)';
 
-					// Серия молний: меньше на слабых устройствах
-					let total = 0;
-					const flashes = [];
-					const flashCount = isLowPower() ? 2 : 4;
-					for (let i = 0; i < flashCount; i++) {
-						let pause = i < 3 ? Math.floor(Math.random() * 110) + 40 : 0; // 40-150мс между вспышками
-						flashes.push(total);
-						total += pause;
+					// Серия молний только на первом слайде (герой). На других отключено.
+					if (window.swiper && window.swiper.activeIndex === 0) {
+						// Flash controller with cleanup
+						(function heroFlashCycle(){
+							if (!window.__flashTimers) window.__flashTimers = [];
+							// clear any existing
+							window.__flashTimers.forEach(id=>clearTimeout(id));
+							window.__flashTimers = [];
+							let total = 0;
+							const flashes = [];
+							const flashCount = isLowPower() ? 2 : 4;
+							for (let i = 0; i < flashCount; i++) {
+								let pause = i < flashCount-1 ? Math.floor(Math.random() * 110) + 40 : 0;
+								flashes.push(total);
+								total += pause;
+							}
+							const maxCycle = 700;
+							if (total > maxCycle) {
+								const scale = maxCycle / total;
+								for (let i = 1; i < flashes.length; i++) flashes[i] = Math.floor(flashes[i] * scale);
+							}
+							flashes.forEach(delay => {
+								const id = setTimeout(() => {
+									if (!window.swiper || window.swiper.activeIndex !== 0) return; // abort if left hero
+									paparazziFlash.classList.add('lightning-series');
+									paparazziFlash.style.display = 'block';
+									paparazziFlash.style.filter = isLowPower() ? 'blur(4px) brightness(2.2)' : 'blur(6px) brightness(3.2)';
+									setTimeout(() => {
+										paparazziFlash.classList.remove('lightning-series');
+										paparazziFlash.style.display = 'none';
+										paparazziFlash.style.filter = isLowPower() ? 'blur(6px) brightness(1.6)' : 'blur(8px) brightness(2.2)';
+									}, 340);
+								}, delay);
+								window.__flashTimers.push(id);
+							});
+							// schedule cleanup when slide changes
+							if (!window.__flashCleanupBound) {
+								window.__flashCleanupBound = true;
+								if (window.swiper) {
+									window.swiper.on('slideChange', () => {
+										if (window.swiper.activeIndex !== 0) {
+											window.__flashTimers.forEach(id=>clearTimeout(id));
+											window.__flashTimers = [];
+											paparazziFlash.classList.remove('lightning-series');
+											paparazziFlash.style.display = 'none';
+										}
+									});
+								}
+							}
+						})();
+					} else {
+						// ensure hidden outside hero
+						paparazziFlash.classList.remove('lightning-series');
+						paparazziFlash.style.display = 'none';
 					}
-					const maxCycle = 700;
-					if (total > maxCycle) {
-						const scale = maxCycle / total;
-						for (let i = 1; i < flashes.length; i++) {
-							flashes[i] = Math.floor(flashes[i] * scale);
-						}
-					}
-
-					// Исправляем длительность молнии: делаем каждую вспышку ~350мс для реалистичности
-					flashes.forEach((delay, idx) => {
-						setTimeout(() => {
-							paparazziFlash.classList.add('lightning-series');
-							paparazziFlash.style.display = 'block';
-							paparazziFlash.style.filter = isLowPower() ? 'blur(4px) brightness(2.2)' : 'blur(6px) brightness(3.2)';
-							setTimeout(() => {
-								paparazziFlash.classList.remove('lightning-series');
-								paparazziFlash.style.display = 'none';
-								paparazziFlash.style.filter = isLowPower() ? 'blur(6px) brightness(1.6)' : 'blur(8px) brightness(2.2)';
-							}, 350);
-						}, delay);
-					});
 
 					// После последней молнии показываем логотип и сайт
 					setTimeout(() => {
@@ -1280,3 +1305,6 @@ function isLowPower() {
 				if (!_bpStarted && !prefersReduced) startBlueprintCycle();
 			}
 		}, { passive: true });
+
+// --- About section credits scroll (continuous, no pause freeze) ---
+// (JS marquee removed; switched to pure CSS animation for reliability.)
