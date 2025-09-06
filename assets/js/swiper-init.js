@@ -256,7 +256,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const allItemsHtml   = [leftItemsHtml, rightItemsHtml].join('');
     // Mobile menu gets a leading 'ГЛАВНАЯ' pointing to slide 0
     const homeItemHtml   = `<a href="#" data-index="0" id="menu-link-0">ГЛАВНАЯ</a>`;
-    const mobileItemsHtml= `<div class="mobile-nav-inner">` + [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('') + `</div>`;
+    // Mobile social icons (placeholders: update href values to real profiles)
+    const mobileSocialHtml = `\n<div class="mobile-social" role="group" aria-label="Социальные сети">\n`
+        + `<a class=\"social-link social-yt\" aria-label=\"YouTube\" href=\"https://youtube.com\" target=\"_blank\" rel=\"noopener\">`
+        + `<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M23.5 6.2s-.23-1.64-.95-2.36c-.9-.95-1.9-.96-2.36-1.02C16.9 2.5 12 2.5 12 2.5h0s-4.9 0-8.19.32c-.46.06-1.46.07-2.36 1.02C.73 4.56.5 6.2.5 6.2S.27 8.13.27 10.06v1.85c0 1.93.23 3.86.23 3.86s.23 1.64.95 2.36c.9.95 2.08.92 2.61 1.02 1.9.18 8 .3 8 .3s4.9-.01 8.19-.33c.46-.06 1.46-.07 2.36-1.02.72-.72.95-2.36.95-2.36s.23-1.93.23-3.86v-1.85c0-1.93-.23-3.86-.23-3.86ZM9.82 14.73V8.67l6.19 3.04-6.19 3.02Z\"/></svg>`
+        + `</a>`
+        + `<a class=\"social-link social-vk\" aria-label=\"VK\" href=\"https://vk.com\" target=\"_blank\" rel=\"noopener\">`
+        + `<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M21.55 6.56c.14-.46 0-.8-.66-.8h-2.2c-.56 0-.82.3-.96.63 0 0-1.12 2.72-2.7 4.48-.51.5-.74.66-1.02.66-.14 0-.34-.16-.34-.62V6.56c0-.55-.15-.8-.6-.8H9.2c-.34 0-.54.25-.54.48 0 .52.78.64.86 2.1v3.17c0 .7-.13.83-.41.83-.74 0-2.53-2.74-3.59-5.87-.2-.58-.4-.82-.96-.82H2.35c-.62 0-.74.3-.74.63 0 .59.74 3.5 3.45 7.35 1.8 2.56 4.34 3.94 6.66 3.94 1.39 0 1.56-.31 1.56-.84v-1.94c0-.62.13-.74.56-.74.32 0 .88.16 2.18 1.39 1.49 1.46 1.74 2.13 2.57 2.13h2.2c.63 0 .95-.31.77-.93-.2-.62-.92-1.53-1.88-2.6-.52-.61-1.3-1.27-1.54-1.6-.33-.42-.24-.6 0-.97 0 0 2.72-3.85 3-5.15Z\"/></svg>`
+        + `</a>`
+        + `<a class=\"social-link social-wa\" aria-label=\"WhatsApp\" href=\"https://wa.me/79001234567\" target=\"_blank\" rel=\"noopener\">`
+        + `<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M20.52 3.48A11.87 11.87 0 0 0 12.04 0C5.46.03.2 5.3.22 11.88c0 2.09.55 4.14 1.6 5.94L0 24l6.4-1.67a11.86 11.86 0 0 0 5.65 1.44h.01c6.58 0 11.85-5.27 11.87-11.75A11.73 11.73 0 0 0 20.52 3.48Zm-8.48 17.3h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.8.99 1.02-3.7-.24-.38a9.8 9.8 0 0 1-1.5-5.17C2.07 6.42 6.46 2.1 12.02 2.1c2.6 0 5.03 1 6.86 2.82A9.62 9.62 0 0 1 21.9 12c-.02 5.55-4.4 8.78-9.86 8.78Zm5.4-7.33c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.9 1.13-.17.19-.33.21-.62.06-.29-.15-1.23-.45-2.34-1.43-.86-.76-1.44-1.7-1.61-1.99-.17-.29-.02-.45.13-.6.13-.13.29-.33.43-.5.15-.17.19-.29.29-.48.1-.19.05-.36-.03-.51-.08-.15-.64-1.54-.88-2.1-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01-.19 0-.5.07-.76.36-.26.29-1 1-1 2.44 0 1.44 1.03 2.84 1.17 3.04.15.19 2.03 3.1 4.92 4.35.69.3 1.23.48 1.65.61.69.22 1.32.19 1.82.12.55-.08 1.7-.7 1.94-1.39.24-.68.24-1.26.17-1.39-.07-.13-.26-.21-.55-.36Z\"/></svg>`
+        + `</a>\n</div>`;
+    const mobileItemsHtml= `<div class="mobile-nav-inner">`
+        + [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('')
+        + mobileSocialHtml
+        + `</div>`;
 
     function injectMenusForViewport() {
         const isDesktop = window.innerWidth > 900;

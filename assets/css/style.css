@@ -598,10 +598,10 @@
 			/* Social icons row (minimal icons + neon glow underneath) */
 			.mobile-social { margin-top: clamp(28px,6vh,60px); display:flex; gap:34px; align-items:flex-end; justify-content:center; }
 			.mobile-social .social-link { position:relative; display:inline-flex; align-items:center; justify-content:center; padding:6px; text-decoration:none; color:#fff; }
-			.mobile-social .social-link svg { display:block; width:34px; height:34px; filter:drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 10px #ffffff); transition:filter .45s ease, transform .45s ease; }
-			.mobile-social .social-link::after { content:""; position:absolute; left:50%; bottom:2px; transform:translateX(-50%); width:44px; height:18px; background:radial-gradient(ellipse at center, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 35%, rgba(0,0,0,0) 70%); filter:blur(9px) brightness(1.25); opacity:.6; pointer-events:none; transition:opacity .45s ease, filter .45s ease; }
-			.mobile-social .social-link:hover svg { filter:drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 18px #ffffff) drop-shadow(0 0 32px #ffffff); transform:translateY(-2px); }
-			.mobile-social .social-link:hover::after { opacity:.95; filter:blur(11px) brightness(1.55); }
+			.mobile-social .social-link svg { display:block; width:32px; height:32px; filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 6px #fff); transition:filter .4s ease, transform .4s ease; }
+			.mobile-social .social-link::after { content:""; position:absolute; left:50%; bottom:2px; transform:translateX(-50%); width:40px; height:14px; background:radial-gradient(ellipse at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.18) 40%, rgba(0,0,0,0) 70%); filter:blur(7px) brightness(1.1); opacity:.45; pointer-events:none; transition:opacity .4s ease, filter .4s ease; }
+			.mobile-social .social-link:hover svg { filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px #fff) drop-shadow(0 0 18px #fff); transform:translateY(-2px); }
+			.mobile-social .social-link:hover::after { opacity:.75; filter:blur(8px) brightness(1.25); }
 			.mobile-social .social-link:active svg { transform:translateY(0) scale(.94); }
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
 			/* Monochrome mode: platform classes kept for future use (no unique colors now) */
