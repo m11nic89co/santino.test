@@ -602,8 +602,8 @@
 				height: 100dvh;
 				height: calc(var(--vh, 1vh) * 100);
 				/* dark, soft vignette to improve readability around and behind text */
-				background:
-					radial-gradient(1200px 800px at 50% 50%, rgba(0,0,0,0.66) 0%, rgba(0,0,0,0.78) 55%, rgba(0,0,0,0.88) 100%);
+				/* lighten / remove dark vignette: subtle translucent film */
+				background: rgba(0,0,0,0.35);
 				z-index: 999;
 				display: flex;
 				flex-direction: column;
@@ -648,11 +648,11 @@
 				text-decoration: none;
 				margin: 0; /* расстояние управляет контейнер через gap */
 				/* add inner dark chip; extra bottom padding to include mm label inside block for perfect centering */
-				padding: 12px 14px 28px;
-				background-color: rgba(0,0,0,0.5); /* only color layer, keeps background-image underline */
-				border-radius: 12px;
-				box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.05);
-				text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+				padding: 4px 6px 20px; /* slimmer without chip */
+				background: none;
+				border-radius: 0;
+				box-shadow: none;
+				text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 				line-height: 1.22;
 				transition: color 0.3s, opacity 0.4s, transform 0.4s;
 				opacity: 0;
