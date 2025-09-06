@@ -255,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!target) return;
         const isActive = swiper.activeIndex === aboutIdx;
         target.classList.toggle('about-pan', isActive);
+    target.classList.toggle('about-credits-run', isActive);
         if (isActive) {
             // retrigger reveal by toggling class
             target.classList.remove('about-reveal');

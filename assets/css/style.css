@@ -2581,6 +2581,29 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 .about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
 .about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
 
+/* --- ABOUT SECTION: two vertical halves + movie credits scroll --- */
+.about-section .about-layout { position: absolute; inset: 0; display: flex; flex-direction: row; }
+.about-section .about-col { flex: 1 1 50%; position: relative; overflow: hidden; display: flex; }
+.about-section .about-col.left { align-items: flex-start; justify-content: center; padding: clamp(24px,4vw,60px); }
+.about-section .about-col.right { align-items: flex-end; justify-content: center; }
+.about-section .about-credits-viewport { position: absolute; left: 0; right: 0; bottom: 0; height: 48%; overflow: hidden; pointer-events: none; }
+.about-section .about-credits-track { position: absolute; left: 0; right: 0; bottom: -100%; display: flex; flex-direction: column; gap: 18px; font-size: clamp(12px,1.2vw,18px); line-height: 1.25; text-align: center; }
+.about-section .about-credits-track span { opacity: 0.9; letter-spacing: 0.5px; }
+.about-section.about-credits-run .about-credits-track { animation: aboutCreditsRise 26s linear forwards; }
+@keyframes aboutCreditsRise { 0% { transform: translateY(100%); } 100% { transform: translateY(-5%); } }
+
+/* Integrate old content into left column */
+.about-section .content-wrapper { position: relative; z-index: 2; }
+.about-section .about-layout .legacy-wrapper { width: 100%; }
+
+@media (max-width:900px) {
+	.about-section .about-layout { flex-direction: column; }
+	.about-section .about-col { flex: 1 0 50%; }
+	.about-section .about-col.left { align-items: flex-start; }
+	.about-section .about-credits-viewport { position: relative; height: 52%; bottom: auto; margin-top: auto; }
+	.about-section .about-credits-track { bottom: -100%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.about-section .content-wrapper h2,
 	.about-section .about-story .story-block {
