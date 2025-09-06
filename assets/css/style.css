@@ -580,36 +580,20 @@
 			}
 
 			.mobile-nav {
-				/* Advanced overlay appearance shifted downward */
-				--menu-offset: 30vh; /* requested downward shift */
-				position: fixed;
-				left: 0; right: 0; top: var(--menu-offset); bottom: 0;
-				width: 100%;
-				height: calc(100dvh - var(--menu-offset));
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: flex-start;
-				gap: 14px;
-				padding: calc(max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px 28px 28px;
-				box-sizing: border-box;
-				text-align: center;
-				overflow-y: auto;
-				background:
-					linear-gradient(140deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.88) 45%, rgba(10,20,22,0.92) 100%),
-					radial-gradient(circle at 50% 55%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
-				backdrop-filter: blur(18px) saturate(140%);
-				-webkit-backdrop-filter: blur(18px) saturate(140%);
-				/* initial hidden state */
-				opacity: 0;
-				transform: scale(.94) translateY(18px);
-				filter: blur(18px) brightness(.85);
-				pointer-events: none;
-				will-change: opacity, transform, filter;
-				--mobile-nav-overlay-duration: .55s;
-				perspective: 1200px;
-				--menu-item-stagger: 55ms;
+				/* Full-screen overlay stays fixed; items will be shifted separately */
+				position: fixed; inset:0; width:100%; height:100dvh; height:calc(var(--vh,1vh)*100);
+				display:flex; flex-direction:column; align-items:center; justify-content:center;
+				gap:14px; padding: calc(max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px 32px;
+				box-sizing:border-box; text-align:center; overflow-y:auto;
+				background: linear-gradient(140deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.88) 45%, rgba(10,20,22,0.92) 100%), radial-gradient(circle at 50% 55%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
+				backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+				opacity:0; pointer-events:none; transition:opacity .25s ease-out;
 			}
+			.mobile-nav.is-open { opacity:1; pointer-events:auto; }
+			/* Inner wrapper to shift only links */
+			.mobile-nav-inner { width:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; transform:translateY(30vh); }
+			@media (max-height:700px) { .mobile-nav-inner { transform:translateY(22vh); } }
+			@media (max-height:560px) { .mobile-nav-inner { transform:translateY(15vh); } }
 
 			/* Simple fade version */
 			.mobile-nav::before { content:""; position:absolute; inset:0; pointer-events:none; background: none; }

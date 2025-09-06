@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const allItemsHtml   = [leftItemsHtml, rightItemsHtml].join('');
     // Mobile menu gets a leading 'ГЛАВНАЯ' pointing to slide 0
     const homeItemHtml   = `<a href="#" data-index="0" id="menu-link-0">ГЛАВНАЯ</a>`;
-    const mobileItemsHtml= [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('');
+    const mobileItemsHtml= `<div class="mobile-nav-inner">` + [homeItemHtml, ...contentItems.map(it => `<a href="#" data-index="${it.idx}" id="menu-link-${it.idx}">${it.title}</a>`)].join('') + `</div>`;
 
     function injectMenusForViewport() {
         const isDesktop = window.innerWidth > 900;
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Ensure mobile menu reflects current active slide on init
     if (mobileNav) {
-        const mlinks = mobileNav.querySelectorAll('a');
+    const mlinks = mobileNav.querySelectorAll('a');
         mlinks.forEach(a => {
             const idx = parseInt(a.dataset.index);
             if (idx === swiper.activeIndex) a.classList.add('active');
