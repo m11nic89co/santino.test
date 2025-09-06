@@ -603,7 +603,7 @@
 				height: calc(var(--vh, 1vh) * 100);
 				/* dark, soft vignette to improve readability around and behind text */
 				/* lighten / remove dark vignette: subtle translucent film */
-				background: rgba(0,0,0,0.35);
+				background: rgba(0,0,0,0.92);
 				z-index: 999;
 				display: flex;
 				flex-direction: column;
@@ -656,12 +656,26 @@
 				line-height: 1.22;
 				transition: color 0.3s, opacity 0.4s, transform 0.4s;
 				opacity: 0;
-				transform: translateY(10px);
+				transform: translateY(-60px) scaleY(1.12);
+				opacity: 0;
+				animation: none;
 			}
 			/* Extra breathing room below the last item (умеренный, центр макета) */
 			.mobile-nav a:last-child { margin-bottom: 0; }
 
-			.mobile-nav.is-open a { opacity: 1; transform: none; }
+
+
+			@keyframes mobileNavFadeScale {
+				0%   { opacity: 0; transform: scale(0.85); }
+				60%  { opacity: 0.7; transform: scale(1.04); }
+				80%  { opacity: 1; transform: scale(0.98); }
+				100% { opacity: 1; transform: scale(1); }
+			}
+			.mobile-nav.is-open a {
+					opacity: 1;
+					transform: none;
+					animation: mobileNavFadeScale 0.7s cubic-bezier(.22,1.2,.36,1) both;
+			}
 			/* Staggered reveal for up to 10 items */
 			.mobile-nav.is-open a:nth-child(1)  { transition-delay: 60ms; }
 			.mobile-nav.is-open a:nth-child(2)  { transition-delay: 120ms; }
