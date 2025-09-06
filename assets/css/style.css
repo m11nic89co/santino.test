@@ -35,8 +35,6 @@
 			padding: 0;
 		}
 
-		html { background-color: #222831; }
-
 		body {
 			/* Prefer the dynamic viewport unit on modern browsers (dvh).
 			   Fallback to a JS-updated --vh variable (for older mobile browsers). */
@@ -53,20 +51,8 @@
 			transition: opacity 0.7s cubic-bezier(.77, 0, .18, 1);
 		}
 
-		/* Scrollbar styling (desktop/Android). iOS hides scrollbars by default. */
-		:root {
-			scrollbar-color: rgba(57, 62, 70, 0.4) transparent; /* Firefox */
-			scrollbar-width: thin;
-		}
-
-	::-webkit-scrollbar {
-			width: 10px;
-			height: 10px;
-		}
-
-		::-webkit-scrollbar-track {
-			background: transparent;
-		}
+	/* Custom scrollbar (kept minimal) */
+	::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
 
 		::-webkit-scrollbar-thumb {
 			background: rgba(57, 62, 70, 0.4);
@@ -594,99 +580,85 @@
 			}
 
 			.mobile-nav {
+				/* Advanced overlay appearance */
 				position: fixed;
-				top: 0;
-				left: 0;
+				inset: 0;
 				width: 100%;
-				/* robust viewport height incl. mobile UI changes */
-				height: 100dvh;
-				height: calc(var(--vh, 1vh) * 100);
-				/* dark, soft vignette to improve readability around and behind text */
-				/* lighten / remove dark vignette: subtle translucent film */
-				background: rgba(0,0,0,0.92);
-				z-index: 999;
+				height: 100dvh; height: calc(var(--vh, 1vh) * 100);
 				display: flex;
 				flex-direction: column;
-				align-items: center; /* строгий центр по горизонтали */
-				justify-content: center; /* строгий центр по вертикали */
-				align-content: center;
+				align-items: center;
+				justify-content: center;
+				gap: 14px;
+				padding: calc(max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px;
 				box-sizing: border-box;
-				gap: 12px; /* управляемое расстояние между пунктами */
-				overflow-y: auto; /* если пунктов много, пусть скроллится */
-				/* symmetrical safe-area padding (use larger inset for both top/bottom) to keep true visual centering */
-				padding-left: 24px;
-				padding-right: 24px;
-				/* симметричный safe-area отступ; вертикальное смещение делаем через translateY */
-				padding-top: calc(max(env(safe-area-inset-top, 0px), env(safe-area-inset-bottom, 0px)) + 8px);
-				padding-bottom: calc(max(env(safe-area-inset-top, 0px), env(safe-area-inset-bottom, 0px)) + 8px);
 				text-align: center;
-				/* fade-in + смещение вниз */
-				transform: translateY(calc(var(--vh, 1vh) * 25));
+				overflow-y: auto;
+				background:
+					linear-gradient(140deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.88) 45%, rgba(10,20,22,0.92) 100%),
+					radial-gradient(circle at 50% 55%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
+				backdrop-filter: blur(18px) saturate(140%);
+				-webkit-backdrop-filter: blur(18px) saturate(140%);
+				/* initial hidden state */
 				opacity: 0;
-				transition: opacity 0.35s ease, transform 0.35s ease;
-				/* block interactions when hidden since it's full-screen */
+				transform: scale(.94) translateY(18px);
+				filter: blur(18px) brightness(.85);
 				pointer-events: none;
+				will-change: opacity, transform, filter;
+				--mobile-nav-overlay-duration: .55s;
+				perspective: 1200px;
+				--menu-item-stagger: 55ms;
 			}
 
-			.mobile-nav.is-open {
-				transform: translateY(calc(var(--vh, 1vh) * 25));
-				opacity: 1;
-				pointer-events: auto;
-			}
+			@keyframes mobileNavOverlayIn { 0%{opacity:0;transform:scale(.94) translateY(24px);filter:blur(22px) brightness(.75);} 55%{opacity:1;} 70%{filter:blur(6px) brightness(.95);} 100%{opacity:1;transform:scale(1) translateY(0);filter:blur(0) brightness(1);} }
+			@keyframes mobileNavHalo { 0%{opacity:0;transform:scale(1.2);} 30%{opacity:.7;} 60%{opacity:.25;} 100%{opacity:0;transform:scale(1);} }
+			.mobile-nav::before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 50% 55%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0) 65%); opacity:0; }
+			.mobile-nav.is-open { animation: mobileNavOverlayIn var(--mobile-nav-overlay-duration) cubic-bezier(.22,.9,.32,1.18) forwards; pointer-events:auto; }
+			.mobile-nav.is-open::before { animation: mobileNavHalo .9s ease forwards .08s; }
 
 			.mobile-nav a {
+				position: relative;
 				display: inline-block;
-				position: relative; /* allow ::after mm label to position correctly */
-				text-align: center;
-				max-width: min(640px, 92%);
-				margin-left: auto;
-				margin-right: auto;
+				margin:0; max-width:min(640px,92%);
 				font-family: var(--font-tech);
-				font-weight: 300; /* тоньше шрифт для мобильного меню */
-				font-size: clamp(1.4rem, 6vw, 2.2rem);
-				color: rgba(255,255,255,0.9);
-				text-decoration: none;
-				margin: 0; /* расстояние управляет контейнер через gap */
-				/* add inner dark chip; extra bottom padding to include mm label inside block for perfect centering */
-				padding: 4px 6px 20px; /* slimmer without chip */
-				background: none;
-				border-radius: 0;
-				box-shadow: none;
-				text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-				line-height: 1.22;
-				transition: color 0.3s, opacity 0.4s, transform 0.4s;
-				opacity: 0;
-				transform: translateY(-60px) scaleY(1.12);
-				opacity: 0;
-				animation: none;
+				font-weight:300;
+				font-size:clamp(1.4rem,6vw,2.2rem);
+				color:rgba(255,255,255,.9);
+				text-decoration:none;
+				padding:6px 8px 22px;
+				text-shadow:0 2px 10px rgba(0,0,0,.65);
+				line-height:1.18;
+				--enter-distance: 46px;
+				opacity:0;
+				transform: translate3d(0, calc(-1 * var(--enter-distance)), 0) rotateX(35deg) scale(.86);
+				transform-origin: top center;
+				will-change: transform, opacity;
 			}
+			@keyframes menuItemEnter {
+				0% { opacity:0; transform: translate3d(0, calc(-1 * var(--enter-distance)), 0) rotateX(35deg) scale(.86); filter:brightness(.7); }
+				55%{ opacity:1; transform: translate3d(0, 8px, 0) rotateX(0deg) scale(1.02); }
+				70%{ opacity:1; transform: translate3d(0, -4px, 0) scale(.98); }
+				85%{ opacity:1; transform: translate3d(0, 2px, 0) scale(1.01); }
+				100%{ opacity:1; transform: translate3d(0,0,0) scale(1); filter:brightness(1); }
+			}
+			.mobile-nav.is-open a { animation: menuItemEnter .85s cubic-bezier(.22,1.25,.32,1) forwards; }
+			/* Stagger using animation-delay instead of transition-delay */
+			.mobile-nav.is-open a:nth-child(1)  { animation-delay: calc(var(--menu-item-stagger) * 0 + .05s); }
+			.mobile-nav.is-open a:nth-child(2)  { animation-delay: calc(var(--menu-item-stagger) * 1 + .05s); }
+			.mobile-nav.is-open a:nth-child(3)  { animation-delay: calc(var(--menu-item-stagger) * 2 + .05s); }
+			.mobile-nav.is-open a:nth-child(4)  { animation-delay: calc(var(--menu-item-stagger) * 3 + .05s); }
+			.mobile-nav.is-open a:nth-child(5)  { animation-delay: calc(var(--menu-item-stagger) * 4 + .05s); }
+			.mobile-nav.is-open a:nth-child(6)  { animation-delay: calc(var(--menu-item-stagger) * 5 + .05s); }
+			.mobile-nav.is-open a:nth-child(7)  { animation-delay: calc(var(--menu-item-stagger) * 6 + .05s); }
+			.mobile-nav.is-open a:nth-child(8)  { animation-delay: calc(var(--menu-item-stagger) * 7 + .05s); }
+			.mobile-nav.is-open a:nth-child(9)  { animation-delay: calc(var(--menu-item-stagger) * 8 + .05s); }
+			.mobile-nav.is-open a:nth-child(10) { animation-delay: calc(var(--menu-item-stagger) * 9 + .05s); }
 			/* Extra breathing room below the last item (умеренный, центр макета) */
 			.mobile-nav a:last-child { margin-bottom: 0; }
 
 
 
-			@keyframes mobileNavFadeScale {
-				0%   { opacity: 0; transform: scale(0.85); }
-				60%  { opacity: 0.7; transform: scale(1.04); }
-				80%  { opacity: 1; transform: scale(0.98); }
-				100% { opacity: 1; transform: scale(1); }
-			}
-			.mobile-nav.is-open a {
-					opacity: 1;
-					transform: none;
-					animation: mobileNavFadeScale 0.7s cubic-bezier(.22,1.2,.36,1) both;
-			}
-			/* Staggered reveal for up to 10 items */
-			.mobile-nav.is-open a:nth-child(1)  { transition-delay: 60ms; }
-			.mobile-nav.is-open a:nth-child(2)  { transition-delay: 120ms; }
-			.mobile-nav.is-open a:nth-child(3)  { transition-delay: 180ms; }
-			.mobile-nav.is-open a:nth-child(4)  { transition-delay: 240ms; }
-			.mobile-nav.is-open a:nth-child(5)  { transition-delay: 300ms; }
-			.mobile-nav.is-open a:nth-child(6)  { transition-delay: 360ms; }
-			.mobile-nav.is-open a:nth-child(7)  { transition-delay: 420ms; }
-			.mobile-nav.is-open a:nth-child(8)  { transition-delay: 480ms; }
-			.mobile-nav.is-open a:nth-child(9)  { transition-delay: 540ms; }
-			.mobile-nav.is-open a:nth-child(10) { transition-delay: 600ms; }
+			/* old fadeScale animation removed (replaced by 3D cascade) */
 
 			/* Architectural underline with arrowheads + dotted guide (mirrors desktop) */
 			.mobile-nav a {
@@ -3293,4 +3265,3 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	}
 }
 
-/* (Removed broken/incomplete media query block for max-width:600px; replaced earlier with corrected version) */
