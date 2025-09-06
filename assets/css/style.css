@@ -598,10 +598,11 @@
 			/* Social icons row (minimal icons + neon glow underneath) */
 			.mobile-social { margin-top: clamp(28px,6vh,60px); display:flex; gap:34px; align-items:flex-end; justify-content:center; }
 			.mobile-social .social-link { position:relative; display:inline-flex; align-items:center; justify-content:center; padding:6px; text-decoration:none; color:#fff; }
-			.mobile-social .social-link svg { display:block; width:30px; height:30px; filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px #fff); transition:filter .35s ease, transform .35s ease; }
-			.mobile-social .social-link::after { content:""; position:absolute; left:50%; bottom:2px; transform:translateX(-50%); width:34px; height:10px; background:radial-gradient(ellipse at center, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 42%, rgba(0,0,0,0) 70%); filter:blur(5px) brightness(1.05); opacity:.35; pointer-events:none; transition:opacity .35s ease, filter .35s ease; }
-			.mobile-social .social-link:hover svg { filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 6px #fff); transform:translateY(-1px); }
-			.mobile-social .social-link:hover::after { opacity:.55; filter:blur(6px) brightness(1.15); }
+			/* Even subtler neon: minimal halo and faint under-glow */
+			.mobile-social .social-link svg { display:block; width:30px; height:30px; filter:drop-shadow(0 0 0.6px #fff) drop-shadow(0 0 1.8px #fff); transition:filter .32s ease, transform .32s ease; }
+			.mobile-social .social-link::after { content:""; position:absolute; left:50%; bottom:2px; transform:translateX(-50%); width:30px; height:8px; background:radial-gradient(ellipse at center, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.09) 42%, rgba(0,0,0,0) 70%); filter:blur(4px) brightness(1.02); opacity:.28; pointer-events:none; transition:opacity .32s ease, filter .32s ease; }
+			.mobile-social .social-link:hover svg { filter:drop-shadow(0 0 1.2px #fff) drop-shadow(0 0 4px #fff); transform:translateY(-1px); }
+			.mobile-social .social-link:hover::after { opacity:.45; filter:blur(5px) brightness(1.08); }
 			/* .social-phone reuses base monochrome styles (no extra rules needed) */
 			.mobile-social .social-link:active svg { transform:translateY(0) scale(.94); }
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
