@@ -588,9 +588,10 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				justify-content: center;
+				justify-content: flex-start; /* allow vertical offset */
 				gap: 14px;
-				padding: calc(max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px;
+				--menu-shift: 30vh; /* requested 30% downward shift */
+				padding: calc(var(--menu-shift) + max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px 28px 28px;
 				box-sizing: border-box;
 				text-align: center;
 				overflow-y: auto;
