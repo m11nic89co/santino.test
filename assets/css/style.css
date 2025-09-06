@@ -2586,7 +2586,11 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 .about-section .about-col { flex: 1 1 50%; position: relative; overflow: hidden; display: flex; }
 .about-section .about-col.left { align-items: flex-start; justify-content: center; padding: clamp(24px,4vw,60px); }
 .about-section .about-col.right { align-items: flex-end; justify-content: center; }
-.about-section .about-credits-viewport { position: absolute; left: 0; right: 0; bottom: 0; height: 48%; overflow: hidden; pointer-events: none; }
+.about-section .about-credits-viewport { position: absolute; left: 0; right: 0; top: 50%; height: 50%; overflow: hidden; pointer-events: none; }
+.about-section .about-credits-track { position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; gap: 18px; font-size: clamp(12px,1.2vw,18px); line-height: 1.25; text-align: center; transform: translateY(0); }
+.about-section .about-credits-track span { opacity: 0.92; letter-spacing: 0.6px; }
+.about-section.about-credits-run .about-credits-track { animation: aboutCreditsRise 40s linear forwards; }
+@keyframes aboutCreditsRise { 0% { transform: translateY(0); } 100% { transform: translateY(-210%); } }
 .about-section .about-credits-track { position: absolute; left: 0; right: 0; bottom: -100%; display: flex; flex-direction: column; gap: 18px; font-size: clamp(12px,1.2vw,18px); line-height: 1.25; text-align: center; }
 .about-section .about-credits-track span { opacity: 0.9; letter-spacing: 0.5px; }
 .about-section.about-credits-run .about-credits-track { animation: aboutCreditsRise 26s linear forwards; }
@@ -2600,8 +2604,8 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	.about-section .about-layout { flex-direction: column; }
 	.about-section .about-col { flex: 1 0 50%; }
 	.about-section .about-col.left { align-items: flex-start; }
-	.about-section .about-credits-viewport { position: relative; height: 52%; bottom: auto; margin-top: auto; }
-	.about-section .about-credits-track { bottom: -100%; }
+	.about-section .about-credits-viewport { position: relative; top: auto; height: 54%; }
+	.about-section .about-credits-track { top: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
