@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function () {
     updateCollectionPan();
     swiper.on('slideChange', updateCollectionPan);
 
-    // Toggle slow background pan only when ABOUT (section-1) is active
-    const aboutIdx = 1; // section-1
+    // Toggle slow background pan only when ABOUT (now moved to last: section-4) is active
+    const aboutIdx = 4; // section-4
     function updateAboutPan() {
         const target = slides[aboutIdx];
         if (!target) return;
@@ -267,8 +267,8 @@ document.addEventListener('DOMContentLoaded', function () {
     updateAboutPan();
     swiper.on('slideChange', updateAboutPan);
 
-    // Toggle slow background pan only when CONTRACT MOLDING (section-3) is active
-    const contractIdx = 3; // section-3
+    // Toggle slow background pan only when CONTRACT MOLDING (now section-2) is active
+    const contractIdx = 2; // section-2
     function updateContractPan() {
         const target = slides[contractIdx];
         if (!target) return;
@@ -302,8 +302,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const allItems = slideTitles.map((t, i) => ({ title: t, idx: i })).filter(it => !!it.title);
     const byIdx = Object.fromEntries(allItems.map(it => [it.idx, it]));
 
-    // Explicit order with new titles: left => 1:'О НАС', 2:'НАША КОЛЛЕКЦИЯ'; right => 3:'КОНТРАКТНОЕ ЛИТЬЁ', 4:'КОНТАКТЫ'
-    const labelMap = { 1: 'О НАС', 2: 'НАША КОЛЛЕКЦИЯ', 3: 'КОНТРАКТНОЕ ЛИТЬЁ', 4: 'КОНТАКТЫ' };
+    // Explicit order after moving ABOUT to the end: left => 1:'НАША КОЛЛЕКЦИЯ', 2:'КОНТРАКТНОЕ ЛИТЬЁ'; right => 3:'КОНТАКТЫ', 4:'О НАС'
+    const labelMap = { 1: 'НАША КОЛЛЕКЦИЯ', 2: 'КОНТРАКТНОЕ ЛИТЬЁ', 3: 'КОНТАКТЫ', 4: 'О НАС' };
     const desiredOrder = [1, 2, 3, 4].filter(i => byIdx[i]);
     // Append any other indices (if exist) in natural order excluding duplicates and 0 (hero)
     const others = allItems
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const orderedIdx = [...desiredOrder, ...others];
     const contentItems = orderedIdx.map(i => ({ idx: i, title: labelMap[i] || (byIdx[i]?.title || '') }));
 
-    // Split groups: first two left, rest right
+    // Split groups: first two left, rest right (ABOUT now appears in right group at the end)
     const leftGroup = contentItems.slice(0, 2);
     const rightGroup = contentItems.slice(2);
 
