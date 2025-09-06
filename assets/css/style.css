@@ -580,18 +580,18 @@
 			}
 
 			.mobile-nav {
-				/* Advanced overlay appearance */
+				/* Advanced overlay appearance shifted downward */
+				--menu-offset: 30vh; /* requested downward shift */
 				position: fixed;
-				inset: 0;
+				left: 0; right: 0; top: var(--menu-offset); bottom: 0;
 				width: 100%;
-				height: 100dvh; height: calc(var(--vh, 1vh) * 100);
+				height: calc(100dvh - var(--menu-offset));
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				justify-content: flex-start; /* allow vertical offset */
+				justify-content: flex-start;
 				gap: 14px;
-				--menu-shift: 30vh; /* requested 30% downward shift */
-				padding: calc(var(--menu-shift) + max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px 28px 28px;
+				padding: calc(max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px 28px 28px;
 				box-sizing: border-box;
 				text-align: center;
 				overflow-y: auto;
