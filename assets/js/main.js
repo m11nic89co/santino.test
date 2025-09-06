@@ -36,7 +36,7 @@ function isLowPower() {
 				progress = Math.min(elapsed / duration, 1);
 				loaderBar.style.width = (progress * 100) + '%';
 				if (progress < 1) {
-					requestAnimationFrame(animateBar);
+					if (!isLowPower() && !document.hidden) requestAnimationFrame(animateBar);
 				} else {
 					loaderBar.style.width = '100%';
 				}
@@ -478,7 +478,12 @@ function isLowPower() {
 
 		// ---- Sparks: simple particle system for welding effect ----
 		function spawnSparks(anchorEl, opts = {}) {
+			// Do not run on low-power devices or when page is hidden
+			if (isLowPower() || document.hidden) return;
 			const { duration = 2000, bursts = 2 } = opts; // longer overall
+			// On narrow viewports reduce intensity
+			const isNarrow = window.matchMedia && window.matchMedia('(max-width:420px)').matches;
+			const effBursts = isNarrow ? Math.max(1, Math.floor(bursts / 2)) : bursts;
 			const overlay = getSparksOverlay();
 			const rect = anchorEl.getBoundingClientRect();
 			const originX = rect.left + rect.width / 2;
@@ -487,9 +492,9 @@ function isLowPower() {
 			// Plan 2–3 bursts within duration
 			const burstCount = Math.max(1, bursts);
 			const step = duration / (burstCount + 1);
-			for (let b = 0; b < burstCount; b++) {
+			for (let b = 0; b < effBursts; b++) {
 				const delay = Math.floor(step * (b + 1) * 0.8 + Math.random() * step * 0.4);
-				setTimeout(() => emitBurst(overlay, originX, originY), delay);
+				setTimeout(() => { if (!isLowPower() && !document.hidden) emitBurst(overlay, originX, originY); }, delay);
 			}
 			// Safety cleanup (overlay persists, particles self-remove)
 		}
