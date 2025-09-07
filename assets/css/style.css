@@ -2477,7 +2477,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/contract-bg-desktop.webp') type('image/webp') 1x,
 				url('../img/contract-bg-desktop.jpg') type('image/jpeg') 1x
 			),
-			url('../../slider_51-1625x0-c-default (1).jpg');
+			url('../img/slider_51-1625x0-c-default (1).jpg');
 		background-position: 50% 46%;
 	}
 }
@@ -2490,7 +2490,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/contract-bg-desktop@2x.webp') type('image/webp') 2x,
 				url('../img/contract-bg-desktop@2x.jpg') type('image/jpeg') 2x
 			),
-			url('../../slider_51-1625x0-c-default (1).jpg');
+			url('../img/slider_51-1625x0-c-default (1).jpg');
 		background-position: 50% 46%;
 	}
 }
@@ -2504,7 +2504,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/contract-bg-mobile.webp') type('image/webp') 1x,
 				url('../img/contract-bg-mobile.jpg') type('image/jpeg') 1x
 			),
-			url('../../slider_51-1625x0-c-default (1).jpg');
+			url('../img/slider_51-1625x0-c-default (1).jpg');
 		background-position: 50% 42%;
 		background-size: cover;
 	}
@@ -2546,7 +2546,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/about-bg-desktop.webp') type('image/webp') 1x,
 				url('../img/about-bg-desktop.jpg') type('image/jpeg') 1x
 			),
-			url('../../NK2_2198 (1).jpg');
+			url('../img/NK2_2198 (1).jpg');
 		background-position: 50% 45%;
 	}
 }
@@ -2560,7 +2560,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/about-bg-mobile.webp') type('image/webp') 1x,
 				url('../img/about-bg-mobile.jpg') type('image/jpeg') 1x
 			),
-			url('../../NK2_2198 (1).jpg');
+			url('../img/NK2_2198 (1).jpg');
 		background-position: 50% 38%;
 		background-size: cover;
 	}
@@ -2962,7 +2962,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/contract-bg-desktop.webp') type('image/webp') 1x,
 				url('../img/contract-bg-desktop.jpg') type('image/jpeg') 1x
 			),
-			url('../../slider_51-1625x0-c-default (1).jpg');
+			url('../img/slider_51-1625x0-c-default (1).jpg');
 		background-position: 50% 46%;
 	}
 }
@@ -2975,7 +2975,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/contract-bg-desktop@2x.webp') type('image/webp') 2x,
 				url('../img/contract-bg-desktop@2x.jpg') type('image/jpeg') 2x
 			),
-			url('../../slider_51-1625x0-c-default (1).jpg');
+			url('../img/slider_51-1625x0-c-default (1).jpg');
 		background-position: 50% 46%;
 	}
 }
@@ -2989,7 +2989,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/contract-bg-mobile.webp') type('image/webp') 1x,
 				url('../img/contract-bg-mobile.jpg') type('image/jpeg') 1x
 			),
-			url('../../slider_51-1625x0-c-default (1).jpg');
+			url('../img/slider_51-1625x0-c-default (1).jpg');
 		background-position: 50% 42%;
 		background-size: cover;
 	}
@@ -3031,7 +3031,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/about-bg-desktop.webp') type('image/webp') 1x,
 				url('../img/about-bg-desktop.jpg') type('image/jpeg') 1x
 			),
-			url('../../NK2_2198 (1).jpg');
+			url('../img/NK2_2198 (1).jpg');
 		background-position: 50% 45%;
 	}
 }
@@ -3045,7 +3045,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 				url('../img/about-bg-mobile.webp') type('image/webp') 1x,
 				url('../img/about-bg-mobile.jpg') type('image/jpeg') 1x
 			),
-			url('../../NK2_2198 (1).jpg');
+			url('../img/NK2_2198 (1).jpg');
 		background-position: 50% 38%;
 		background-size: cover;
 	}
