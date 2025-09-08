@@ -68,16 +68,16 @@
     <div class="header-right">
       <nav class="main-nav main-nav-right" aria-label="Основная навигация справа"></nav>
     </div>
-    <div class="hamburger-menu" id="hamburger-menu" role="button" aria-label="Открыть меню" aria-controls="mobile-nav"
-      aria-expanded="false" tabindex="0">
-      <div class="hamburger-lines">
+    <button class="hamburger-menu" id="hamburger-menu" type="button" aria-label="Открыть меню" aria-controls="mobile-nav"
+      aria-expanded="false">
+      <span class="hamburger-lines" aria-hidden="true">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </span>
       <span class="hamburger-label" aria-hidden="true">меню</span>
-    </div>
+    </button>
   </header>
   <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильное меню" aria-hidden="true"></nav>
   <main id="main-content" role="main">
@@ -85,7 +85,14 @@
       <div class="swiper-wrapper" aria-live="polite">
   <section id="section-0" class="swiper-slide hero-section fullscreen hero-scale-95" data-design-size="1440x900"
           data-title="Главная">
-          <div class="hero-bg" aria-hidden="true"></div>
+          <div class="hero-bg" aria-hidden="true">
+            <picture class="hero-bg-picture">
+              <source srcset="assets/img/collection-bg-mobile.webp" media="(max-width: 767px)" type="image/webp">
+              <source srcset="assets/img/collection-bg-mobile.jpg" media="(max-width: 767px)" type="image/jpeg">
+              <source srcset="assets/img/collection-bg-desktop.webp" media="(min-width: 768px)" type="image/webp">
+              <img src="assets/img/collection-bg-desktop.jpg" alt="" width="7074" height="4721" fetchpriority="high" decoding="async" loading="eager" />
+            </picture>
+          </div>
           <div class="hero-core">
             <div class="hero-parallax">
               <h1 class="hero-title">
@@ -170,10 +177,10 @@
         </section>
         <section id="section-4" class="swiper-slide section-content about-section" data-title="О НАС">
           <div class="content-wrapper">
-            <h2>SANTINO: идеи, которые отливаются в форму</h2>
+        <h2>SANTINO: идеи, которые отливаются в форму</h2>
             <div class="about-credits-viewport">
               <div class="about-credits-track">
-                <div class="about-credits-block">
+                <div class="about-credits-block" aria-hidden="true">
                   <p><strong>2014.</strong> Один термопластавтомат. Команда из нескольких людей. И одна цель — создавать изделия, которые <strong>хочется показывать</strong>, а не прятать.</p>
                   <p><strong>Сегодня — SANTINO.</strong> Производство полного цикла. <strong>Инженеры</strong> и <strong>дизайнеры</strong> работают рядом: первые отвечают за точность и допуски, вторые — за ощущение, эстетику и узнаваемость.</p>
                   <p><strong>Детали — наша мания:</strong><br>кромка — <strong>чистая</strong>, цвет — <strong>живой</strong>, форма — <strong>надёжная на годы</strong>. Это не лозунг — это чеклист каждого запуска.</p>
