@@ -2326,6 +2326,56 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	.swiper-slide.section-content:not(.hero-section) { background: #222831; } */
 
 /* =============================================================
+	Section themes:
+	- theme-dark       : deep dark gradient (default)
+	- theme-light      : medium dark variant (kept if needed elsewhere)
+	- theme-light-ultra: much lighter (requested for 2nd & 4th logical slides: section-1 & section-3 ids)
+============================================================= */
+.section-content.theme-dark {
+	background: linear-gradient(120deg,#1d2229 0%,#2a3139 100%);
+	position: relative;
+}
+.section-content.theme-light {
+	background: linear-gradient(120deg,#2e363f 0%,#3b454f 100%);
+	position: relative;
+}
+/* Ultra light variant */
+.section-content.theme-light-ultra {
+	background: linear-gradient(125deg,#47545f 0%, #566673 45%, #5f6f7d 100%);
+	position:relative;
+}
+/* Subtle grid overlay specific for light variant */
+.section-content.theme-light::before {
+	content:"";
+	position:absolute; inset:0; pointer-events:none; z-index:0;
+	background:
+		repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(0deg, rgba(var(--accent-rgb),0.05) 0 1px, transparent 1px 60px),
+		repeating-linear-gradient(90deg, rgba(var(--accent-rgb),0.04) 0 1px, transparent 1px 60px);
+	opacity:0.75;
+	mix-blend-mode:overlay;
+}
+.section-content.theme-light-ultra::before {
+	content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+	background:
+		repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(90deg, rgba(255,255,255,0.09) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(0deg, rgba(var(--accent-rgb),0.08) 0 1px, transparent 1px 60px),
+		repeating-linear-gradient(90deg, rgba(var(--accent-rgb),0.07) 0 1px, transparent 1px 60px);
+	opacity:0.8;
+	mix-blend-mode:overlay;
+}
+.section-content.theme-dark::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background:
+		repeating-linear-gradient(0deg, rgba(0,173,181,0.055) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(90deg, rgba(0,173,181,0.045) 0 1px, transparent 1px 12px);
+	opacity:0.18; mix-blend-mode:normal; }
+
+/* Elevate actual content above new overlays */
+.section-content .content-wrapper { position:relative; z-index:2; }
+.hero-section .content-wrapper { z-index:2; }
+
+/* =============================================================
 	Hero: сделать слово "Завод" жирным.
 	Используем точечный селектор на первом span внутри .hero-title.
 ============================================================= */
