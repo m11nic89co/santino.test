@@ -2370,7 +2370,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 @media (max-width:900px){
 	.section-subtitle-dock {
 		top:calc(var(--header-h,72px) + 4px);
-		font-size:1.6rem; /* как .hero-desc */
+	font-size:1.12rem; /* уменьшено на ~30% от 1.6rem */
 		font-weight:300;
 		letter-spacing:0; /* убрать растяжение */
 		text-transform:none; /* не форсировать Upper */
