@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Early mobile-mode class to avoid layout flash before intro script applies it
+    try { if (window.innerWidth <= 900) document.body.classList.add('mobile-mode'); } catch(_) {}
     const slides = document.querySelectorAll('.swiper-slide');
     const slideTitles = Array.from(slides).map(slide => slide.dataset.title || '');
 
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         roundLengths: true,
         observer: true,
         observeParents: true,
+        loop: false, // explicit to avoid accidental cloning / perceived duplicates
         // Smoothen wheel/touch behavior across devices
         mousewheel: {
             forceToAxis: true,
@@ -69,6 +72,11 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         on: {},
     });
+    // Expose globally early so other DOMContentLoaded handlers (main.js) can detect it
+    try {
+        window.swiper = swiper;
+        window.dispatchEvent(new Event('swiper-ready'));
+    } catch(_) {}
     // Removed fog/creative effects; simple scroll-like navigation only
 
     // --- Hero Parallax driver ---
@@ -401,7 +409,8 @@ document.addEventListener('DOMContentLoaded', function () {
             navLeft.innerHTML = leftItemsHtml;
             navRight.innerHTML = rightItemsHtml;
         }
-        mobileNav.innerHTML = mobileItemsHtml;
+    // Inject with inner wrapper for consistent padding & future layout hooks
+    mobileNav.innerHTML = `<div class="mobile-nav-inner">${mobileItemsHtml}</div>`;
     }
 
     injectMenusForViewport();
@@ -566,6 +575,12 @@ document.addEventListener('DOMContentLoaded', function () {
         allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
         allNavLinks.forEach(bindLink);
         updateActiveLink(swiper.activeIndex);
+        // If we moved to desktop width while mobile menu was open, force-close it
+        try {
+            if (window.innerWidth > 900 && mobileNav.classList.contains('is-open')) {
+                toggleMenu(false);
+            }
+        } catch(_) {}
         if (_mmRaf) cancelAnimationFrame(_mmRaf);
         _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
     }

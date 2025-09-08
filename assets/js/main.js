@@ -57,12 +57,14 @@ function isLowPower() {
 					mainLogo.style.opacity = '0';
 					mainLogo.style.transform = 'translateY(40vh) scale(1.5)';
 
-					// Серия молний только на первом слайде (герой). На других отключено.
-					if (window.swiper && window.swiper.activeIndex === 0) {
+					// Серия молний только на первом слайде (герой). Запускаем, даже если swiper ещё не инициализирован (подпишемся на событие).
+					const runFlashCycleIfHero = () => {
+						if (!(window.swiper)) return; // дождаться инициализации
+						if (window.swiper.activeIndex !== 0) return; // не на hero
 						// Flash controller with cleanup
 						(function heroFlashCycle(){
 							if (!window.__flashTimers) window.__flashTimers = [];
-							// clear any existing
+							// clear existing
 							window.__flashTimers.forEach(id=>clearTimeout(id));
 							window.__flashTimers = [];
 							let total = 0;
@@ -80,7 +82,7 @@ function isLowPower() {
 							}
 							flashes.forEach(delay => {
 								const id = setTimeout(() => {
-									if (!window.swiper || window.swiper.activeIndex !== 0) return; // abort if left hero
+									if (!window.swiper || window.swiper.activeIndex !== 0) return;
 									paparazziFlash.classList.add('lightning-series');
 									paparazziFlash.style.display = 'block';
 									paparazziFlash.style.filter = isLowPower() ? 'blur(4px) brightness(2.2)' : 'blur(6px) brightness(3.2)';
@@ -92,7 +94,6 @@ function isLowPower() {
 								}, delay);
 								window.__flashTimers.push(id);
 							});
-							// schedule cleanup when slide changes
 							if (!window.__flashCleanupBound) {
 								window.__flashCleanupBound = true;
 								if (window.swiper) {
@@ -107,7 +108,16 @@ function isLowPower() {
 								}
 							}
 						})();
+					};
+					if (window.swiper) {
+						runFlashCycleIfHero();
 					} else {
+						window.addEventListener('swiper-ready', runFlashCycleIfHero, { once: true });
+					}
+					// (старый блок ниже заменён)
+					if (!window.swiper) {
+						// ждём инициализации, flash запустится через событие
+					} else if (window.swiper.activeIndex !== 0) {
 						// ensure hidden outside hero
 						paparazziFlash.classList.remove('lightning-series');
 						paparazziFlash.style.display = 'none';
