@@ -47,6 +47,7 @@
 			overflow-x: hidden;
 			position: relative;
 			font-size: 18px;
+			font-weight:300;
 			opacity: 1;
 			transition: opacity 0.7s cubic-bezier(.77, 0, .18, 1);
 		}
@@ -381,7 +382,7 @@
 		.main-nav a:hover,
 		.main-nav a.active {
 			color: var(--text);
-			font-weight: 400;
+			font-weight: 300;
 			text-shadow: 0 0 12px var(--accent);
 		}
 
@@ -580,24 +581,23 @@
 			}
 
 			.mobile-nav {
-				/* Full-screen overlay stays fixed; items will be shifted separately */
+				/* Full-screen overlay with subtle dark gradient restored */
 				position: fixed; inset:0; width:100%; height:100dvh; height:calc(var(--vh,1vh)*100);
-				display:flex; flex-direction:column; align-items:center; justify-content:center;
-				gap:14px; padding: calc(max(env(safe-area-inset-top,0px), env(safe-area-inset-bottom,0px)) + 12px) 28px 32px;
+				display:flex; flex-direction:column; align-items:stretch; justify-content:flex-end;
+				padding: 0 24px 30px; gap:0;
 				box-sizing:border-box; text-align:center; overflow-y:auto;
-				/* Use a simple semi-opaque backdrop on mobile — backdrop-filter is expensive on many devices */
-				background: linear-gradient(140deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.94) 45%, rgba(10,20,22,0.96) 100%);
-				backdrop-filter: none; -webkit-backdrop-filter: none;
+				background: linear-gradient(145deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.88) 40%, rgba(8,16,18,0.9) 100%);
+				backdrop-filter:none; -webkit-backdrop-filter:none;
 				opacity:0; pointer-events:none; transition:opacity .25s ease-out;
 			}
 			.mobile-nav.is-open { opacity:1; pointer-events:auto; }
-			/* Inner wrapper to shift only links */
-			.mobile-nav-inner { width:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; transform:translateY(22vh); }
-			@media (max-height:700px) { .mobile-nav-inner { transform:translateY(18vh); } }
-			@media (max-height:560px) { .mobile-nav-inner { transform:translateY(12vh); } }
+			/* Inner wrapper anchored near bottom now */
+			.mobile-nav-inner { width:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; margin-top:auto; }
+			@media (max-height:700px) { .mobile-nav-inner { padding-bottom:10px; } }
+			@media (max-height:560px) { .mobile-nav-inner { padding-bottom:4px; } }
 
 			/* Social icons row (minimal icons + neon glow underneath) */
-			.mobile-social { margin-top: clamp(28px,6vh,60px); display:flex; gap:34px; align-items:flex-end; justify-content:center; }
+			.mobile-social { margin-top: 34px; display:flex; gap:34px; align-items:flex-end; justify-content:center; }
 			.mobile-social .social-link { position:relative; display:inline-flex; align-items:center; justify-content:center; padding:6px; text-decoration:none; color:#fff; }
 			/* Performance-first: avoid expensive SVG filters on low-end devices; keep simple transform on interaction */
 			.mobile-social .social-link svg { display:block; width:30px; height:30px; filter:none; transition:transform .24s ease, opacity .24s ease; will-change: transform, opacity; }
@@ -610,11 +610,6 @@
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
 			/* Monochrome mode: platform classes kept for future use (no unique colors now) */
 
-			/* Email under social icons: match menu font, thin and smaller */
-			.mobile-contact-email { margin-top:14px; font-family: var(--font-tech); font-size:12px; letter-spacing:.45px; opacity:.9; font-weight:300; line-height:1; }
-			.mobile-contact-email a { color:rgba(255,255,255,0.85); text-decoration:none; font-family:var(--font-tech); font-weight:300; font-size:inherit; }
-			.mobile-contact-email a:hover { color:#fff; text-decoration:underline; }
-			@media (max-width:360px) { .mobile-contact-email { font-size:11px; margin-top:12px; } }
 
 			/* Simple fade version */
 			.mobile-nav::before { content:""; position:absolute; inset:0; pointer-events:none; background: none; }
@@ -837,7 +832,7 @@
 			font-family: var(--font-tech);
 			font-size: clamp(1.6rem, 6vw, 2.8rem);
 			/* scale smoothly across viewports */
-			font-weight: 900;
+			font-weight: 300;
 			letter-spacing: 0.18em;
 			color: var(--text);
 			pointer-events: auto;
@@ -1109,7 +1104,7 @@
 		.hero-title {
 			font-family: var(--font-tech);
 			font-size: 4.5rem;
-			font-weight: 900;
+			font-weight: 300;
 			margin: 0 0 2rem 0;
 			letter-spacing: 0.01em;
 			line-height: 1.05;
@@ -2022,7 +2017,7 @@
 			border: none;
 			padding: 0;
 			line-height: 1;
-			font-weight: 700;
+			font-weight: 300;
 			white-space: nowrap;
 		}
 
@@ -2048,7 +2043,7 @@
 			/* make fallback labels larger and readable */
 			font-size: 1.5em;
 			color: var(--text);
-			font-weight: 700;
+			font-weight: 300;
 		}
 
 		/* Hide fallback labels in the cloned segment to avoid visible duplication when the track is duplicated for seamless looping */
