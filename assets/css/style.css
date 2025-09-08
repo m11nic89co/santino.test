@@ -2375,6 +2375,9 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 }
 body.theme-transitioning #theme-fader { opacity:1; }
 
+/* Prevent mobile pull-to-refresh / overscroll bounce on root swiper */
+html, body, .swiper { overscroll-behavior-y: contain; }
+
 /* Elevate header, menus above fader */
 header, .mobile-nav, .section-subtitle-dock { position:relative; z-index:2000; }
 .section-content.theme-dark::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background:

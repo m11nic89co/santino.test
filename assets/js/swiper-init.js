@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (INSTANT_SWITCH) {
         let touchStartY = 0;
         let touchStartT = 0;
+    let touchStartScrollY = 0;
     const MIN_FLICK_TIME = 260; // ms
     const MIN_FLICK_DIST = 28;  // px
     // Disable multi-skip: set very high threshold so skip always 1
@@ -135,7 +136,21 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!e.touches || !e.touches[0]) return;
             touchStartY = e.touches[0].clientY;
             touchStartT = performance.now();
+            touchStartScrollY = window.scrollY || document.documentElement.scrollTop || 0;
         }, { passive: true });
+
+        surface.addEventListener('touchmove', (e) => {
+            // Prevent pull-to-refresh when on first slide pulling down near top
+            if (swiper.activeIndex === 0 && !swiper.animating) {
+                const t = e.touches && e.touches[0];
+                if (t) {
+                    const dy = t.clientY - touchStartY;
+                    if (dy > 18 && (window.scrollY || document.documentElement.scrollTop || 0) <= 0) {
+                        e.preventDefault();
+                    }
+                }
+            }
+        }, { passive: false });
 
         surface.addEventListener('touchend', (e) => {
             const dt = performance.now() - touchStartT;
