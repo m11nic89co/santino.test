@@ -69,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         on: {},
     });
+    // Expose globally for other scripts (e.g., flash intro logic in main.js)
+    window.swiper = swiper;
     // Removed fog/creative effects; simple scroll-like navigation only
 
     // --- Hero Parallax driver ---
