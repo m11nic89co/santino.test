@@ -610,9 +610,9 @@
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
 			/* Monochrome mode: platform classes kept for future use (no unique colors now) */
 
-			/* Email under social icons */
-			.mobile-contact-email { margin-top:18px; font-family: var(--font-tech); font-size:14px; letter-spacing:.5px; opacity:.8; }
-			.mobile-contact-email a { color:rgba(255,255,255,0.85); text-decoration:none; }
+			/* Email under social icons: match menu font and keep it thin */
+			.mobile-contact-email { margin-top:18px; font-family: var(--font-tech); font-size:14px; letter-spacing:.5px; opacity:.9; font-weight:300; }
+			.mobile-contact-email a { color:rgba(255,255,255,0.85); text-decoration:none; font-family:var(--font-tech); font-weight:300; }
 			.mobile-contact-email a:hover { color:#fff; text-decoration:underline; }
 
 			/* Simple fade version */
