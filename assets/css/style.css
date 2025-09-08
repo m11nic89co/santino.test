@@ -2295,6 +2295,79 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	}
 }
 
+/* =============================================================
+	Удаление фоновых изображений (кроме первой hero секции)
+	Запрос: "убери все фоновые изображения ... кроме первой секции"
+	Реализация: Просто отключаем pseudo-элементы ::after с картинками
+	для collection / contract / about. Анимации панорам тоже отключены.
+	Hero (.hero-section) НЕ затрагиваем.
+	Для надёжности применяем !important, не трогаем структуру.
+	При необходимости можно задать однотонный фон ниже.
+============================================================= */
+.collection-section::after,
+.contract-section::after,
+.about-section::after {
+	 content: none !important;           /* убрать сам слой */
+	 background: none !important;        /* на случай если content вдруг не сотрёт фон */
+	 background-image: none !important;
+	 filter: none !important;
+	 animation: none !important;
+	 transform: none !important;
+	 opacity: 1 !important;
+}
+
+/* Отключаем классы с панорамной анимацией (если уже добавлены динамически) */
+.collection-section.collection-pan::after,
+.contract-section.contract-pan::after,
+.about-section.about-pan::after { animation: none !important; }
+
+/* (Опционально) Можно задать единый плоский фон для слайдов после hero.
+	Закомментировано — включите при необходимости.
+	.swiper-slide.section-content:not(.hero-section) { background: #222831; } */
+
+/* =============================================================
+	Hero: сделать слово "Завод" жирным.
+	Используем точечный селектор на первом span внутри .hero-title.
+============================================================= */
+.hero-title .hero-title-main { font-weight: 600; }
+@media (max-width:900px){ .hero-title .hero-title-main { font-weight:600; } }
+
+/* =============================================================
+	Последняя секция (бегущий вверх текст credits) — супер тонким.
+	Снижаем вес до 200 (если доступен) или 300 с пониженной непрозрачностью.
+============================================================= */
+.about-credits-viewport p { font-weight:200; font-size:0.92rem; line-height:1.55; opacity:0.82; }
+@supports (font-weight:200) { .about-credits-viewport p { font-weight:200; } }
+
+/* =============================================================
+	Подлоготипный появляющийся заголовок каждой секции (кроме первой).
+	1. Создаём контейнер фиксированный под логотипом.
+	2. JS будет обновлять текст и показывать при входе в секцию.
+	3. Стиль — как пункты мобильного меню: тонкий, верхний регистр.
+============================================================= */
+.section-subtitle-dock {
+  position:fixed;
+  top:var(--header-h,68px);
+  left:0; right:0;
+  display:flex;
+  justify-content:center;
+  pointer-events:none;
+  z-index:1200; /* над контентом, ниже мобильного меню */
+  font-family:var(--font-main);
+  font-size:0.95rem;
+  letter-spacing:0.12em;
+  font-weight:300;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.72);
+  opacity:0; /* скрыто по умолчанию */
+  transform:translateY(-6px);
+  transition:opacity .35s cubic-bezier(.22,.9,.24,1), transform .5s cubic-bezier(.22,.9,.24,1);
+}
+.section-subtitle-dock.section-subtitle-visible { opacity:1; transform:translateY(0); }
+@media (max-width:900px){
+  .section-subtitle-dock { top:calc(var(--header-h,72px) + 2px); font-size:0.78rem; letter-spacing:0.16em; }
+}
+
 @media (max-width: 600px) {
 	.about-section .content-wrapper {
 		  /* On narrow phones keep a small safe gap under header and make sure the

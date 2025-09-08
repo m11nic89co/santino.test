@@ -252,6 +252,26 @@ document.addEventListener('DOMContentLoaded', function () {
     updateContractPan();
     swiper.on('slideChange', updateContractPan);
 
+    // --- Section Subtitle Dock (under logo for non-hero sections) ---
+    const subtitleDock = document.getElementById('section-subtitle');
+    const subtitleMap = slideTitles.map(t => (t || '').trim());
+    function updateSectionSubtitle() {
+        if (!subtitleDock) return;
+        const idx = swiper.activeIndex;
+        if (idx === 0) {
+            subtitleDock.classList.remove('section-subtitle-visible');
+            subtitleDock.textContent = '';
+            return;
+        }
+        const raw = subtitleMap[idx] || '';
+        // Use same casing style as mobile menu (already uppercase titles there) → enforce uppercase visually
+        subtitleDock.textContent = raw.toUpperCase();
+        // small reflow to restart transition if needed
+        subtitleDock.classList.add('section-subtitle-visible');
+    }
+    updateSectionSubtitle();
+    swiper.on('slideChange', updateSectionSubtitle);
+
     // --- Welding sparks: run only on the first slide (hero) ---
     function updateWeldingSparksCycle() {
         try {
