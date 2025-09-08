@@ -610,11 +610,7 @@
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
 			/* Monochrome mode: platform classes kept for future use (no unique colors now) */
 
-			/* Make email icon more modest */
-			.mobile-social .social-email { padding:4px; }
-			.mobile-social .social-email svg { width:22px; height:22px; opacity:.62; transition:opacity .2s ease; }
-			.mobile-social .social-email:hover svg { opacity:.8; transform:none; }
-			.mobile-social .social-email::after { display:none; }
+			/* Email icon uses same sizing as others; keep inherited hover animation but no extra glow tweak */
 
 
 			/* Simple fade version */
