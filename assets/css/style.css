@@ -2336,7 +2336,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	Последняя секция (бегущий вверх текст credits) — супер тонким.
 	Снижаем вес до 200 (если доступен) или 300 с пониженной непрозрачностью.
 ============================================================= */
-.about-credits-viewport p { font-weight:100; font-size:0.92rem; line-height:1.55; opacity:0.82; }
+.about-credits-viewport p { font-weight:100; font-size:0.92rem; line-height:1.55; opacity:0.42; color: rgba(255,255,255,0.85); filter: brightness(0.96); }
 @supports (font-weight:100) { .about-credits-viewport p { font-weight:100; } }
 
 /* =============================================================
