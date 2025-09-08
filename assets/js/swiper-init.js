@@ -263,9 +263,9 @@ document.addEventListener('DOMContentLoaded', function () {
             subtitleDock.textContent = '';
             return;
         }
-        const raw = subtitleMap[idx] || '';
-        // Use same casing style as mobile menu (already uppercase titles there) → enforce uppercase visually
-        subtitleDock.textContent = raw.toUpperCase();
+    const raw = subtitleMap[idx] || '';
+    // Preserve original casing for mobile (match hero-desc style)
+    subtitleDock.textContent = raw;
         // small reflow to restart transition if needed
         subtitleDock.classList.add('section-subtitle-visible');
     }

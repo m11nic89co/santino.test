@@ -2354,18 +2354,30 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
   pointer-events:none;
   z-index:1200; /* над контентом, ниже мобильного меню */
   font-family:var(--font-main);
-  font-size:0.95rem;
-  letter-spacing:0.12em;
-  font-weight:300;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.72);
+	font-size:0.95rem; /* base (will be overridden on mobile) */
+	letter-spacing:0.12em; /* overridden on mobile */
+	font-weight:300;
+	text-transform:uppercase; /* overridden on mobile */
+	color:rgba(255,255,255,0.72); /* overridden on mobile */
   opacity:0; /* скрыто по умолчанию */
   transform:translateY(-6px);
   transition:opacity .35s cubic-bezier(.22,.9,.24,1), transform .5s cubic-bezier(.22,.9,.24,1);
 }
 .section-subtitle-dock.section-subtitle-visible { opacity:1; transform:translateY(0); }
+/* Скрыть на десктопе полностью */
+@media (min-width:901px){ .section-subtitle-dock { display:none !important; } }
+/* Мобильная версия: копия стиля hero-desc */
 @media (max-width:900px){
-  .section-subtitle-dock { top:calc(var(--header-h,72px) + 2px); font-size:0.78rem; letter-spacing:0.16em; }
+	.section-subtitle-dock {
+		top:calc(var(--header-h,72px) + 4px);
+		font-size:1.6rem; /* как .hero-desc */
+		font-weight:300;
+		letter-spacing:0; /* убрать растяжение */
+		text-transform:none; /* не форсировать Upper */
+		color:#bdbdbd;
+		font-family:var(--font-main);
+		line-height:1.25;
+	}
 }
 
 @media (max-width: 600px) {
