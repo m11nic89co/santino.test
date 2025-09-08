@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Simplified: force plain vertical slide effect (no fancy creative/fade modes)
     const selectedEffect = 'slide';
-    // Faster on mobile for snappier feel, slightly slower on desktop for elegance
-    const speedMs = _prefersReducedMotion ? 420 : (_isMobileTouch ? 480 : 650);
+    // Instant switching requested: 0ms transition for a sheet-like flip
+    const INSTANT_SWITCH = true;
+    // If not instant, we would use: (_prefersReducedMotion ? 420 : (_isMobileTouch ? 420 : 600))
+    const speedMs = INSTANT_SWITCH ? 0 : (_prefersReducedMotion ? 420 : (_isMobileTouch ? 420 : 600));
 
     const swiper = new Swiper('.swiper', {
         direction: 'vertical',
@@ -30,17 +32,17 @@ document.addEventListener('DOMContentLoaded', function () {
             sensitivity: 0.4,     // lower sensitivity for calmer steps
         },
     // Touch tuning for mobile
-    touchAngle: 45,           // allow a bit more diagonal drift so swipe begins easier
-    threshold: 3,             // minimal distance before recognizing swipe (was 10)
+    touchAngle: 55,           // more generous angle so gesture begins immediately
+    threshold: 2,             // almost no distance needed
     followFinger: true,
     simulateTouch: true,
     passiveListeners: true,   // keep listeners passive to avoid main-thread jank
     touchStartPreventDefault: false, // don't call preventDefault on passive listeners
     iOSEdgeSwipeDetection: true,
     iOSEdgeSwipeThreshold: 30,
-        resistanceRatio: 0.6,  // lower resistance -> easier, quicker slide
-        longSwipesMs: 150,     // shorter window keeps gesture feeling snappy
-        longSwipesRatio: 0.2,  // require smaller travel to finalize long swipe
+    resistanceRatio: 0.3,  // very low resistance for effortless drag
+    longSwipesMs: 120,     // shorter window keeps gesture feeling snappy
+    longSwipesRatio: 0.15, // even smaller travel to finalize long swipe
         shortSwipes: true,
         touchReleaseOnEdges: true,
         preventInteractionOnTransition: false, // allow rapid consecutive swipes
@@ -117,6 +119,47 @@ document.addEventListener('DOMContentLoaded', function () {
     swiper.on('slideChangeTransitionEnd', _applyParallaxOnce);
     // Run once on init so the first slide (hero) is correctly positioned
     _applyParallaxOnce();
+
+    // --- Momentum Flick (custom) ---
+    // When instant mode is active, emulate momentum: fast short flicks can skip 2+ slides.
+    if (INSTANT_SWITCH) {
+        let touchStartY = 0;
+        let touchStartT = 0;
+        const MIN_FLICK_TIME = 260; // ms
+        const MIN_FLICK_DIST = 28;  // px
+        const EXTRA_SKIP_VELOCITY = 0.45; // px/ms threshold for multi-skip
+
+        const surface = swiper.el;
+        surface.addEventListener('touchstart', (e) => {
+            if (!e.touches || !e.touches[0]) return;
+            touchStartY = e.touches[0].clientY;
+            touchStartT = performance.now();
+        }, { passive: true });
+
+        surface.addEventListener('touchend', (e) => {
+            const dt = performance.now() - touchStartT;
+            if (dt > MIN_FLICK_TIME) return; // not a quick flick
+            // Use changedTouches if available
+            const touch = (e.changedTouches && e.changedTouches[0]) || (e.touches && e.touches[0]);
+            if (!touch) return;
+            const dy = touch.clientY - touchStartY; // positive = swipe down
+            const ady = Math.abs(dy);
+            if (ady < MIN_FLICK_DIST) return;
+            const velocity = ady / dt; // px per ms
+            let skip = 1;
+            if (velocity > EXTRA_SKIP_VELOCITY) {
+                // scale skip by velocity (cap at 3 for sanity)
+                skip = Math.min(3, 1 + Math.floor((velocity - EXTRA_SKIP_VELOCITY) * 3));
+            }
+            const dir = dy > 0 ? -1 : 1; // swipe down -> previous (index -1)
+            let target = swiper.activeIndex + dir * skip;
+            if (target < 0) target = 0;
+            if (target > swiper.slides.length - 1) target = swiper.slides.length - 1;
+            if (target !== swiper.activeIndex) {
+                swiper.slideTo(target, 0); // immediate
+            }
+        }, { passive: true });
+    }
 
     // --- Grid overlay: show only after leaving the hero (no grid on first slide, and not during preload) ---
     function updateGridOverlay() {
