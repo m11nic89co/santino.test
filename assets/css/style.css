@@ -2336,7 +2336,21 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	Последняя секция (бегущий вверх текст credits) — супер тонким.
 	Снижаем вес до 200 (если доступен) или 300 с пониженной непрозрачностью.
 ============================================================= */
-.about-credits-viewport p { font-weight:100; font-size:0.92rem; line-height:1.55; opacity:0.42; color: rgba(255,255,255,0.85); filter: brightness(0.96); }
+.about-credits-viewport p {
+	font-weight:100; /* keep the thinnest weight available */
+	font-size:0.92rem;
+	line-height:1.55;
+	/* Keep element fully opaque but reduce stroke visually via color alpha */
+	opacity: 1;
+	color: rgba(255,255,255,0.58); /* further muted to appear thinner */
+	/* Prefer variable-font axis if available to get truly thinner strokes */
+	font-variation-settings: 'wght' 100;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	/* Slightly reduce contrast to soften stroke edges */
+	filter: contrast(0.92) brightness(0.995);
+	mix-blend-mode: lighten;
+}
 @supports (font-weight:100) { .about-credits-viewport p { font-weight:100; } }
 
 /* =============================================================
