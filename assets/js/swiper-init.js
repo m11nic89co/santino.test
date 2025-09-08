@@ -294,6 +294,14 @@ document.addEventListener('DOMContentLoaded', function () {
     swiper.on('slideChange', applyThemeFade);
     applyThemeFade();
 
+    // --- Logo dim on interaction ---
+    const mainLogo = document.getElementById('main-logo');
+    function setLogoDim(state){ if(!mainLogo) return; mainLogo.classList.toggle('logo-dim', !!state); }
+    swiper.on('touchStart', () => setLogoDim(true));
+    swiper.on('sliderMove', () => setLogoDim(true));
+    swiper.on('touchEnd', () => setLogoDim(false));
+    swiper.on('transitionEnd', () => setLogoDim(false));
+
     // --- Section Subtitle Dock (under logo for non-hero sections) ---
     const subtitleDock = document.getElementById('section-subtitle');
     const subtitleMap = slideTitles.map(t => (t || '').trim());

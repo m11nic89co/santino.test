@@ -2380,6 +2380,9 @@ html, body, .swiper { overscroll-behavior-y: contain; }
 
 /* Elevate header, menus above fader */
 header, .mobile-nav, .section-subtitle-dock { position:relative; z-index:2000; }
+/* Ensure logo always above theme fader and content */
+#main-logo { position:relative; z-index:2100; transition:opacity .35s ease, filter .4s ease; }
+#main-logo.logo-dim { opacity:0.68; filter:brightness(0.85) saturate(0.9); }
 .section-content.theme-dark::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background:
 		repeating-linear-gradient(0deg, rgba(0,173,181,0.055) 0 1px, transparent 1px 12px),
 		repeating-linear-gradient(90deg, rgba(0,173,181,0.045) 0 1px, transparent 1px 12px);
