@@ -2341,7 +2341,7 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 }
 /* Ultra light variant */
 .section-content.theme-light-ultra {
-	background: linear-gradient(125deg,#47545f 0%, #566673 45%, #5f6f7d 100%);
+	background: linear-gradient(120deg,#626d72 0%, #6f7b7e 40%, #7c8684 70%, #8a918b 100%);
 	position:relative;
 }
 /* Subtle grid overlay specific for light variant */
@@ -2359,13 +2359,24 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 .section-content.theme-light-ultra::before {
 	content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
 	background:
-		repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0 1px, transparent 1px 12px),
-		repeating-linear-gradient(90deg, rgba(255,255,255,0.09) 0 1px, transparent 1px 12px),
-		repeating-linear-gradient(0deg, rgba(var(--accent-rgb),0.08) 0 1px, transparent 1px 60px),
-		repeating-linear-gradient(90deg, rgba(var(--accent-rgb),0.07) 0 1px, transparent 1px 60px);
-	opacity:0.8;
+		repeating-linear-gradient(0deg, rgba(255,255,255,0.11) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 1px, transparent 1px 12px),
+		repeating-linear-gradient(0deg, rgba(var(--accent-rgb),0.07) 0 1px, transparent 1px 60px),
+		repeating-linear-gradient(90deg, rgba(var(--accent-rgb),0.06) 0 1px, transparent 1px 60px);
+	opacity:0.88;
 	mix-blend-mode:overlay;
 }
+
+/* Theme fader overlay (smooth transition layer) */
+#theme-fader {
+	position:fixed; inset:0; pointer-events:none; z-index:1;
+	background:transparent;
+	opacity:0; transition: background 480ms cubic-bezier(.22,.9,.24,1), opacity 480ms cubic-bezier(.22,.9,.24,1);
+}
+body.theme-transitioning #theme-fader { opacity:1; }
+
+/* Elevate header, menus above fader */
+header, .mobile-nav, .section-subtitle-dock { position:relative; z-index:2000; }
 .section-content.theme-dark::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background:
 		repeating-linear-gradient(0deg, rgba(0,173,181,0.055) 0 1px, transparent 1px 12px),
 		repeating-linear-gradient(90deg, rgba(0,173,181,0.045) 0 1px, transparent 1px 12px);

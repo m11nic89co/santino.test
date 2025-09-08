@@ -125,9 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (INSTANT_SWITCH) {
         let touchStartY = 0;
         let touchStartT = 0;
-        const MIN_FLICK_TIME = 260; // ms
-        const MIN_FLICK_DIST = 28;  // px
-        const EXTRA_SKIP_VELOCITY = 0.45; // px/ms threshold for multi-skip
+    const MIN_FLICK_TIME = 260; // ms
+    const MIN_FLICK_DIST = 28;  // px
+    // Disable multi-skip: set very high threshold so skip always 1
+    const EXTRA_SKIP_VELOCITY = 9999;
 
         const surface = swiper.el;
         surface.addEventListener('touchstart', (e) => {
@@ -147,10 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (ady < MIN_FLICK_DIST) return;
             const velocity = ady / dt; // px per ms
             let skip = 1;
-            if (velocity > EXTRA_SKIP_VELOCITY) {
-                // scale skip by velocity (cap at 3 for sanity)
-                skip = Math.min(3, 1 + Math.floor((velocity - EXTRA_SKIP_VELOCITY) * 3));
-            }
+            // Multi-skip disabled
             const dir = dy > 0 ? -1 : 1; // swipe down -> previous (index -1)
             let target = swiper.activeIndex + dir * skip;
             if (target < 0) target = 0;
@@ -251,6 +249,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     updateContractPan();
     swiper.on('slideChange', updateContractPan);
+
+    // --- Theme Fade Transition ---
+    const themeFader = document.getElementById('theme-fader');
+    function currentThemeClass(idx){
+        const slide = slides[idx];
+        if(!slide) return 'dark';
+        if(slide.classList.contains('theme-light-ultra')) return 'light-ultra';
+        if(slide.classList.contains('theme-light')) return 'light';
+        return 'dark';
+    }
+    function themeColorFor(kind){
+        switch(kind){
+            case 'light-ultra': return 'linear-gradient(120deg,#626d72 0%, #7c8684 65%, #8a918b 100%)';
+            case 'light': return 'linear-gradient(120deg,#2e363f 0%,#3b454f 100%)';
+            default: return 'linear-gradient(120deg,#1d2229 0%,#2a3139 100%)';
+        }
+    }
+    let _themeTimeout = 0;
+    function applyThemeFade(){
+        if(!themeFader) return;
+        const kind = currentThemeClass(swiper.activeIndex);
+        const bg = themeColorFor(kind);
+        document.body.classList.add('theme-transitioning');
+        themeFader.style.background = bg;
+        if(_themeTimeout) clearTimeout(_themeTimeout);
+        _themeTimeout = setTimeout(()=>{ document.body.classList.remove('theme-transitioning'); }, 520);
+    }
+    swiper.on('slideChange', applyThemeFade);
+    applyThemeFade();
 
     // --- Section Subtitle Dock (under logo for non-hero sections) ---
     const subtitleDock = document.getElementById('section-subtitle');
