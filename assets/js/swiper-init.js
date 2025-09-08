@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Early mobile-mode class to avoid layout flash before intro script applies it
-    try { if (window.innerWidth <= 900) document.body.classList.add('mobile-mode'); } catch(_) {}
     const slides = document.querySelectorAll('.swiper-slide');
     const slideTitles = Array.from(slides).map(slide => slide.dataset.title || '');
 
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         roundLengths: true,
         observer: true,
         observeParents: true,
-        loop: false, // explicit to avoid accidental cloning / perceived duplicates
         // Smoothen wheel/touch behavior across devices
         mousewheel: {
             forceToAxis: true,
@@ -72,11 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         on: {},
     });
-    // Expose globally early so other DOMContentLoaded handlers (main.js) can detect it
-    try {
-        window.swiper = swiper;
-        window.dispatchEvent(new Event('swiper-ready'));
-    } catch(_) {}
     // Removed fog/creative effects; simple scroll-like navigation only
 
     // --- Hero Parallax driver ---
@@ -133,32 +125,16 @@ document.addEventListener('DOMContentLoaded', function () {
     if (INSTANT_SWITCH) {
         let touchStartY = 0;
         let touchStartT = 0;
-    let touchStartScrollY = 0;
-    const MIN_FLICK_TIME = 260; // ms
-    const MIN_FLICK_DIST = 28;  // px
-    // Disable multi-skip: set very high threshold so skip always 1
-    const EXTRA_SKIP_VELOCITY = 9999;
+        const MIN_FLICK_TIME = 260; // ms
+        const MIN_FLICK_DIST = 28;  // px
+        const EXTRA_SKIP_VELOCITY = 0.45; // px/ms threshold for multi-skip
 
         const surface = swiper.el;
         surface.addEventListener('touchstart', (e) => {
             if (!e.touches || !e.touches[0]) return;
             touchStartY = e.touches[0].clientY;
             touchStartT = performance.now();
-            touchStartScrollY = window.scrollY || document.documentElement.scrollTop || 0;
         }, { passive: true });
-
-        surface.addEventListener('touchmove', (e) => {
-            // Prevent pull-to-refresh when on first slide pulling down near top
-            if (swiper.activeIndex === 0 && !swiper.animating) {
-                const t = e.touches && e.touches[0];
-                if (t) {
-                    const dy = t.clientY - touchStartY;
-                    if (dy > 18 && (window.scrollY || document.documentElement.scrollTop || 0) <= 0) {
-                        e.preventDefault();
-                    }
-                }
-            }
-        }, { passive: false });
 
         surface.addEventListener('touchend', (e) => {
             const dt = performance.now() - touchStartT;
@@ -171,7 +147,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (ady < MIN_FLICK_DIST) return;
             const velocity = ady / dt; // px per ms
             let skip = 1;
-            // Multi-skip disabled
+            if (velocity > EXTRA_SKIP_VELOCITY) {
+                // scale skip by velocity (cap at 3 for sanity)
+                skip = Math.min(3, 1 + Math.floor((velocity - EXTRA_SKIP_VELOCITY) * 3));
+            }
             const dir = dy > 0 ? -1 : 1; // swipe down -> previous (index -1)
             let target = swiper.activeIndex + dir * skip;
             if (target < 0) target = 0;
@@ -273,43 +252,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateContractPan();
     swiper.on('slideChange', updateContractPan);
 
-    // --- Theme Fade Transition ---
-    const themeFader = document.getElementById('theme-fader');
-    function currentThemeClass(idx){
-        const slide = slides[idx];
-        if(!slide) return 'dark';
-        if(slide.classList.contains('theme-light-ultra')) return 'light-ultra';
-        if(slide.classList.contains('theme-light')) return 'light';
-        return 'dark';
-    }
-    function themeColorFor(kind){
-        switch(kind){
-            case 'light-ultra': return 'linear-gradient(120deg,#626d72 0%, #7c8684 65%, #8a918b 100%)';
-            case 'light': return 'linear-gradient(120deg,#2e363f 0%,#3b454f 100%)';
-            default: return 'linear-gradient(120deg,#1d2229 0%,#2a3139 100%)';
-        }
-    }
-    let _themeTimeout = 0;
-    function applyThemeFade(){
-        if(!themeFader) return;
-        const kind = currentThemeClass(swiper.activeIndex);
-        const bg = themeColorFor(kind);
-        document.body.classList.add('theme-transitioning');
-        themeFader.style.background = bg;
-        if(_themeTimeout) clearTimeout(_themeTimeout);
-        _themeTimeout = setTimeout(()=>{ document.body.classList.remove('theme-transitioning'); }, 520);
-    }
-    swiper.on('slideChange', applyThemeFade);
-    applyThemeFade();
-
-    // --- Logo dim on interaction ---
-    const mainLogo = document.getElementById('main-logo');
-    function setLogoDim(state){ if(!mainLogo) return; mainLogo.classList.toggle('logo-dim', !!state); }
-    swiper.on('touchStart', () => setLogoDim(true));
-    swiper.on('sliderMove', () => setLogoDim(true));
-    swiper.on('touchEnd', () => setLogoDim(false));
-    swiper.on('transitionEnd', () => setLogoDim(false));
-
     // --- Section Subtitle Dock (under logo for non-hero sections) ---
     const subtitleDock = document.getElementById('section-subtitle');
     const subtitleMap = slideTitles.map(t => (t || '').trim());
@@ -409,8 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
             navLeft.innerHTML = leftItemsHtml;
             navRight.innerHTML = rightItemsHtml;
         }
-    // Inject with inner wrapper for consistent padding & future layout hooks
-    mobileNav.innerHTML = `<div class="mobile-nav-inner">${mobileItemsHtml}</div>`;
+        mobileNav.innerHTML = mobileItemsHtml;
     }
 
     injectMenusForViewport();
@@ -468,6 +409,18 @@ document.addEventListener('DOMContentLoaded', function () {
         // lock body scroll when menu is open (mobile)
         document.body.dataset.scrollLock = willOpen ? '1' : '';
         document.body.style.overflow = willOpen ? 'hidden' : '';
+        // Hide section subtitle while menu is open
+        if (subtitleDock) {
+            if (willOpen) {
+                subtitleDock.dataset.prevVisible = subtitleDock.classList.contains('section-subtitle-visible') ? '1' : '';
+                subtitleDock.classList.remove('section-subtitle-visible');
+            } else {
+                // restore only if it was visible before and not hero
+                if (subtitleDock.dataset.prevVisible === '1' && swiper.activeIndex !== 0) {
+                    subtitleDock.classList.add('section-subtitle-visible');
+                }
+            }
+        }
         if (hamburgerCaption) {
             // keep caption visible even when menu open; could dim if needed
             hamburgerCaption.style.opacity = willOpen ? '0.9' : '1';
@@ -575,12 +528,6 @@ document.addEventListener('DOMContentLoaded', function () {
         allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
         allNavLinks.forEach(bindLink);
         updateActiveLink(swiper.activeIndex);
-        // If we moved to desktop width while mobile menu was open, force-close it
-        try {
-            if (window.innerWidth > 900 && mobileNav.classList.contains('is-open')) {
-                toggleMenu(false);
-            }
-        } catch(_) {}
         if (_mmRaf) cancelAnimationFrame(_mmRaf);
         _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
     }
