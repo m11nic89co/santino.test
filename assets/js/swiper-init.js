@@ -3,10 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const slideTitles = Array.from(slides).map(slide => slide.dataset.title || '');
 
     const _prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const _isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    const _isSmallViewport = window.innerWidth <= 920 || window.innerHeight <= 820;
+    const _isMobileTouch = _isCoarsePointer || _isSmallViewport;
 
     // Simplified: force plain vertical slide effect (no fancy creative/fade modes)
     const selectedEffect = 'slide';
-    const speedMs = _prefersReducedMotion ? 550 : 750;
+    // Faster on mobile for snappier feel, slightly slower on desktop for elegance
+    const speedMs = _prefersReducedMotion ? 420 : (_isMobileTouch ? 480 : 650);
 
     const swiper = new Swiper('.swiper', {
         direction: 'vertical',
@@ -26,18 +30,20 @@ document.addEventListener('DOMContentLoaded', function () {
             sensitivity: 0.4,     // lower sensitivity for calmer steps
         },
     // Touch tuning for mobile
-    touchAngle: 30,           // stricter vertical intent
-    threshold: 10,            // a touch needs a bit more travel to start
+    touchAngle: 45,           // allow a bit more diagonal drift so swipe begins easier
+    threshold: 3,             // minimal distance before recognizing swipe (was 10)
     followFinger: true,
     simulateTouch: true,
     passiveListeners: true,   // keep listeners passive to avoid main-thread jank
     touchStartPreventDefault: false, // don't call preventDefault on passive listeners
     iOSEdgeSwipeDetection: true,
     iOSEdgeSwipeThreshold: 30,
-        resistanceRatio: 0.92, // gentler resistance for smoother feel
-        longSwipesMs: 220,     // slightly longer swipe timing window
+        resistanceRatio: 0.6,  // lower resistance -> easier, quicker slide
+        longSwipesMs: 150,     // shorter window keeps gesture feeling snappy
+        longSwipesRatio: 0.2,  // require smaller travel to finalize long swipe
+        shortSwipes: true,
         touchReleaseOnEdges: true,
-        preventInteractionOnTransition: true, // ignore new input while animating
+        preventInteractionOnTransition: false, // allow rapid consecutive swipes
         a11y: {
             enabled: true,
             firstSlideMessage: 'Первая секция',
