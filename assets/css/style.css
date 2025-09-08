@@ -610,6 +610,12 @@
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
 			/* Monochrome mode: platform classes kept for future use (no unique colors now) */
 
+			/* Make email icon more modest */
+			.mobile-social .social-email { padding:4px; }
+			.mobile-social .social-email svg { width:22px; height:22px; opacity:.62; transition:opacity .2s ease; }
+			.mobile-social .social-email:hover svg { opacity:.8; transform:none; }
+			.mobile-social .social-email::after { display:none; }
+
 
 			/* Simple fade version */
 			.mobile-nav::before { content:""; position:absolute; inset:0; pointer-events:none; background: none; }
