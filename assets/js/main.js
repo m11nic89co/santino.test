@@ -36,7 +36,9 @@ function isLowPower() {
 				progress = Math.min(elapsed / duration, 1);
 				loaderBar.style.width = (progress * 100) + '%';
 				if (progress < 1) {
-					if (!isLowPower() && !document.hidden) requestAnimationFrame(animateBar);
+					// Always continue animating the loader bar to completion,
+					// even on low-power devices or when the tab is backgrounded.
+					requestAnimationFrame(animateBar);
 				} else {
 					loaderBar.style.width = '100%';
 				}

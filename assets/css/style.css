@@ -262,7 +262,7 @@
 			position: fixed;
 			inset: 0;
 			background: #000;
-			z-index: 9999;
+			z-index: 10002; /* above any flashes (10000) and header (100) */
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -310,6 +310,8 @@
 			margin-top: 36px;
 			overflow: hidden;
 			box-shadow: 0 2px 16px #00ADB533;
+			position: relative;
+			z-index: 10001; /* above any internal flashes */
 		}
 
 		.loader-bar {
@@ -318,8 +320,12 @@
 			background: linear-gradient(90deg, #00ADB5 0%, #0aa6ae 100%);
 			border-radius: 1.5px;
 			box-shadow: 0 0 8px #00ADB5cc;
-			transition: width 1.1s cubic-bezier(.77, 0, .18, 1);
+			transition: width 0.2s linear; /* JS drives the width via rAF, keep CSS transition minimal */
 		}
+
+/* Overlay slide-in for section-2 over section-1 */
+#section-0, #section-1 { will-change: transform; }
+#section-1 { transform: translate3d(0, 12%, 0) scale(0.98); }
 
 		header {
 			width: 100%;

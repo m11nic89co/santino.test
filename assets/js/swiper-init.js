@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         observer: true,
         observeParents: true,
         // Smoothen wheel/touch behavior across devices
-        mousewheel: {
+    mousewheel: {
             forceToAxis: true,
             releaseOnEdges: true,
             thresholdDelta: 24,   // require a larger wheel delta to trigger
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     iOSEdgeSwipeThreshold: 30,
     resistanceRatio: 0.3,  // very low resistance for effortless drag
     longSwipesMs: 120,     // shorter window keeps gesture feeling snappy
-    longSwipesRatio: 0.15, // even smaller travel to finalize long swipe
+    longSwipesRatio: 0.2, // require a bit more travel to finalize
         shortSwipes: true,
         touchReleaseOnEdges: true,
         preventInteractionOnTransition: false, // allow rapid consecutive swipes
@@ -124,44 +124,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Momentum Flick (custom) ---
     // When instant mode is active, emulate momentum: fast short flicks can skip 2+ slides.
+    // Enforce max 1 slide per touch gesture: disable custom multi-skip flick logic
     if (INSTANT_SWITCH) {
-        let touchStartY = 0;
-        let touchStartT = 0;
-        const MIN_FLICK_TIME = 260; // ms
-        const MIN_FLICK_DIST = 28;  // px
-        const EXTRA_SKIP_VELOCITY = 0.45; // px/ms threshold for multi-skip
-
+        let startIndex = 0;
+        let tracking = false;
         const surface = swiper.el;
-        surface.addEventListener('touchstart', (e) => {
-            if (!e.touches || !e.touches[0]) return;
-            touchStartY = e.touches[0].clientY;
-            touchStartT = performance.now();
-        }, { passive: true });
-
-        surface.addEventListener('touchend', (e) => {
-            const dt = performance.now() - touchStartT;
-            if (dt > MIN_FLICK_TIME) return; // not a quick flick
-            // Use changedTouches if available
-            const touch = (e.changedTouches && e.changedTouches[0]) || (e.touches && e.touches[0]);
-            if (!touch) return;
-            const dy = touch.clientY - touchStartY; // positive = swipe down
-            const ady = Math.abs(dy);
-            if (ady < MIN_FLICK_DIST) return;
-            const velocity = ady / dt; // px per ms
-            let skip = 1;
-            if (velocity > EXTRA_SKIP_VELOCITY) {
-                // scale skip by velocity (cap at 3 for sanity)
-                skip = Math.min(3, 1 + Math.floor((velocity - EXTRA_SKIP_VELOCITY) * 3));
-            }
-            const dir = dy > 0 ? -1 : 1; // swipe down -> previous (index -1)
-            let target = swiper.activeIndex + dir * skip;
-            if (target < 0) target = 0;
-            if (target > swiper.slides.length - 1) target = swiper.slides.length - 1;
-            if (target !== swiper.activeIndex) {
-                swiper.slideTo(target, 0); // immediate
-            }
+        surface.addEventListener('touchstart', () => { startIndex = swiper.activeIndex; tracking = true; }, { passive: true });
+        surface.addEventListener('touchend', () => {
+            if (!tracking) return;
+            tracking = false;
+            // If Swiper jumped > 1 due to internal momentum, constrain back to nearest neighbor
+            const diff = swiper.activeIndex - startIndex;
+            if (diff > 1) swiper.slideTo(startIndex + 1, 0);
+            else if (diff < -1) swiper.slideTo(startIndex - 1, 0);
         }, { passive: true });
     }
+
+    // Section 2 overlay effect: while moving from section 1 -> 2, make section 2 visually slide over 1
+    // We approximate by z-index toggles and translate during progress
+    const section1 = document.getElementById('section-0');
+    const section2 = document.getElementById('section-1');
+    function applyOverlayEffect() {
+        if (!section1 || !section2) return;
+        // Bring both into a new stacking context
+        section1.style.zIndex = '1';
+        section2.style.zIndex = '2';
+        // Translate section2 based on its own progress when it's entering
+    const s2 = swiper.slides[1];
+    const p2raw = s2 ? s2.progress : 0; // expected: 1 (below) -> 0 (center)
+    // Normalize so 0 = start (offscreen) and 1 = fully on top
+    const t = Math.max(0, Math.min(1, 1 - p2raw));
+    // Start 12% lower and slide up onto section 1; add small scale for depth
+    const translate = 12 * (1 - t); // 12% -> 0%
+    const scale = 0.98 + 0.02 * t;
+        section2.style.transform = `translate3d(0, ${translate}%, 0) scale(${scale})`;
+        section2.style.willChange = 'transform';
+    }
+    swiper.on('setTranslate', applyOverlayEffect);
+    swiper.on('slideChangeTransitionEnd', () => {
+        if (section2) {
+            section2.style.transform = '';
+            section2.style.willChange = '';
+        }
+    });
 
     // --- Grid overlay: show only after leaving the hero (no grid on first slide, and not during preload) ---
     function updateGridOverlay() {
