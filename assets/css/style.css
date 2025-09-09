@@ -2336,29 +2336,28 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	 Sequence: hero (dark existing) -> section-1 light -> section-2 dark -> section-3 light -> section-4 light (per request)
 ============================================================= */
 .section-content.theme-dark {
-	background: linear-gradient(120deg,#1d2229 0%,#2a3139 100%);
+	/* disable themed background; non-hero sections use transparent bg */
+	background: transparent;
 	position: relative;
 }
 .section-content.theme-light {
-	background: linear-gradient(120deg,#2e363f 0%,#3b454f 100%);
+	/* disable themed background; non-hero sections use transparent bg */
+	background: transparent;
 	position: relative;
 }
 /* Subtle grid overlay specific for light variant */
-.section-content.theme-light::before {
-	content:"";
-	position:absolute; inset:0; pointer-events:none; z-index:0;
-	background:
-		repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 12px),
-		repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 12px),
-		repeating-linear-gradient(0deg, rgba(var(--accent-rgb),0.05) 0 1px, transparent 1px 60px),
-		repeating-linear-gradient(90deg, rgba(var(--accent-rgb),0.04) 0 1px, transparent 1px 60px);
-	opacity:0.75;
-	mix-blend-mode:overlay;
+/* Remove themed overlays for non-hero sections */
+.section-content.theme-light::before,
+.section-content.theme-dark::before { content: none !important; background: none !important; }
+
+/* Make sure any non-hero section background/overlays are cleared */
+.swiper-slide.section-content:not(.hero-section) {
+    background: transparent !important;
 }
-.section-content.theme-dark::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background:
-		repeating-linear-gradient(0deg, rgba(0,173,181,0.055) 0 1px, transparent 1px 12px),
-		repeating-linear-gradient(90deg, rgba(0,173,181,0.045) 0 1px, transparent 1px 12px);
-	opacity:0.18; mix-blend-mode:normal; }
+.swiper-slide.section-content:not(.hero-section)::after {
+    content: none !important;
+    background: none !important;
+}
 
 /* Elevate actual content above new overlays */
 .section-content .content-wrapper { position:relative; z-index:2; }
