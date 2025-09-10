@@ -612,6 +612,7 @@
 			.mobile-social .social-link:hover svg { transform:translateY(-2px) scale(1.02); }
 			.mobile-social .social-link:hover::after { opacity:.2; filter:blur(2.6px) brightness(1.04); }
 			/* .social-phone reuses base monochrome styles (no extra rules needed) */
+
 			.mobile-social .social-link:active svg { transform:translateY(0) scale(.94); }
 			@media (hover:none) { .mobile-social .social-link:hover svg { transform:none; } }
 			/* Monochrome mode: platform classes kept for future use (no unique colors now) */
@@ -2301,139 +2302,6 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 	}
 }
 
-/* =============================================================
-	Удаление фоновых изображений (кроме первой hero секции)
-	Запрос: "убери все фоновые изображения ... кроме первой секции"
-	Реализация: Просто отключаем pseudo-элементы ::after с картинками
-	для collection / contract / about. Анимации панорам тоже отключены.
-	Hero (.hero-section) НЕ затрагиваем.
-	Для надёжности применяем !important, не трогаем структуру.
-	При необходимости можно задать однотонный фон ниже.
-============================================================= */
-.collection-section::after,
-.contract-section::after,
-.about-section::after {
-	 content: none !important;           /* убрать сам слой */
-	 background: none !important;        /* на случай если content вдруг не сотрёт фон */
-	 background-image: none !important;
-	 filter: none !important;
-	 animation: none !important;
-	 transform: none !important;
-	 opacity: 1 !important;
-}
-
-/* Отключаем классы с панорамной анимацией (если уже добавлены динамически) */
-.collection-section.collection-pan::after,
-.contract-section.contract-pan::after,
-.about-section.about-pan::after { animation: none !important; }
-
-/* (Опционально) Можно задать единый плоский фон для слайдов после hero.
-	Закомментировано — включите при необходимости.
-	.swiper-slide.section-content:not(.hero-section) { background: #222831; } */
-
-/* =============================================================
-	 Alternating section themes (dark / light) with subtle mm-grid variant
-	 Sequence: hero (dark existing) -> section-1 light -> section-2 dark -> section-3 light -> section-4 light (per request)
-============================================================= */
-.section-content.theme-dark {
-	/* disable themed background; non-hero sections use transparent bg */
-	background: transparent;
-	position: relative;
-}
-.section-content.theme-light {
-	/* disable themed background; non-hero sections use transparent bg */
-	background: transparent;
-	position: relative;
-}
-/* Subtle grid overlay specific for light variant */
-/* Remove themed overlays for non-hero sections */
-.section-content.theme-light::before,
-.section-content.theme-dark::before { content: none !important; background: none !important; }
-
-/* Make sure any non-hero section background/overlays are cleared */
-.swiper-slide.section-content:not(.hero-section) {
-    background: transparent !important;
-}
-.swiper-slide.section-content:not(.hero-section)::after {
-    content: none !important;
-    background: none !important;
-}
-
-/* Elevate actual content above new overlays */
-.section-content .content-wrapper { position:relative; z-index:2; }
-.hero-section .content-wrapper { z-index:2; }
-
-/* =============================================================
-	Hero: сделать слово "Завод" жирным.
-	Используем точечный селектор на первом span внутри .hero-title.
-============================================================= */
-.hero-title .hero-title-main { font-weight: 600; }
-@media (max-width:900px){ .hero-title .hero-title-main { font-weight:600; } }
-
-/* =============================================================
-	Последняя секция (бегущий вверх текст credits) — супер тонким.
-	Снижаем вес до 200 (если доступен) или 300 с пониженной непрозрачностью.
-============================================================= */
-.about-credits-viewport p {
-	font-weight:100; /* keep the thinnest weight available */
-	font-size:0.92rem;
-	line-height:1.55;
-	/* Keep element fully opaque but reduce stroke visually via color alpha */
-	opacity: 1;
-	color: rgba(255,255,255,0.58); /* further muted to appear thinner */
-	/* Prefer variable-font axis if available to get truly thinner strokes */
-	font-variation-settings: 'wght' 100;
-	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
-	/* Slightly reduce contrast to soften stroke edges */
-	filter: contrast(0.92) brightness(0.995);
-	mix-blend-mode: lighten;
-}
-@supports (font-weight:100) { .about-credits-viewport p { font-weight:100; } }
-
-/* =============================================================
-	Подлоготипный появляющийся заголовок каждой секции (кроме первой).
-	1. Создаём контейнер фиксированный под логотипом.
-	2. JS будет обновлять текст и показывать при входе в секцию.
-	3. Стиль — как пункты мобильного меню: тонкий, верхний регистр.
-============================================================= */
-.section-subtitle-dock {
-  position:fixed;
-  top:var(--header-h,68px);
-  left:0; right:0;
-  display:flex;
-  justify-content:center;
-  pointer-events:none;
-  z-index:1200; /* над контентом, ниже мобильного меню */
-  font-family:var(--font-main);
-	font-size:0.95rem; /* base (will be overridden on mobile) */
-	letter-spacing:0.12em; /* overridden on mobile */
-	font-weight:300;
-	text-transform:uppercase; /* overridden on mobile */
-	color:rgba(255,255,255,0.72); /* overridden on mobile */
-  opacity:0; /* скрыто по умолчанию */
-  transform:translateY(-6px);
-  transition:opacity .35s cubic-bezier(.22,.9,.24,1), transform .5s cubic-bezier(.22,.9,.24,1);
-}
-.section-subtitle-dock.section-subtitle-visible { opacity:1; transform:translateY(0); }
-/* Hide subtitle when mobile menu open */
-.mobile-nav.is-open ~ .section-subtitle-dock { display:none !important; }
-/* Скрыть на десктопе полностью */
-@media (min-width:901px){ .section-subtitle-dock { display:none !important; } }
-/* Мобильная версия: копия стиля hero-desc */
-@media (max-width:900px){
-	.section-subtitle-dock {
-		top:calc(var(--header-h,72px) + 4px);
-	font-size:1.12rem; /* уменьшено на ~30% от 1.6rem */
-		font-weight:300;
-		letter-spacing:0; /* убрать растяжение */
-		text-transform:none; /* не форсировать Upper */
-		color:#bdbdbd;
-		font-family:var(--font-main);
-		line-height:1.25;
-	}
-}
-
 @media (max-width: 600px) {
 	.about-section .content-wrapper {
 		  /* On narrow phones keep a small safe gap under header and make sure the
@@ -2741,7 +2609,10 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 .about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
 .about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
 
-/* (Removed duplicate about-credits-* block & keyframes) */
+/* =============================================================
+   Hide Swiper pagination bullets (neon dots on the right)
+============================================================= */
+.swiper-pagination { display: none !important; }
 
 /* Accessibility improvements for focus states */
 :focus-visible {
@@ -3226,7 +3097,10 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 .about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
 .about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
 
-/* (Removed second duplicate animated about-credits definitions) */
+/* =============================================================
+   Hide Swiper pagination bullets (neon dots on the right)
+============================================================= */
+.swiper-pagination { display: none !important; }
 
 /* Accessibility improvements for focus states */
 :focus-visible {
@@ -3403,4 +3277,1287 @@ a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
 		padding: 0;
 	}
 }
+
+@media (max-width: 600px) {
+	.about-section .content-wrapper {
+		  /* On narrow phones keep a small safe gap under header and make sure the
+			  content fits the viewport without covering the logo. Use larger fallback. */
+		  padding-top: calc(var(--header-h, 120px) + 12px);
+		  padding-left: 12px;
+		  padding-right: 12px;
+		  max-width: none;
+		  min-height: calc(100dvh - var(--header-h, 64px));
+		  overflow-y: auto;
+	}
+	.about-section h2 {
+		font-size: 1.6rem;
+	}
+	.about-story {
+		font-size: 1rem;
+		line-height: 1.78;
+	}
+}
+
+/* Desktop & general: increase vertical spacing so the title doesn't collide with fixed header/logo
+   Use --header-h when available (set in JS) so spacing adapts to actual header height. */
+.about-section .content-wrapper {
+	/* Center content vertically and horizontally for improved readability */
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* vertical */
+	align-items: center; /* horizontal */
+	min-height: calc(100vh - var(--header-h, 84px));
+	padding-top: 48px;
+	padding-bottom: 48px;
+	padding-left: 56px;
+	padding-right: 56px;
+	box-sizing: border-box;
+}
+.about-section h2 {
+	margin-top: 8px; /* small breathing under top padding */
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+	.about-section .content-wrapper { max-width: 980px; }
+}
+
+@media (min-width: 901px) {
+	/* Keep centered text on desktop */
+	.about-section .content-wrapper { text-align: center; }
+	.about-section h2 { text-align: center; }
+	.about-story { text-align: center; max-width: 980px; }
+}
+
+.section-content p {
+	font-size: 1.18rem;
+	line-height: 1.78;
+	color: rgba(255,255,255,0.95);
+}
+
+@media (max-width: 1200px) {
+	.section-content .content-wrapper { padding: 0 48px; max-width: 760px; }
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 24px 28px; max-width: 640px; }
+	.section-content h2 { font-size: 2.2rem; }
+	.section-content p { font-size: 1.05rem; line-height: 1.6; }
+}
+
+/* Collection (Коллекция) section background */
+.collection-section {
+	position: relative;
+	overflow: hidden;
+}
+.collection-section::before {
+	/* disable this pseudo so section gradient uses ::before without conflict */
+	content: none;
+}
+.collection-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3; /* below gradient layer */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover; /* fill and crop */
+	/* slightly darker to match requested look */
+	filter: brightness(0.9) contrast(1.06) saturate(1.02);
+	opacity: 0.94;
+}
+/* Remove centered dark panel: content should be transparent and full-bleed */
+.collection-section .content-wrapper {
+	background: transparent; /* no inner dark panel */
+	border-radius: 0; /* full-bleed feel */
+	padding-top: 28px;
+	padding-bottom: 28px;
+	box-shadow: none;
+	border: none;
+}
+
+/* Desktop-only: assign desktop image; high-DPR override to @2x */
+@media (min-width: 901px) {
+	/* Prefer AVIF/WEBP with JPG fallback; 1x by default, 2x for high-DPR */
+	.collection-section::after {
+		/* Layer 1: darkening overlay; Layer 2+: image-set with JPG fallback */
+		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
+			image-set(
+				url('../img/collection-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/collection-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/collection-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-desktop.jpg');
+	background-position: 50% 35%; /* raise the subject a bit higher */
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.collection-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
+			image-set(
+				url('../img/collection-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/collection-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/collection-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/collection-bg-desktop@2x.jpg');
+	background-position: 50% 35%;
+	}
+}
+
+/* Mobile: adjust crop for portrait, keep subject centered (hands + растения) */
+@media (max-width: 900px) {
+	.collection-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.14), rgba(0,0,0,0.14)),
+			image-set(
+				url('../img/collection-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/collection-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/collection-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-mobile.jpg');
+	background-position: 55% 32%; /* raise framing on mobile too */
+		background-size: cover;
+		opacity: 1;
+	}
+	/* Stronger, crisper pan on mobile for clarity */
+	.collection-section.collection-pan::after {
+		animation: collectionPanMobile 30s ease-in-out 0s infinite alternate;
+		transform-origin: 55% 40%; /* pivot around focal area */
+	}
+	/* ensure inner container is transparent on mobile too */
+	.collection-section .content-wrapper {
+		background: transparent;
+		padding-top: 36px;
+		padding-bottom: 36px;
+	}
+}
+
+/* Contract Molding (КОНТРАКТНОЕ ЛИТЬЁ) section background */
+.contract-section { position: relative; overflow: hidden; }
+.contract-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	filter: brightness(0.98) contrast(1.05) saturate(1.04);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes contractPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%,  1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with progressive enhancement (AVIF/WEBP) and JPG fallback */
+@media (min-width: 901px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/contract-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/contract-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/contract-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/contract-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+/* Mobile crop */
+@media (max-width: 900px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/contract-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/contract-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 42%;
+		background-size: cover;
+	}
+}
+/* Run pan only when slide is active (class toggled by JS) */
+.contract-section.contract-pan::after { animation: contractPan 30s ease-in-out infinite alternate; }
+
+/* About (О НАС / Качество) section background */
+.about-section {
+	position: relative;
+	overflow: hidden;
+}
+.about-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3; /* below gradient layer */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/* Gentle lift: lighter than collection to keep text readable with global vignette */
+	filter: brightness(0.98) contrast(1.04) saturate(1.06);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes aboutPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%, 1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with JPG source; can be upgraded later to AVIF/WEBP if provided */
+@media (min-width: 901px) {
+	.about-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)),
+			image-set(
+				url('../img/about-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/about-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/about-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/NK2_2198 (1).jpg');
+		background-position: 50% 45%;
+	}
+}
+/* Mobile crop tuning */
+@media (max-width: 900px) {
+	.about-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)),
+			image-set(
+				url('../img/about-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/about-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/about-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/NK2_2198 (1).jpg');
+		background-position: 50% 38%;
+		background-size: cover;
+	}
+}
+
+/* Run the pan only when slide is active (class toggled by JS) */
+.about-section.about-pan::after {
+	animation: aboutPan 30s ease-in-out infinite alternate;
+}
+
+/* About content reveal */
+.about-section .content-wrapper h2,
+.about-section .about-story .story-block {
+	opacity: 0;
+	transform: translate3d(0, 14px, 0);
+	will-change: opacity, transform;
+}
+.about-section.about-reveal .content-wrapper h2 { animation: aboutRevealUp 1100ms cubic-bezier(.22,.9,.24,1) 120ms forwards; }
+
+/* Staged reveal for about-story blocks */
+.about-section .about-story { display: grid; gap: 12px; margin-top: 12px; }
+
+@keyframes aboutRevealLeft {
+		0%   { opacity: 0; transform: translate3d(-24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(-6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,     0,   0);  filter: blur(0); }
+}
+@keyframes aboutRevealRight {
+		0%   { opacity: 0; transform: translate3d(24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,    0,  0);   filter: blur(0); }
+}
+
+.about-section.about-reveal .about-story .story-block:nth-child(1) { animation: aboutRevealLeft 1200ms cubic-bezier(.22,.9,.24,1) 240ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(2) { animation: aboutRevealRight 1250ms cubic-bezier(.22,.9,.24,1) 780ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
+
+/* =============================================================
+   Hide Swiper pagination bullets (neon dots on the right)
+============================================================= */
+.swiper-pagination { display: none !important; }
+
+/* Accessibility improvements for focus states */
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+.skip-link {
+	position: absolute;
+	left: 8px;
+	top: -40px;
+	padding: 8px 12px;
+	background: var(--accent);
+	color: #0b0b0b;
+	border-radius: 8px;
+	z-index: 10000;
+	text-decoration: none;
+	transition: top .2s ease;
+}
+.skip-link:focus { top: 8px; }
+
+/* Improve tap behavior on mobile: prefer click over double-tap zoom on actionable elements */
+a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
+	touch-action: manipulation;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+		position: relative; /* allow absolute overlays like fog-layer */
+}
+
+/* Transitional fog overlay used during slide change */
+.fog-layer {
+		position: absolute;
+		inset: 0;
+		z-index: 3; /* above backgrounds/gradients, below header */
+		pointer-events: none;
+		opacity: var(--fogOpacity, 0);
+		filter: blur(var(--fogBlur, 0px));
+		transition: opacity 200ms ease-out, filter 200ms ease-out;
+		will-change: opacity, filter;
+		background:
+			radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.02) 60%, rgba(255,255,255,0.00) 80%),
+			radial-gradient(180% 180% at 60% 40%, rgba(var(--accent-rgb),0.08) 0%, rgba(var(--accent-rgb),0.05) 40%, rgba(var(--accent-rgb),0.00) 70%),
+			radial-gradient(160% 160% at 30% 70%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.00) 60%);
+		/* slight brightening to simulate light haze */
+		mix-blend-mode: screen;
+}
+
+/* Gradient overlay for all content sections (exclude the hero which has its own .hero-bg) */
+.section-content {
+	position: relative;
+	isolation: isolate;
+}
+.section-content::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1; /* above section-specific bg (e.g., collection), below content */
+	background-image:
+		/* side vignettes */
+		linear-gradient(90deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(270deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		/* top vignette */
+		linear-gradient(180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.14) 42%, rgba(0,0,0,0.00) 72%),
+		/* subtle teal accent */
+		radial-gradient(ellipse at 18% 22%, rgba(0,173,181,0.07) 0%, rgba(0,173,181,0.00) 32%),
+		/* base tint: will be overridden per slide (light/dark) */
+		linear-gradient(120deg, rgba(34,40,49,0.92), rgba(57,62,70,0.82));
+	background-blend-mode: normal, normal, normal, screen, normal;
+	pointer-events: none;
+}
+
+/* Alternating light/dark background base for non-hero slides (index: 1-based in DOM order inside wrapper) */
+.swiper-wrapper > .section-content:nth-child(2n) {
+	/* Light variant in our palette */
+	--section-base-start: rgba(238, 238, 238, 0.06);
+	--section-base-end: rgba(200, 220, 225, 0.10);
+}
+.swiper-wrapper > .section-content:nth-child(2n+1) {
+	/* Dark variant (default) */
+	--section-base-start: rgba(34, 40, 49, 0.92);
+	--section-base-end: rgba(57, 62, 70, 0.82);
+}
+.section-content::before {
+	/* use base colors decided above */
+	background-image:
+		linear-gradient(90deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(270deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.14) 42%, rgba(0,0,0,0.00) 72%),
+		radial-gradient(ellipse at 18% 22%, rgba(0,173,181,0.07) 0%, rgba(0,173,181,0.00) 32%),
+		linear-gradient(120deg, var(--section-base-start), var(--section-base-end));
+}
+
+/* Ensure About and Collection keep their imagery priorities; alternation affects only base tint */
+
+/* Remove old conflicting tall bullet styles; circular bullets defined earlier are used */
+.section-content h2 {
+	font-family: var(--font-tech);
+	font-size: 3rem;
+	color: var(--accent);
+	margin-bottom: 1rem;
+}
+
+.section-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Improve readability for non-hero sections: wider measure, padding from edges and slightly larger text */
+.section-content .content-wrapper {
+	position: relative;
+	z-index: 4; /* above vignette */
+	max-width: 900px;
+	padding: 0 64px; /* horizontal breathing room */
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 0 18px; }
+}
+
+/* Mobile typography tweaks specifically for the "О НАС" (about) slide */
+@media (max-width: 900px) {
+	.about-section .content-wrapper {
+		  /* Keep content clearly below the fixed header/logo.
+			  Use the runtime set --header-h when available. Provide a conservative
+			  large fallback so content never overlaps the header before JS runs. */
+		  padding-top: calc(var(--header-h, 120px) + 8px);
+		padding-left: 16px;
+		padding-right: 16px;
+		max-width: 720px;
+		margin-left: auto;
+		margin-right: auto;
+		/* Ensure content fits the visible area on mobile and can scroll if needed */
+		min-height: calc(100dvh - var(--header-h, 64px));
+		box-sizing: border-box;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Ensure the about section doesn't get hidden behind header when navigated to */
+	.about-section { scroll-margin-top: calc(var(--header-h, 140px) + 16px); }
+	.about-section .content-wrapper {
+		padding-top: calc(var(--header-h, 140px) + 16px);
+	}
+	.about-section h2 {
+		font-size: 1.9rem;
+		line-height: 1.12;
+		margin-bottom: 0.75rem;
+		text-align: left;
+	}
+	.about-story {
+		font-size: 1.02rem;
+		line-height: 1.72;
+		text-align: left;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		hyphens: auto;
+		word-break: normal;
+		overflow-wrap: anywhere;
+		/* wrap long words safely */
+		margin-top: 6px;
+	}
+	.about-story .story-block {
+		margin-bottom: 1.05rem;
+		padding: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.about-section .content-wrapper {
+		  /* On narrow phones keep a small safe gap under header and make sure the
+			  content fits the viewport without covering the logo. Use larger fallback. */
+		  padding-top: calc(var(--header-h, 120px) + 12px);
+		  padding-left: 12px;
+		  padding-right: 12px;
+		  max-width: none;
+		  min-height: calc(100dvh - var(--header-h, 64px));
+		  overflow-y: auto;
+	}
+	.about-section h2 {
+		font-size: 1.6rem;
+	}
+	.about-story {
+		font-size: 1rem;
+		line-height: 1.78;
+	}
+}
+
+/* Desktop & general: increase vertical spacing so the title doesn't collide with fixed header/logo
+   Use --header-h when available (set in JS) so spacing adapts to actual header height. */
+.about-section .content-wrapper {
+	/* Center content vertically and horizontally for improved readability */
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* vertical */
+	align-items: center; /* horizontal */
+	min-height: calc(100vh - var(--header-h, 84px));
+	padding-top: 48px;
+	padding-bottom: 48px;
+	padding-left: 56px;
+	padding-right: 56px;
+	box-sizing: border-box;
+}
+.about-section h2 {
+	margin-top: 8px; /* small breathing under top padding */
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+	.about-section .content-wrapper { max-width: 980px; }
+}
+
+@media (min-width: 901px) {
+	/* Keep centered text on desktop */
+	.about-section .content-wrapper { text-align: center; }
+	.about-section h2 { text-align: center; }
+	.about-story { text-align: center; max-width: 980px; }
+}
+
+.section-content p {
+	font-size: 1.18rem;
+	line-height: 1.78;
+	color: rgba(255,255,255,0.95);
+}
+
+@media (max-width: 1200px) {
+	.section-content .content-wrapper { padding: 0 48px; max-width: 760px; }
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 24px 28px; max-width: 640px; }
+	.section-content h2 { font-size: 2.2rem; }
+	.section-content p { font-size: 1.05rem; line-height: 1.6; }
+}
+
+/* Collection (Коллекция) section background */
+.collection-section {
+	position: relative;
+	overflow: hidden;
+}
+.collection-section::before {
+	/* disable this pseudo so section gradient uses ::before without conflict */
+	content: none;
+}
+.collection-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3; /* below gradient layer */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover; /* fill and crop */
+	/* slightly darker to match requested look */
+	filter: brightness(0.9) contrast(1.06) saturate(1.02);
+	opacity: 0.94;
+}
+/* Remove centered dark panel: content should be transparent and full-bleed */
+.collection-section .content-wrapper {
+	background: transparent; /* no inner dark panel */
+	border-radius: 0; /* full-bleed feel */
+	padding-top: 28px;
+	padding-bottom: 28px;
+	box-shadow: none;
+	border: none;
+}
+
+/* Desktop-only: assign desktop image; high-DPR override to @2x */
+@media (min-width: 901px) {
+	/* Prefer AVIF/WEBP with JPG fallback; 1x by default, 2x for high-DPR */
+	.collection-section::after {
+		/* Layer 1: darkening overlay; Layer 2+: image-set with JPG fallback */
+		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
+			image-set(
+				url('../img/collection-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/collection-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/collection-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-desktop.jpg');
+	background-position: 50% 35%; /* raise the subject a bit higher */
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.collection-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
+			image-set(
+				url('../img/collection-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/collection-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/collection-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/collection-bg-desktop@2x.jpg');
+	background-position: 50% 35%;
+	}
+}
+
+/* Mobile: adjust crop for portrait, keep subject centered (hands + растения) */
+@media (max-width: 900px) {
+	.collection-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.14), rgba(0,0,0,0.14)),
+			image-set(
+				url('../img/collection-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/collection-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/collection-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-mobile.jpg');
+	background-position: 55% 32%; /* raise framing on mobile too */
+		background-size: cover;
+		opacity: 1;
+	}
+	/* Stronger, crisper pan on mobile for clarity */
+	.collection-section.collection-pan::after {
+		animation: collectionPanMobile 30s ease-in-out 0s infinite alternate;
+		transform-origin: 55% 40%; /* pivot around focal area */
+	}
+	/* ensure inner container is transparent on mobile too */
+	.collection-section .content-wrapper {
+		background: transparent;
+		padding-top: 36px;
+		padding-bottom: 36px;
+	}
+}
+
+/* Contract Molding (КОНТРАКТНОЕ ЛИТЬЁ) section background */
+.contract-section { position: relative; overflow: hidden; }
+.contract-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	filter: brightness(0.98) contrast(1.05) saturate(1.04);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes contractPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%,  1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with progressive enhancement (AVIF/WEBP) and JPG fallback */
+@media (min-width: 901px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/contract-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/contract-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/contract-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/contract-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+/* Mobile crop */
+@media (max-width: 900px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/contract-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/contract-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 42%;
+		background-size: cover;
+	}
+}
+/* Run pan only when slide is active (class toggled by JS) */
+.contract-section.contract-pan::after { animation: contractPan 30s ease-in-out infinite alternate; }
+
+/* About (О НАС / Качество) section background */
+.about-section {
+	position: relative;
+	overflow: hidden;
+}
+.about-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3; /* below gradient layer */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/* Gentle lift: lighter than collection to keep text readable with global vignette */
+	filter: brightness(0.98) contrast(1.04) saturate(1.06);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes aboutPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%, 1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with JPG source; can be upgraded later to AVIF/WEBP if provided */
+@media (min-width: 901px) {
+	.about-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)),
+			image-set(
+				url('../img/about-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/about-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/about-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/NK2_2198 (1).jpg');
+		background-position: 50% 45%;
+	}
+}
+/* Mobile crop tuning */
+@media (max-width: 900px) {
+	.about-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)),
+			image-set(
+				url('../img/about-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/about-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/about-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/NK2_2198 (1).jpg');
+		background-position: 50% 38%;
+		background-size: cover;
+	}
+}
+
+/* Run the pan only when slide is active (class toggled by JS) */
+.about-section.about-pan::after {
+	animation: aboutPan 30s ease-in-out infinite alternate;
+}
+
+/* About content reveal */
+.about-section .content-wrapper h2,
+.about-section .about-story .story-block {
+	opacity: 0;
+	transform: translate3d(0, 14px, 0);
+	will-change: opacity, transform;
+}
+.about-section.about-reveal .content-wrapper h2 { animation: aboutRevealUp 1100ms cubic-bezier(.22,.9,.24,1) 120ms forwards; }
+
+/* Staged reveal for about-story blocks */
+.about-section .about-story { display: grid; gap: 12px; margin-top: 12px; }
+
+@keyframes aboutRevealLeft {
+		0%   { opacity: 0; transform: translate3d(-24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(-6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,     0,   0);  filter: blur(0); }
+}
+@keyframes aboutRevealRight {
+		0%   { opacity: 0; transform: translate3d(24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,    0,  0);   filter: blur(0); }
+}
+
+.about-section.about-reveal .about-story .story-block:nth-child(1) { animation: aboutRevealLeft 1200ms cubic-bezier(.22,.9,.24,1) 240ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(2) { animation: aboutRevealRight 1250ms cubic-bezier(.22,.9,.24,1) 780ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
+
+/* =============================================================
+   Hide Swiper pagination bullets (neon dots on the right)
+============================================================= */
+.swiper-pagination { display: none !important; }
+
+/* Accessibility improvements for focus states */
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+.skip-link {
+	position: absolute;
+	left: 8px;
+	top: -40px;
+	padding: 8px 12px;
+	background: var(--accent);
+	color: #0b0b0b;
+	border-radius: 8px;
+	z-index: 10000;
+	text-decoration: none;
+	transition: top .2s ease;
+}
+.skip-link:focus { top: 8px; }
+
+/* Improve tap behavior on mobile: prefer click over double-tap zoom on actionable elements */
+a, button, .btn, .hamburger-menu, .main-nav a, .mobile-nav a {
+	touch-action: manipulation;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+		position: relative; /* allow absolute overlays like fog-layer */
+}
+
+/* Transitional fog overlay used during slide change */
+.fog-layer {
+		position: absolute;
+		inset: 0;
+		z-index: 3; /* above backgrounds/gradients, below header */
+		pointer-events: none;
+		opacity: var(--fogOpacity, 0);
+		filter: blur(var(--fogBlur, 0px));
+		transition: opacity 200ms ease-out, filter 200ms ease-out;
+		will-change: opacity, filter;
+		background:
+			radial-gradient(120% 120% at 50% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.02) 60%, rgba(255,255,255,0.00) 80%),
+			radial-gradient(180% 180% at 60% 40%, rgba(var(--accent-rgb),0.08) 0%, rgba(var(--accent-rgb),0.05) 40%, rgba(var(--accent-rgb),0.00) 70%),
+			radial-gradient(160% 160% at 30% 70%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.00) 60%);
+		/* slight brightening to simulate light haze */
+		mix-blend-mode: screen;
+}
+
+/* Gradient overlay for all content sections (exclude the hero which has its own .hero-bg) */
+.section-content {
+	position: relative;
+	isolation: isolate;
+}
+.section-content::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1; /* above section-specific bg (e.g., collection), below content */
+	background-image:
+		/* side vignettes */
+		linear-gradient(90deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(270deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		/* top vignette */
+		linear-gradient(180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.14) 42%, rgba(0,0,0,0.00) 72%),
+		/* subtle teal accent */
+		radial-gradient(ellipse at 18% 22%, rgba(0,173,181,0.07) 0%, rgba(0,173,181,0.00) 32%),
+		/* base tint: will be overridden per slide (light/dark) */
+		linear-gradient(120deg, rgba(34,40,49,0.92), rgba(57,62,70,0.82));
+	background-blend-mode: normal, normal, normal, screen, normal;
+	pointer-events: none;
+}
+
+/* Alternating light/dark background base for non-hero slides (index: 1-based in DOM order inside wrapper) */
+.swiper-wrapper > .section-content:nth-child(2n) {
+	/* Light variant in our palette */
+	--section-base-start: rgba(238, 238, 238, 0.06);
+	--section-base-end: rgba(200, 220, 225, 0.10);
+}
+.swiper-wrapper > .section-content:nth-child(2n+1) {
+	/* Dark variant (default) */
+	--section-base-start: rgba(34, 40, 49, 0.92);
+	--section-base-end: rgba(57, 62, 70, 0.82);
+}
+.section-content::before {
+	/* use base colors decided above */
+	background-image:
+		linear-gradient(90deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(270deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.00) 22%),
+		linear-gradient(180deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.14) 42%, rgba(0,0,0,0.00) 72%),
+		radial-gradient(ellipse at 18% 22%, rgba(0,173,181,0.07) 0%, rgba(0,173,181,0.00) 32%),
+		linear-gradient(120deg, var(--section-base-start), var(--section-base-end));
+}
+
+/* Ensure About and Collection keep their imagery priorities; alternation affects only base tint */
+
+/* Remove old conflicting tall bullet styles; circular bullets defined earlier are used */
+.section-content h2 {
+	font-family: var(--font-tech);
+	font-size: 3rem;
+	color: var(--accent);
+	margin-bottom: 1rem;
+}
+
+.section-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Improve readability for non-hero sections: wider measure, padding from edges and slightly larger text */
+.section-content .content-wrapper {
+	position: relative;
+	z-index: 4; /* above vignette */
+	max-width: 900px;
+	padding: 0 64px; /* horizontal breathing room */
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 0 18px; }
+}
+
+/* Mobile typography tweaks specifically for the "О НАС" (about) slide */
+@media (max-width: 900px) {
+	.about-section .content-wrapper {
+		  /* Keep content clearly below the fixed header/logo.
+			  Use the runtime set --header-h when available. Provide a conservative
+			  large fallback so content never overlaps the header before JS runs. */
+		  padding-top: calc(var(--header-h, 120px) + 8px);
+		padding-left: 16px;
+		padding-right: 16px;
+		max-width: 720px;
+		margin-left: auto;
+		margin-right: auto;
+		/* Ensure content fits the visible area on mobile and can scroll if needed */
+		min-height: calc(100dvh - var(--header-h, 64px));
+		box-sizing: border-box;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Ensure the about section doesn't get hidden behind header when navigated to */
+	.about-section { scroll-margin-top: calc(var(--header-h, 140px) + 16px); }
+	.about-section .content-wrapper {
+		padding-top: calc(var(--header-h, 140px) + 16px);
+	}
+	.about-section h2 {
+		font-size: 1.9rem;
+		line-height: 1.12;
+		margin-bottom: 0.75rem;
+		text-align: left;
+	}
+	.about-story {
+		font-size: 1.02rem;
+		line-height: 1.72;
+		text-align: left;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		hyphens: auto;
+		word-break: normal;
+		overflow-wrap: anywhere;
+		/* wrap long words safely */
+		margin-top: 6px;
+	}
+	.about-story .story-block {
+		margin-bottom: 1.05rem;
+		padding: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.about-section .content-wrapper {
+		  /* On narrow phones keep a small safe gap under header and make sure the
+			  content fits the viewport without covering the logo. Use larger fallback. */
+		  padding-top: calc(var(--header-h, 120px) + 12px);
+		  padding-left: 12px;
+		  padding-right: 12px;
+		  max-width: none;
+		  min-height: calc(100dvh - var(--header-h, 64px));
+		  overflow-y: auto;
+	}
+	.about-section h2 {
+		font-size: 1.6rem;
+	}
+	.about-story {
+		font-size: 1rem;
+		line-height: 1.78;
+	}
+}
+
+/* Desktop & general: increase vertical spacing so the title doesn't collide with fixed header/logo
+   Use --header-h when available (set in JS) so spacing adapts to actual header height. */
+.about-section .content-wrapper {
+	/* Center content vertically and horizontally for improved readability */
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* vertical */
+	align-items: center; /* horizontal */
+	min-height: calc(100vh - var(--header-h, 84px));
+	padding-top: 48px;
+	padding-bottom: 48px;
+	padding-left: 56px;
+	padding-right: 56px;
+	box-sizing: border-box;
+}
+.about-section h2 {
+	margin-top: 8px; /* small breathing under top padding */
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+	.about-section .content-wrapper { max-width: 980px; }
+}
+
+@media (min-width: 901px) {
+	/* Keep centered text on desktop */
+	.about-section .content-wrapper { text-align: center; }
+	.about-section h2 { text-align: center; }
+	.about-story { text-align: center; max-width: 980px; }
+}
+
+.section-content p {
+	font-size: 1.18rem;
+	line-height: 1.78;
+	color: rgba(255,255,255,0.95);
+}
+
+@media (max-width: 1200px) {
+	.section-content .content-wrapper { padding: 0 48px; max-width: 760px; }
+}
+@media (max-width: 900px) {
+	.section-content .content-wrapper { padding: 24px 28px; max-width: 640px; }
+	.section-content h2 { font-size: 2.2rem; }
+	.section-content p { font-size: 1.05rem; line-height: 1.6; }
+}
+
+/* Collection (Коллекция) section background */
+.collection-section {
+	position: relative;
+	overflow: hidden;
+}
+.collection-section::before {
+	/* disable this pseudo so section gradient uses ::before without conflict */
+	content: none;
+}
+.collection-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3; /* below gradient layer */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover; /* fill and crop */
+	/* slightly darker to match requested look */
+	filter: brightness(0.9) contrast(1.06) saturate(1.02);
+	opacity: 0.94;
+}
+/* Remove centered dark panel: content should be transparent and full-bleed */
+.collection-section .content-wrapper {
+	background: transparent; /* no inner dark panel */
+	border-radius: 0; /* full-bleed feel */
+	padding-top: 28px;
+	padding-bottom: 28px;
+	box-shadow: none;
+	border: none;
+}
+
+/* Desktop-only: assign desktop image; high-DPR override to @2x */
+@media (min-width: 901px) {
+	/* Prefer AVIF/WEBP with JPG fallback; 1x by default, 2x for high-DPR */
+	.collection-section::after {
+		/* Layer 1: darkening overlay; Layer 2+: image-set with JPG fallback */
+		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
+			image-set(
+				url('../img/collection-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/collection-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/collection-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-desktop.jpg');
+	background-position: 50% 35%; /* raise the subject a bit higher */
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.collection-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.16), rgba(0,0,0,0.16)),
+			image-set(
+				url('../img/collection-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/collection-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/collection-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/collection-bg-desktop@2x.jpg');
+	background-position: 50% 35%;
+	}
+}
+
+/* Mobile: adjust crop for portrait, keep subject centered (hands + растения) */
+@media (max-width: 900px) {
+	.collection-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.14), rgba(0,0,0,0.14)),
+			image-set(
+				url('../img/collection-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/collection-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/collection-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/collection-bg-mobile.jpg');
+	background-position: 55% 32%; /* raise framing on mobile too */
+		background-size: cover;
+		opacity: 1;
+	}
+	/* Stronger, crisper pan on mobile for clarity */
+	.collection-section.collection-pan::after {
+		animation: collectionPanMobile 30s ease-in-out 0s infinite alternate;
+		transform-origin: 55% 40%; /* pivot around focal area */
+	}
+	/* ensure inner container is transparent on mobile too */
+	.collection-section .content-wrapper {
+		background: transparent;
+		padding-top: 36px;
+		padding-bottom: 36px;
+	}
+}
+
+/* Contract Molding (КОНТРАКТНОЕ ЛИТЬЁ) section background */
+.contract-section { position: relative; overflow: hidden; }
+.contract-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	filter: brightness(0.98) contrast(1.05) saturate(1.04);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes contractPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%,  1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with progressive enhancement (AVIF/WEBP) and JPG fallback */
+@media (min-width: 901px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/contract-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/contract-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+@media (min-width: 901px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 901px) and (min-resolution: 144dpi) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-desktop@2x.avif') type('image/avif') 2x,
+				url('../img/contract-bg-desktop@2x.webp') type('image/webp') 2x,
+				url('../img/contract-bg-desktop@2x.jpg') type('image/jpeg') 2x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 46%;
+	}
+}
+/* Mobile crop */
+@media (max-width: 900px) {
+	.contract-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)),
+			image-set(
+				url('../img/contract-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/contract-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/contract-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/slider_51-1625x0-c-default (1).jpg');
+		background-position: 50% 42%;
+		background-size: cover;
+	}
+}
+/* Run pan only when slide is active (class toggled by JS) */
+.contract-section.contract-pan::after { animation: contractPan 30s ease-in-out infinite alternate; }
+
+/* About (О НАС / Качество) section background */
+.about-section {
+	position: relative;
+	overflow: hidden;
+}
+.about-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -3; /* below gradient layer */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/* Gentle lift: lighter than collection to keep text readable with global vignette */
+	filter: brightness(0.98) contrast(1.04) saturate(1.06);
+	opacity: 0.96;
+	transform: translate3d(0,0,0);
+	will-change: transform;
+}
+@keyframes aboutPan {
+	0%   { transform: scale(1.04) translate3d(-1.2%, -0.8%, 0); }
+	50%  { transform: scale(1.06) translate3d(1.4%, 1.2%, 0); }
+	100% { transform: scale(1.05) translate3d(-0.6%, 1.6%, 0); }
+}
+/* Desktop background with JPG source; can be upgraded later to AVIF/WEBP if provided */
+@media (min-width: 901px) {
+	.about-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)),
+			image-set(
+				url('../img/about-bg-desktop.avif') type('image/avif') 1x,
+				url('../img/about-bg-desktop.webp') type('image/webp') 1x,
+				url('../img/about-bg-desktop.jpg') type('image/jpeg') 1x
+			),
+			url('../img/NK2_2198 (1).jpg');
+		background-position: 50% 45%;
+	}
+}
+/* Mobile crop tuning */
+@media (max-width: 900px) {
+	.about-section::after {
+		background-image:
+			linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)),
+			image-set(
+				url('../img/about-bg-mobile.avif') type('image/avif') 1x,
+				url('../img/about-bg-mobile.webp') type('image/webp') 1x,
+				url('../img/about-bg-mobile.jpg') type('image/jpeg') 1x
+			),
+			url('../img/NK2_2198 (1).jpg');
+		background-position: 50% 38%;
+		background-size: cover;
+	}
+}
+
+/* Run the pan only when slide is active (class toggled by JS) */
+.about-section.about-pan::after {
+	animation: aboutPan 30s ease-in-out infinite alternate;
+}
+
+/* About content reveal */
+.about-section .content-wrapper h2,
+.about-section .about-story .story-block {
+	opacity: 0;
+	transform: translate3d(0, 14px, 0);
+	will-change: opacity, transform;
+}
+.about-section.about-reveal .content-wrapper h2 { animation: aboutRevealUp 1100ms cubic-bezier(.22,.9,.24,1) 120ms forwards; }
+
+/* Staged reveal for about-story blocks */
+.about-section .about-story { display: grid; gap: 12px; margin-top: 12px; }
+
+@keyframes aboutRevealLeft {
+		0%   { opacity: 0; transform: translate3d(-24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(-6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,     0,   0);  filter: blur(0); }
+}
+@keyframes aboutRevealRight {
+		0%   { opacity: 0; transform: translate3d(24px, 14px, 0); filter: blur(0.6px); }
+		60%  { opacity: 1; transform: translate3d(6px,  4px, 0);  filter: blur(0.2px); }
+		100% { opacity: 1; transform: translate3d(0,    0,  0);   filter: blur(0); }
+}
+
+.about-section.about-reveal .about-story .story-block:nth-child(1) { animation: aboutRevealLeft 1200ms cubic-bezier(.22,.9,.24,1) 240ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(2) { animation: aboutRevealRight 1250ms cubic-bezier(.22,.9,.24,1) 780ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(3) { animation: aboutRevealLeft 1300ms cubic-bezier(.22,.9,.24,1) 1320ms forwards; }
+.about-section.about-reveal .about-story .story-block:nth-child(4) { animation: aboutRevealRight 1350ms cubic-bezier(.22,.9,.24,1) 1860ms forwards; }
 
