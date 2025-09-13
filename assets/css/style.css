@@ -112,6 +112,27 @@
 	.swiper-slide.swiper-slide-active::before {
 		opacity: 0.3;
 	}
+	/* Disable side vignette on mobile; we'll use a top fade per section instead */
+	@media (max-width: 900px) {
+		.swiper-slide::before { content: none !important; }
+	}
+
+	/* Mobile-only: top gradient fade for each section to improve readability under header */
+	@media (max-width: 900px) {
+		.swiper-slide::after {
+			content: "";
+			position: absolute;
+			left: 0; right: 0; top: 0; bottom: 0;
+			pointer-events: none;
+			z-index: 2; /* below fog-layer (3) and any critical overlays, above backgrounds */
+			background: linear-gradient(to bottom,
+				rgba(0,0,0,0.55) 0%,
+				rgba(0,0,0,0.40) 10%,
+				rgba(0,0,0,0.18) 28%,
+				rgba(0,0,0,0.00) 54%
+			);
+		}
+	}
 	@media (max-width: 600px) {
 		.about-section .content-wrapper {
 			/* On narrow phones: maintain gap under header and allow vertical scroll if content taller */
