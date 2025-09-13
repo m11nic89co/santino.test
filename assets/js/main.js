@@ -226,10 +226,13 @@ function isLowPower() {
 									});
 								}, 200 + words.length * 500 + 400);
 
-								// Старт синего чертежного цикла сразу после вспышки
+								// Старт синего чертежного цикла сразу после вспышки + мгновенное наполнение
 								try {
 									const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-									if (!reduced) startBlueprintCycle();
+									if (!reduced) {
+										startBlueprintCycle();
+										if (typeof window.boostBlueprintsNow === 'function') window.boostBlueprintsNow();
+									}
 								} catch (_) { }
 
 								// Ensure hero button cycle starts when hero is visible and not in low-power/reduced-motion
@@ -1185,22 +1188,24 @@ function isLowPower() {
 
 		let _bpNextTimer = null;
 		let _bpStarted = false;
+
+		// shared helper: how many blueprints may be visible at once
+		function getMaxBlueprints() {
+			try {
+	    const desktop = (window.matchMedia && window.matchMedia('(min-width: 1024px)').matches);
+	    if (isLowPower()) return desktop ? 4 : 3;
+	    // Increased baseline to have a richer feel
+	    return desktop ? 12 : 8;
+			} catch (_) { return 5; }
+		}
+
 	function startBlueprintCycle() {
 			if (_bpStarted) return;
 			_bpStarted = true;
-			// Desktop (>=1024px) up to 8 models, otherwise up to 5
-			function getMaxAtOnce() {
-				try {
-		    const desktop = (window.matchMedia && window.matchMedia('(min-width: 1024px)').matches);
-		    	if (isLowPower()) return desktop ? 4 : 3;
-		    	// Increase baseline: desktop more models visible immediately, mobile also a bit more
-		    	return desktop ? 12 : 8;
-				} catch (_) { return 5; }
-			}
 			const overlay = getBlueprintsOverlay();
 			// Immediately populate the overlay with a batch of blueprints so the page feels lively from the start.
 			try {
-				const initial = getMaxAtOnce();
+				const initial = getMaxBlueprints();
 				for (let i = 0; i < initial; i++) {
 					// stagger slightly so positions/sizes/durations vary
 					setTimeout(() => { try { spawnBlueprint(); } catch(_){} }, i * 120);
@@ -1209,7 +1214,7 @@ function isLowPower() {
 			function tick() {
 				// keep up to maxAtOnce blueprints concurrently
 				const current = overlay.querySelectorAll('.blueprint').length;
-				const maxAtOnce = getMaxAtOnce();
+				const maxAtOnce = getMaxBlueprints();
 				// Skip spawning when tab is hidden or user prefers reduced motion
 				if (!document.hidden && !prefersReduced && current < maxAtOnce) {
 					spawnBlueprint();
@@ -1220,6 +1225,24 @@ function isLowPower() {
 			}
 			tick();
 		}
+
+		// Public: instantly top-up the number of visible blueprints to the max for current device.
+		function boostBlueprintsNow() {
+			try {
+				if (prefersReduced || isLowPower()) return;
+				if (!_bpStarted) startBlueprintCycle();
+				const overlay = getBlueprintsOverlay();
+				const current = overlay.querySelectorAll('.blueprint').length;
+				const maxAtOnce = getMaxBlueprints();
+				const need = Math.max(0, maxAtOnce - current);
+				for (let i = 0; i < need; i++) {
+					// tiny stagger to diversify positions and avoid sync fade
+					setTimeout(() => { try { spawnBlueprint(); } catch(_) {} }, i * 60);
+				}
+			} catch(_) { }
+		}
+		// expose globally for swiper-init.js trigger when returning to hero
+		window.boostBlueprintsNow = boostBlueprintsNow;
 
 		// ---- Seamless ticker setup (brands, cyan color, smooth infinite loop) ----
 		(function setupTicker() {

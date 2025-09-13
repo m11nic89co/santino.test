@@ -12,7 +12,10 @@ const TickerSpeed = (function () {
     // compute pixels to travel = width / 2
     const pixels = width / 2;
     const duration = Math.max(4, Math.round(pixels / (pxPerSecond || 100)));
-    track.style.setProperty('--ticker-duration', duration + 's');
+    // only update when changed to avoid animation restart/jitter
+    const prev = track.style.getPropertyValue('--ticker-duration');
+    const next = duration + 's';
+    if (prev !== next) track.style.setProperty('--ticker-duration', next);
     return duration;
   }
 
@@ -24,15 +27,17 @@ const TickerSpeed = (function () {
     const track = document.querySelector(cfg.selector);
     if (!track) return;
 
+    let _raf = 0;
     function recalc() {
-      // avoid animation during measurement
-      track.style.animation = 'none';
-      // force reflow
-      void track.offsetWidth;
-      const d = applyDuration(track, cfg.pxPerSecond);
-      // restore animation
-      track.style.animation = '';
-      return d;
+      // If main.js has built a seamless ticker (two segments), let it drive duration to avoid conflicts
+      try {
+        const segs = track.querySelectorAll('.ticker-segment');
+        if (segs && segs.length >= 2) return; // no-op; seamless ticker manages its own speed
+      } catch (_) {}
+      if (_raf) cancelAnimationFrame(_raf);
+      _raf = requestAnimationFrame(() => {
+        applyDuration(track, cfg.pxPerSecond);
+      });
     }
 
     // respect reduced motion
@@ -63,9 +68,16 @@ const TickerSpeed = (function () {
 if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', () => {
     const rootStyle = getComputedStyle(document.documentElement);
-  const cssPx = parseFloat(rootStyle.getPropertyValue('--ticker-px-per-second')) || 30;
-  const low = document.body && document.body.classList && document.body.classList.contains('is-low-power');
-  const speed = low ? Math.max(20, Math.round(cssPx * 0.6)) : cssPx; // ~40% slower on low-power
-  TickerSpeed.init({ selector: '#ticker-track', pxPerSecond: speed });
+    const cssPx = parseFloat(rootStyle.getPropertyValue('--ticker-px-per-second')) || 30;
+    const low = document.body && document.body.classList && document.body.classList.contains('is-low-power');
+    const speed = low ? Math.max(20, Math.round(cssPx * 0.6)) : cssPx; // ~40% slower on low-power
+    // Defer a tick so main.js can construct the seamless ticker first; then init only if needed
+    setTimeout(() => {
+      const track = document.querySelector('#ticker-track');
+      if (!track) return;
+      const segs = track.querySelectorAll('.ticker-segment');
+      if (segs && segs.length >= 2) return; // already managed by main.js
+      TickerSpeed.init({ selector: '#ticker-track', pxPerSecond: speed });
+    }, 0);
   });
 }

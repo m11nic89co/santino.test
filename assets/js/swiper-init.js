@@ -298,6 +298,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 } catch(_) {}
             } else {
                 if (!reduced && !lowPower && typeof window.startBtnCycle === 'function') window.startBtnCycle();
+                // Upon returning to hero, ensure many floating forms appear immediately (no duplicates)
+                if (!reduced && !lowPower && typeof window.boostBlueprintsNow === 'function') {
+                    window.boostBlueprintsNow();
+                }
             }
         } catch (_) { /* no-op */ }
     }
@@ -515,18 +519,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const ARROW_SIZE_PX = 8; // must match --nav-arrow-size in CSS
 
     function updateMenuDimensionLabels() {
-        const desktopLinks = document.querySelectorAll('.main-nav a[data-index]');
-        const mobileLinks  = document.querySelectorAll('.mobile-nav a[data-index]');
-        [...desktopLinks, ...mobileLinks].forEach(link => {
-            const rect = link.getBoundingClientRect();
-            const lineWidthPx = Math.max(0, rect.width - (ARROW_SIZE_PX * 2));
-            const mm = Math.max(1, Math.round(lineWidthPx / PX_PER_MM));
-            link.setAttribute('data-mm', String(mm));
-        });
+        try {
+            const desktopLinks = document.querySelectorAll('.main-nav a[data-index]');
+            const mobileLinks  = document.querySelectorAll('.mobile-nav a[data-index]');
+            [...desktopLinks, ...mobileLinks].forEach(link => {
+                const rect = link.getBoundingClientRect();
+                if (!rect || !isFinite(rect.width)) return;
+                const lineWidthPx = Math.max(0, rect.width - (ARROW_SIZE_PX * 2));
+                const mm = Math.max(1, Math.round(lineWidthPx / PX_PER_MM));
+                // only update if changed to reduce layout thrash
+                if (link.getAttribute('data-mm') !== String(mm)) {
+                    link.setAttribute('data-mm', String(mm));
+                }
+            });
+        } catch(_) { /* noop */ }
     }
 
     // initial compute after layout (after nav injected)
     requestAnimationFrame(() => updateMenuDimensionLabels());
+    // expose globally for rare external triggers
+    window.recalcMenuMM = updateMenuDimensionLabels;
     // recompute on resize with a light debounce
     let _mmRaf = 0;
     function handleResize() {
@@ -539,6 +551,20 @@ document.addEventListener('DOMContentLoaded', function () {
         _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
     }
     window.addEventListener('resize', handleResize, { passive: true });
+    // Also recompute on orientationchange and pageshow (restored from bfcache)
+    window.addEventListener('orientationchange', () => {
+        if (_mmRaf) cancelAnimationFrame(_mmRaf);
+        _mmRaf = requestAnimationFrame(() => {
+            injectMenusForViewport();
+            allNavLinks = document.querySelectorAll('.main-nav a, .mobile-nav a, .logo-link');
+            allNavLinks.forEach(bindLink);
+            updateActiveLink(swiper.activeIndex);
+            updateMenuDimensionLabels();
+        });
+    }, { passive: true });
+    window.addEventListener('pageshow', () => {
+        requestAnimationFrame(updateMenuDimensionLabels);
+    });
     // recompute when opening the mobile menu (links become centered and wider)
     mobileNav.addEventListener('transitionend', (e) => {
         const prop = e.propertyName;
@@ -546,4 +572,40 @@ document.addEventListener('DOMContentLoaded', function () {
             requestAnimationFrame(updateMenuDimensionLabels);
         }
     });
+
+    // Recompute when fonts are ready (links width depends on font metrics)
+    try {
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => requestAnimationFrame(updateMenuDimensionLabels));
+        }
+    } catch(_) {}
+
+    // Pause/Resume handling: when returning to tab, widths can change due to zoom/UI changes
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            requestAnimationFrame(updateMenuDimensionLabels);
+        }
+    }, { passive: true });
+
+    // Observe container resizes (safer than window resize for subpixel/layout changes)
+    try {
+        const ro = new ResizeObserver(() => {
+            if (_mmRaf) cancelAnimationFrame(_mmRaf);
+            _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
+        });
+        const leftC = document.querySelector('.main-nav-left');
+        const rightC = document.querySelector('.main-nav-right');
+        const mobC = document.querySelector('.mobile-nav');
+        [leftC, rightC, mobC].forEach(el => { if (el) ro.observe(el); });
+    } catch(_) {}
+
+    // React to DOM changes inside navs (labels inserted/changed)
+    try {
+        const mo = new MutationObserver(() => {
+            if (_mmRaf) cancelAnimationFrame(_mmRaf);
+            _mmRaf = requestAnimationFrame(updateMenuDimensionLabels);
+        });
+        [document.querySelector('.main-nav'), document.querySelector('.mobile-nav')]
+            .forEach(el => { if (el) mo.observe(el, { childList: true, subtree: true, characterData: true }); });
+    } catch(_) {}
 });
